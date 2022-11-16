@@ -1,0 +1,20 @@
+.container {
+    height: 100px;
+}
+
+.starContainer {
+    display: inline-block;
+}
+
+.starContainer img {
+    width: 30px;
+}
+
+.starDisabled {
+    display: none;
+}
+
+.starEnabled {
+    display: block;
+}
+
