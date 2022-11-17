@@ -1,0 +1,15 @@
+.container {
+    box-sizing: border-box;
+    max-width: 1280px;
+    border: 1px solid green;
+}
+
+.lastRecipesTitle {
+    text-align: center;
+}
+
+.flexContainer {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+}
