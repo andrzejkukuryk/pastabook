@@ -19,8 +19,10 @@ export function RecipeListItem({
         className={styles.imageDiv}
         style={{ backgroundImage: `URL(${imageSource})` }}
       ></div>
-      <h3 className={styles.dishTitle}>{dishName}</h3>
-      <RecipeRatingStars rate={rate} />
+      <div>
+        <h3 className={styles.dishTitle}>{dishName}</h3>
+        <RecipeRatingStars rate={rate} />
+      </div>
     </div>
   );
 }
