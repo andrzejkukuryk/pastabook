@@ -12,12 +12,8 @@ const TYPE_BYINGREDIENT: string = "byIngredient";
 export function SearchMain() {
   const [choice, setChoice] = useState(TYPE_BYINGREDIENT);
 
-  interface SearchChoiceButton {
-    value: string;
-    onClick: ;
-  }
 
-  const handleButtonClick = (target: SearchChoiceButton) => {
+  const handleButtonClick = ({ target }: any) => {
     setChoice(target.value);
   };
 
