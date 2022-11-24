@@ -1,21 +1,15 @@
-import { stringify } from "querystring";
 import React, { useState } from "react";
 import { SearchByIngredient } from "../searchByIngredient";
 import { SearchByName } from "../searchByName/searchByName";
 import { SearchByType } from "../searchByType";
 import styles from "./style.module.css";
 
-const TYPE_BYNAME: string = "byName";
-const TYPE_BYTYPE: string = "byType";
-const TYPE_BYINGREDIENT: string = "byIngredient";
+const TYPE_BYNAME = "byName";
+const TYPE_BYTYPE = "byType";
+const TYPE_BYINGREDIENT = "byIngredient";
 
 export function SearchMain() {
-  const [choice, setChoice] = useState(TYPE_BYINGREDIENT);
-
-
-  const handleButtonClick = ({ target }: any) => {
-    setChoice(target.value);
-  };
+  const [choice, setChoice] = useState(TYPE_BYNAME);
 
   const searchChoice = () => {
     switch (choice) {
@@ -35,13 +29,9 @@ export function SearchMain() {
       <h2 className={styles.title}>Search by</h2>
       <div className={styles.searchChoiceDiv}>
         <div className={styles.searchButtonsDiv}>
-          <button onClick={handleButtonClick} value={TYPE_BYNAME}>
-            name
-          </button>
-          <button onClick={handleButtonClick} value={TYPE_BYTYPE}>
-            pasta type
-          </button>
-          <button onClick={handleButtonClick} value={TYPE_BYINGREDIENT}>
+          <button onClick={() => setChoice(TYPE_BYNAME)}>name</button>
+          <button onClick={() => setChoice(TYPE_BYTYPE)}>pasta type</button>
+          <button onClick={() => setChoice(TYPE_BYINGREDIENT)}>
             main ingredient
           </button>
         </div>

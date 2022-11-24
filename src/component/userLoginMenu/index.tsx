@@ -5,7 +5,7 @@ import iconNotLogged from "./graph/not_logged.png";
 
 export function UserLoginMenu() {
   const [loggedIn, setLoggedIn] = useState(true);
-  const [user, setUser] = useState(users[0]);
+  const [user, setUser] = useState(users[1]);
 
   if (loggedIn) {
     return (
