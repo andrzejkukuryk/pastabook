@@ -26,7 +26,7 @@ export function SearchMain() {
 
   return (
     <div className={styles.container}>
-      <h2 className={styles.title}>Search by</h2>
+      <h2 className={styles.title}>Search&nbsp;by</h2>
       <div className={styles.searchChoiceDiv}>
         <div className={styles.searchButtonsDiv}>
           <button onClick={() => setChoice(TYPE_BYNAME)}>name</button>

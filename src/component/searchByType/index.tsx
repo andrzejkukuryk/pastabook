@@ -1,5 +1,6 @@
 import React from "react";
 import styles from "./style.module.css";
+import { allPastaTypes } from "../../recipesData";
 
 const pastaTypes: string[] = ["spaghetti", "penne", "trofie", "tagliatelle"];
 
@@ -7,7 +8,7 @@ export function SearchByType() {
   return (
     <div className={styles.container}>
       <form>
-        {pastaTypes.map((type, index) => (
+        {allPastaTypes.map((type, index) => (
           <label className={styles.listItemLabel} key={`pastaType${index}`}>
             <input type="checkbox" name="pastaType" value={type} />
             {type}

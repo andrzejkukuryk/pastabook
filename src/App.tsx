@@ -17,6 +17,7 @@ function App() {
       <main>
         <SearchMain />
         <RecipeList />
+        
       </main>
     </div>
   );
