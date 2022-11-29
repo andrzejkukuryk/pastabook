@@ -2,7 +2,6 @@ import React from "react";
 import styles from "./style.module.css";
 import { allPastaTypes } from "../../recipesData";
 
-const pastaTypes: string[] = ["spaghetti", "penne", "trofie", "tagliatelle"];
 
 export function SearchByType() {
   return (

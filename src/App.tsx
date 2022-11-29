@@ -11,6 +11,7 @@ import { Recipe } from "./component/recipe";
 import { PageNotFound } from "./component/pageNotFound";
 import { recipes } from "./recipesData";
 
+console.log(recipes[2].ingredients);
 function App() {
   return (
     <BrowserRouter>
@@ -27,7 +28,12 @@ function App() {
               key={`route${index}`} //gdzie jeszcze dać key, żeby nie było warningu w konsoli?
               path={`/recipes/${recipe.path}`}
               element={
-                <Recipe key={`recipe${index}`} dishName={recipe.fullName} /> //gdzie jeszcze dać key, żeby nie było warningu w konsoli?
+                <Recipe
+                  key={`recipe${index}`}
+                  dishName={recipe.fullName}
+                  ingredients={recipe.ingredients}
+                  imageSource={recipe.imageSource}
+                /> //gdzie jeszcze dać key, żeby nie było warningu w konsoli?
               }
             />
           ))}
