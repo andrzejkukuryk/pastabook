@@ -1,9 +1,8 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import { RecipeListItem } from "../recipeListItem";
 import styles from "./style.module.css";
 import { recipes } from "../../recipesData";
-
-console.log(recipes);
 
 export function RecipeList() {
   return (
@@ -12,11 +11,13 @@ export function RecipeList() {
 
       <div className={styles.flexContainer}>
         {recipes.map((recipe) => (
-          <RecipeListItem
-            dishName={recipe.fullName()}
-            imageSource={recipe.imageSource}
-            rate={recipe.rate}
-          />
+          <Link to={`/recipes/${recipe.path}`}>
+            <RecipeListItem
+              dishName={recipe.fullName}
+              imageSource={recipe.imageSource}
+              rate={recipe.rate}
+            />
+          </Link>
         ))}
       </div>
     </div>

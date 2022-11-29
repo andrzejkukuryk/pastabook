@@ -2,16 +2,16 @@ interface Recipe {
   dishName: string;
   pastaType: string;
   ingredients: string[];
-  fullName: () => string;
+  fullName: string;
   imageSource: string;
   rate: number;
+  path: string;
 }
 
 class Dish {
   dishName: string;
   pastaType: string;
   ingredients: string[];
-  fullName: () => string;
   imageSource: string;
   rate: number;
 
@@ -25,9 +25,16 @@ class Dish {
     this.dishName = dishName;
     this.pastaType = pastaType;
     this.ingredients = ingredients;
-    this.fullName = () => `${this.pastaType} ${this.dishName}`;
+    // this.fullName = () => `${this.pastaType} ${this.dishName}`;
     this.imageSource = imageSource;
     this.rate = rate;
+  }
+  get path() {
+    return this.dishName.toLowerCase().replace(/\s+/g, "");
+  }
+
+  get fullName() {
+    return `${this.pastaType} ${this.dishName}`;
   }
 }
 
