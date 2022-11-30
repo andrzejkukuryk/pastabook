@@ -1,24 +1,18 @@
 import React from "react";
 import "./App.css";
-import { Logo } from "./component/logo";
-import styles from "./style.module.css";
 import { RecipeList } from "./component/recipeList";
-import { UserLoginMenu } from "./component/userLoginMenu";
 import { SearchMain } from "./component/searchMain";
 import { BrowserRouter } from "react-router-dom";
 import { Routes, Route } from "react-router";
 import { Recipe } from "./component/recipe";
 import { PageNotFound } from "./component/pageNotFound";
 import { recipes } from "./recipesData";
+import { Header } from "./component/header";
 
-console.log(recipes[2].ingredients);
 function App() {
   return (
     <BrowserRouter>
-      <header className={styles.header}>
-        <Logo />
-        <UserLoginMenu />
-      </header>
+      <Header />
       <SearchMain />
       <Routes>
         <Route path="/" element={<RecipeList />}></Route>
