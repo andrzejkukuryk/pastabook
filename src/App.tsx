@@ -6,7 +6,7 @@ import { BrowserRouter } from "react-router-dom";
 import { Routes, Route } from "react-router";
 import { Recipe } from "./component/recipe";
 import { PageNotFound } from "./component/pageNotFound";
-import { recipes } from "./recipesData";
+import { recipes } from "./data/dummyData";
 import { Header } from "./component/header";
 
 function App() {
