@@ -1,10 +1,11 @@
 import React, { useState } from "react";
 import styles from "./style.module.css";
 import { users } from "../../data/dummyUsersData";
+import { Link } from "react-router-dom";
 import iconNotLogged from "./graph/not_logged.png";
 
 export function UserLoginMenu() {
-  const [loggedIn, setLoggedIn] = useState(true);
+  const [loggedIn, setLoggedIn] = useState(false);
   const [user, setUser] = useState(users[0]);
 
   if (loggedIn) {
@@ -24,7 +25,8 @@ export function UserLoginMenu() {
   return (
     <div className={styles.container}>
       <p className={styles.loginP}>
-        <a href="#">Log in</a> &nbsp;|&nbsp; <a href="#">Sign up</a>
+        <Link to="login">Login</Link> &nbsp;|&nbsp;
+        <Link to="register">Sign up</Link>
       </p>
       <img className={styles.iconNotLogged} src={iconNotLogged} alt=""></img>
     </div>
