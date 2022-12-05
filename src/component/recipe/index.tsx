@@ -4,11 +4,6 @@ import { recipes } from "../../data/dummyData";
 import { Recipe as RecipeType } from "../../models/recipe";
 import styles from "./style.module.css";
 
-interface RecipeProps {
-  fullName: string;
-  imageSource: string;
-  ingredients: string[];
-}
 
 export function Recipe() {
   const { recipePath } = useParams();
