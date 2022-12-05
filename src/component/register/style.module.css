@@ -1,0 +1,28 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    max-width: 1280px;
+    border: 1px solid pink;
+}
+
+.formInputDiv {
+    display: flex;
+    flex-direction: column;
+    margin: 20px ;
+    font-weight: 500;
+}
+
+
+.errorMsg {
+    color: red;
+    font-size: 0.6em;
+}
+
+label {
+    margin-bottom: 5px;
+}
+
+.btn {
+    margin: 20px 0 0 0;
+}
