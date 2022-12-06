@@ -16,7 +16,6 @@ export function Recipe() {
   const recipe: RecipeType | undefined = recipes.find(
     (rcp) => rcp.path === recipePath
   );
-  // const { fullName, imageSource, ingredients }: RecipeProps | undefined = recipe;
 
   return (
     <div className={styles.container}>

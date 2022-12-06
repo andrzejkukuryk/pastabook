@@ -18,7 +18,6 @@ export class Dish {
     this.pastaType = pastaType;
     this.mainIngredients = mainIngredients;
     this.otherIngredients = otherIngredients;
-    // this.fullName = () => `${this.pastaType} ${this.dishName}`;
     this.imageSource = imageSource;
     this.rate = rate;
   }
