@@ -2,7 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { RecipeListItem } from "../recipeListItem";
 import styles from "./style.module.css";
-import { recipes } from "../../recipesData";
+import { recipes } from "../../data/dummyData";
 
 export function RecipeList() {
   return (
@@ -11,7 +11,7 @@ export function RecipeList() {
 
       <div className={styles.flexContainer}>
         {recipes.map((recipe) => (
-          <Link to={`/recipes/${recipe.path}`}>
+          <Link to={`/recipes/${recipe.path}`} key={recipe.path}>
             <RecipeListItem
               dishName={recipe.fullName}
               imageSource={recipe.imageSource}

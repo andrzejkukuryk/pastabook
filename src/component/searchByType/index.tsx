@@ -1,6 +1,6 @@
 import React from "react";
 import styles from "./style.module.css";
-import { allPastaTypes } from "../../recipesData";
+import { allPastaTypes } from "../../data/dummyData";
 
 
 export function SearchByType() {
