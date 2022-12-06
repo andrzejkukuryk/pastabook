@@ -3,7 +3,11 @@ import { SearchByIngredient } from "../searchByIngredient";
 import { SearchByName } from "../searchByName/searchByName";
 import { SearchByType } from "../searchByType";
 import styles from "./style.module.css";
-import { allPastaTypes, recipes } from "../../data/dummyData";
+import {
+  allMainIngredients,
+  allPastaTypes,
+  recipes,
+} from "../../data/dummyData";
 import { Recipe } from "../../models/recipe";
 
 const TYPE_BYNAME = "byName";
@@ -16,12 +20,27 @@ export function SearchMain() {
     new Array(allPastaTypes.length).fill(false)
   );
   const [selectedTypes, setSelectedTypes] = useState(allPastaTypes);
+  const [filteredByPastaType, setFilteredByPastaType] = useState(recipes);
+
+  const [ingredientsChecked, setIngredientsChecked] = useState(
+    new Array(allMainIngredients.length).fill(false)
+  );
+  const [selectedIngredients, setSelectedIngredients] =
+    useState(allMainIngredients);
+  const [filteredByIngredients, setFilteredByIngredients] = useState(recipes);
 
   const chooseType = (position: number): void => {
     const updatedTypeChecked: boolean[] = typeChecked.map((item, index) =>
       index === position ? !item : item
     );
     setTypeChecked(updatedTypeChecked);
+  };
+
+  const chooseIngredients = (position: number): void => {
+    const updatedIngredientsChecked: boolean[] = ingredientsChecked.map(
+      (item, index) => (index === position ? !item : item)
+    );
+    setIngredientsChecked(updatedIngredientsChecked);
   };
 
   const selectTypes = () => {
@@ -36,8 +55,49 @@ export function SearchMain() {
     }
   };
 
+  const selectIngredients = () => {
+    let newSelectedIngredients: string[] = [];
+    allMainIngredients.map((mainIngredient, index) => {
+      if (ingredientsChecked[index]) {
+        newSelectedIngredients.push(mainIngredient);
+      }
+    });
+    if (newSelectedIngredients.length > 0) {
+      setSelectedIngredients(newSelectedIngredients);
+    }
+  };
+
+  const filterByPastaType = () => {
+    setFilteredByPastaType(
+      recipes.filter((recipe) =>
+        selectedTypes.includes(recipe.pastaType.toLowerCase())
+      )
+    );
+  };
+
+  const filterByIngredients = () => {
+    let newFilteredByIngredients: Recipe[] = [];
+    selectedIngredients.forEach((ingrenient) => {
+      const filteredRecipes = recipes.filter((recipe) =>
+        recipe.mainIngredients.includes(ingrenient)
+      );
+      newFilteredByIngredients = [
+        ...newFilteredByIngredients,
+        ...filteredRecipes,
+      ];
+    });
+    const uniqueFilteredByIngredients = newFilteredByIngredients.filter(
+      (item, index) => {
+        return newFilteredByIngredients.indexOf(item) === index;
+      }
+    );
+    setFilteredByIngredients(uniqueFilteredByIngredients);
+  };
+
   useEffect(() => selectTypes(), [typeChecked]);
-  console.log("selected pasta types: ", selectedTypes);
+  useEffect(() => filterByPastaType(), [selectedTypes]);
+  useEffect(() => selectIngredients(), [ingredientsChecked]);
+  useEffect(() => filterByIngredients(), [selectedIngredients]);
 
   const searchChoice = () => {
     switch (choice) {
@@ -48,7 +108,12 @@ export function SearchMain() {
           <SearchByType typeChecked={typeChecked} chooseType={chooseType} />
         );
       case TYPE_BYINGREDIENT:
-        return <SearchByIngredient />;
+        return (
+          <SearchByIngredient
+            ingredientsChecked={ingredientsChecked}
+            chooseIngredients={chooseIngredients}
+          />
+        );
       default:
         return <SearchByName />;
     }
