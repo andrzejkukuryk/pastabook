@@ -99,6 +99,13 @@ export function SearchMain() {
   useEffect(() => selectIngredients(), [ingredientsChecked]);
   useEffect(() => filterByIngredients(), [selectedIngredients]);
 
+console.log(
+  "By type: ",
+  filteredByPastaType,
+  "By ingredients: ",
+  filteredByIngredients
+);
+
   const searchChoice = () => {
     switch (choice) {
       case TYPE_BYNAME:
