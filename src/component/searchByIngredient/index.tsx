@@ -1,6 +1,6 @@
 import React from "react";
 import styles from "./style.module.css";
-import { allMainIngredients } from "../../recipesData";
+import { allMainIngredients } from "../../data/dummyData";
 
 export function SearchByIngredient() {
   return (
