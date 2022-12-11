@@ -6,6 +6,8 @@ import { Routes, Route } from "react-router";
 import { Recipe } from "./component/recipe";
 import { PageNotFound } from "./component/pageNotFound";
 import { SharedLayout } from "./component/sharedLayout";
+import { Login } from "./component/login";
+import { Register } from "./component/register";
 
 function App() {
   return (
@@ -15,6 +17,8 @@ function App() {
           <Route index element={<RecipeList />} />
           <Route path="recipes" />
           <Route path="recipes/:recipePath" element={<Recipe />} />
+          <Route path="register" element={<Register />} />
+          <Route path="login" element={<Login />} />
         </Route>
         <Route path="*" element={<PageNotFound />} />
       </Routes>
