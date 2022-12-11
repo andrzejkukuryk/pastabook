@@ -2,14 +2,19 @@ import React from "react";
 import { useForm } from "react-hook-form";
 import styles from "./style.module.css";
 
+interface LoginFormValues {
+  email: string;
+  password: string;
+}
+
 export function Login() {
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm();
-  //TODO: change type:
-  const onSubmit = (data: any) => {
+  } = useForm<LoginFormValues>();
+
+  const onSubmit = (data: LoginFormValues) => {
     console.log(data);
   };
 
