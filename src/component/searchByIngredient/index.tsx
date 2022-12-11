@@ -2,13 +2,27 @@ import React from "react";
 import styles from "./style.module.css";
 import { allMainIngredients } from "../../data/dummyData";
 
-export function SearchByIngredient() {
+interface SearchByIngredientProps {
+  ingredientsChecked: boolean[];
+  chooseIngredients: (position: number) => void;
+}
+
+export function SearchByIngredient({
+  ingredientsChecked,
+  chooseIngredients,
+}: SearchByIngredientProps) {
   return (
     <div className={styles.container}>
       <form>
         {allMainIngredients.map((type, index) => (
           <label className={styles.listItemLabel} key={`ingredient${index}`}>
-            <input type="checkbox" name="ingredient" value={type} />
+            <input
+              type="checkbox"
+              name="ingredient"
+              value={type}
+              checked={ingredientsChecked[index]}
+              onChange={() => chooseIngredients(index)}
+            />
             {type}
           </label>
         ))}
