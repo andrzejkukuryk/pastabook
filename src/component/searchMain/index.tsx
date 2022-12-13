@@ -10,11 +10,15 @@ import {
 } from "../../data/dummyData";
 import { Recipe } from "../../models/recipe";
 
-const TYPE_BYNAME = "byName";
-const TYPE_BYTYPE = "byType";
-const TYPE_BYINGREDIENT = "byIngredient";
+export const TYPE_BYNAME = "byName";
+export const TYPE_BYTYPE = "byType";
+export const TYPE_BYINGREDIENT = "byIngredient";
 
-export function SearchMain() {
+interface SearchMainProps {
+  setSearchResult: React.Dispatch<React.SetStateAction<Recipe[]>>;
+}
+
+export function SearchMain({ setSearchResult }: SearchMainProps) {
   const [choice, setChoice] = useState(TYPE_BYNAME);
 
   const initialTypeChecked: boolean[] = new Array(allPastaTypes.length).fill(
@@ -25,6 +29,7 @@ export function SearchMain() {
     allMainIngredients.length
   ).fill(false);
   const initialSelectedIngredients: string[] = [];
+  const initialSearchedPhrase: string = "";
 
   const [typeChecked, setTypeChecked] = useState(initialTypeChecked);
   const [selectedTypes, setSelectedTypes] = useState(initialSelectedTypes);
@@ -36,6 +41,8 @@ export function SearchMain() {
     initialSelectedIngredients
   );
   const [filteredByIngredients, setFilteredByIngredients] = useState(recipes);
+  const [searchedPhrase, setSearchedPhrase] = useState(initialSearchedPhrase);
+  const [filteredByName, setFilteredByName] = useState(recipes);
 
   const chooseType = (position: number): void => {
     const updatedTypeChecked: boolean[] = typeChecked.map((item, index) =>
@@ -104,28 +111,58 @@ export function SearchMain() {
     setFilteredByIngredients(uniqueFilteredByIngredients);
   };
 
+  const filterByName = () => {
+    let newFilteredByName: Recipe[] = [];
+    newFilteredByName = recipes.filter((recipe) =>
+      recipe.fullName.toLowerCase().includes(searchedPhrase.toLowerCase())
+    );
+    setFilteredByName(newFilteredByName);
+  };
+
   useEffect(() => filterByPastaType(), [selectedTypes]);
   useEffect(() => filterByIngredients(), [selectedIngredients]);
+  useEffect(() => filterByName(), [searchedPhrase]);
 
-  console.log(
-    "Selected ingredients: ",
-    selectedIngredients,
-    "By ingredients: ",
-    filteredByIngredients
-    // "By ingredients: ",
-    // filteredByIngredients
-  );
+  const searchResult = (searchType: string) => {
+    let newSearchResult: Recipe[] = [];
+    if (searchType === TYPE_BYNAME) {
+      setSearchResult(filteredByName);
+    }
+    if (searchType === TYPE_BYTYPE || searchType === TYPE_BYINGREDIENT) {
+      const searchAreaPastaType =
+        filteredByPastaType.length === 0
+          ? [...recipes]
+          : [...filteredByPastaType];
+      const searchAreaIngredients =
+        filteredByIngredients.length === 0
+          ? [...recipes]
+          : [...filteredByIngredients];
+      newSearchResult = recipes.filter(
+        (recipe) =>
+          searchAreaPastaType.includes(recipe) &&
+          searchAreaIngredients.includes(recipe)
+      );
+      setSearchResult(newSearchResult);
+    }
+  };
 
   const searchChoice = () => {
     switch (choice) {
       case TYPE_BYNAME:
-        return <SearchByName />;
+        return (
+          <SearchByName
+            searchedPhrase={searchedPhrase}
+            setSearchedPhrase={setSearchedPhrase}
+            searchResult={searchResult}
+          />
+        );
       case TYPE_BYTYPE:
         return (
           <SearchByType
             typeChecked={typeChecked}
             chooseType={chooseType}
             chooseTypeHandler={chooseTypeHandler}
+            searchResult={searchResult}
           />
         );
       case TYPE_BYINGREDIENT:
@@ -134,10 +171,17 @@ export function SearchMain() {
             ingredientsChecked={ingredientsChecked}
             chooseIngredients={chooseIngredients}
             chooseIngredientsHandler={chooseIngredientsHandler}
+            searchResult={searchResult}
           />
         );
       default:
-        return <SearchByName />;
+        return (
+          <SearchByName
+            searchedPhrase={searchedPhrase}
+            setSearchedPhrase={setSearchedPhrase}
+            searchResult={searchResult}
+          />
+        );
     }
   };
 

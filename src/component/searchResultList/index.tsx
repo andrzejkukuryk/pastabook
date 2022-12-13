@@ -1,16 +1,20 @@
-import React, { useState } from "react";
+import React from "react";
 import { Link } from "react-router-dom";
+import { Recipe } from "../../models/recipe";
 import { RecipeListItem } from "../recipeListItem";
 import styles from "./style.module.css";
-import { recipes } from "../../data/dummyData";
 
-export function RecipeList() {
+interface SearchResultListProps {
+  searchResult: Recipe[];
+}
+
+export function SearchResultList({ searchResult }: SearchResultListProps) {
   return (
     <div className={styles.container}>
-      <h2 className={styles.lastRecipesTitle}>Last recipes:</h2>
+      <h2 className={styles.foundRecipesTitle}>Found recipes:</h2>
 
       <div className={styles.flexContainer}>
-        {recipes.map((recipe) => (
+        {searchResult.map((recipe) => (
           <Link to={`/recipes/${recipe.path}`} key={recipe.path}>
             <RecipeListItem
               dishName={recipe.fullName}
