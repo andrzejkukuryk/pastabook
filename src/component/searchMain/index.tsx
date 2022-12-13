@@ -20,18 +20,21 @@ export function SearchMain() {
   const initialTypeChecked: boolean[] = new Array(allPastaTypes.length).fill(
     false
   );
+  const initialSelectedTypes: string[] = [];
   const initialIngredientsChecked: boolean[] = new Array(
     allMainIngredients.length
   ).fill(false);
+  const initialSelectedIngredients: string[] = [];
 
   const [typeChecked, setTypeChecked] = useState(initialTypeChecked);
-  const [selectedTypes, setSelectedTypes] = useState(allPastaTypes);
+  const [selectedTypes, setSelectedTypes] = useState(initialSelectedTypes);
   const [filteredByPastaType, setFilteredByPastaType] = useState(recipes);
   const [ingredientsChecked, setIngredientsChecked] = useState(
     initialIngredientsChecked
   );
-  const [selectedIngredients, setSelectedIngredients] =
-    useState(allMainIngredients);
+  const [selectedIngredients, setSelectedIngredients] = useState(
+    initialSelectedIngredients
+  );
   const [filteredByIngredients, setFilteredByIngredients] = useState(recipes);
 
   const chooseType = (position: number): void => {
@@ -48,18 +51,6 @@ export function SearchMain() {
     setIngredientsChecked(updatedIngredientsChecked);
   };
 
-  const selectTypes = () => {
-    const newSelectedTypes: string[] = [];
-    allPastaTypes.forEach((pastaType, index) => {
-      if (typeChecked[index]) {
-        newSelectedTypes.push(pastaType);
-      }
-    });
-    if (newSelectedTypes.length > 0) {
-      setSelectedTypes(newSelectedTypes);
-    }
-  };
-  // Propozycja Ani
   const chooseTypeHandler = (type: string) => {
     let newSelectedTypes: string[] = [];
 
@@ -71,17 +62,19 @@ export function SearchMain() {
 
     setSelectedTypes(newSelectedTypes);
   };
-  // (koniec)
-  const selectIngredients = () => {
-    const newSelectedIngredients: string[] = [];
-    allMainIngredients.forEach((mainIngredient, index) => {
-      if (ingredientsChecked[index]) {
-        newSelectedIngredients.push(mainIngredient);
-      }
-    });
-    if (newSelectedIngredients.length > 0) {
-      setSelectedIngredients(newSelectedIngredients);
+
+  const chooseIngredientsHandler = (ingredient: string) => {
+    let newSelectedIngredients: string[] = [];
+
+    if (selectedIngredients.includes(ingredient)) {
+      newSelectedIngredients = [...selectedIngredients].filter(
+        (value) => value !== ingredient
+      );
+    } else {
+      newSelectedIngredients = [...selectedIngredients, ingredient];
     }
+
+    setSelectedIngredients(newSelectedIngredients);
   };
 
   const filterByPastaType = () => {
@@ -111,16 +104,16 @@ export function SearchMain() {
     setFilteredByIngredients(uniqueFilteredByIngredients);
   };
 
-  useEffect(() => selectTypes(), [typeChecked]);
   useEffect(() => filterByPastaType(), [selectedTypes]);
-  useEffect(() => selectIngredients(), [ingredientsChecked]);
   useEffect(() => filterByIngredients(), [selectedIngredients]);
 
   console.log(
-    "By type: ",
-    filteredByPastaType,
+    "Selected ingredients: ",
+    selectedIngredients,
     "By ingredients: ",
     filteredByIngredients
+    // "By ingredients: ",
+    // filteredByIngredients
   );
 
   const searchChoice = () => {
@@ -129,13 +122,18 @@ export function SearchMain() {
         return <SearchByName />;
       case TYPE_BYTYPE:
         return (
-          <SearchByType typeChecked={typeChecked} chooseType={chooseType} />
+          <SearchByType
+            typeChecked={typeChecked}
+            chooseType={chooseType}
+            chooseTypeHandler={chooseTypeHandler}
+          />
         );
       case TYPE_BYINGREDIENT:
         return (
           <SearchByIngredient
             ingredientsChecked={ingredientsChecked}
             chooseIngredients={chooseIngredients}
+            chooseIngredientsHandler={chooseIngredientsHandler}
           />
         );
       default:

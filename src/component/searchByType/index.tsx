@@ -5,9 +5,14 @@ import { allPastaTypes } from "../../data/dummyData";
 interface SearchByTypeProps {
   typeChecked: boolean[];
   chooseType: (position: number) => void;
+  chooseTypeHandler: (type: string) => void;
 }
 
-export function SearchByType({ typeChecked, chooseType }: SearchByTypeProps) {
+export function SearchByType({
+  typeChecked,
+  chooseType,
+  chooseTypeHandler,
+}: SearchByTypeProps) {
   return (
     <div className={styles.container}>
       <form>
@@ -18,7 +23,10 @@ export function SearchByType({ typeChecked, chooseType }: SearchByTypeProps) {
               name="pastaType"
               value={type}
               checked={typeChecked[index]}
-              onChange={() => chooseType(index)}
+              onChange={() => {
+                chooseTypeHandler(type);
+                chooseType(index);
+              }}
             />
             {type}
           </label>

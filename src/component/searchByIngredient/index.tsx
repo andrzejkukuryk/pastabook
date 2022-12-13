@@ -5,25 +5,30 @@ import { allMainIngredients } from "../../data/dummyData";
 interface SearchByIngredientProps {
   ingredientsChecked: boolean[];
   chooseIngredients: (position: number) => void;
+  chooseIngredientsHandler: (ingredient: string) => void;
 }
 
 export function SearchByIngredient({
   ingredientsChecked,
   chooseIngredients,
+  chooseIngredientsHandler,
 }: SearchByIngredientProps) {
   return (
     <div className={styles.container}>
       <form>
-        {allMainIngredients.map((type, index) => (
+        {allMainIngredients.map((ingredient, index) => (
           <label className={styles.listItemLabel} key={`ingredient${index}`}>
             <input
               type="checkbox"
               name="ingredient"
-              value={type}
+              value={ingredient}
               checked={ingredientsChecked[index]}
-              onChange={() => chooseIngredients(index)}
+              onChange={() => {
+                chooseIngredients(index);
+                chooseIngredientsHandler(ingredient);
+              }}
             />
-            {type}
+            {ingredient}
           </label>
         ))}
         <input
