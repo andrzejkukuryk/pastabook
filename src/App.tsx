@@ -8,6 +8,7 @@ import { PageNotFound } from "./component/pageNotFound";
 import { SharedLayout } from "./component/sharedLayout";
 import { Login } from "./component/login";
 import { Register } from "./component/register";
+import { AddRecipe } from "./component/addRecipe";
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
           <Route path="recipes/:recipePath" element={<Recipe />} />
           <Route path="register" element={<Register />} />
           <Route path="login" element={<Login />} />
+          <Route path="add" element={<AddRecipe />} />
         </Route>
         <Route path="*" element={<PageNotFound />} />
       </Routes>
