@@ -7,7 +7,11 @@ interface LoginFormValues {
   password: string;
 }
 
-export function Login() {
+interface LoginProps {
+  handleLogin: () => Promise<void>;
+}
+
+export function Login({ handleLogin }: LoginProps) {
   const {
     register,
     handleSubmit,
@@ -15,6 +19,7 @@ export function Login() {
   } = useForm<LoginFormValues>();
 
   const onSubmit = (data: LoginFormValues) => {
+    handleLogin();
     console.log(data);
   };
 
