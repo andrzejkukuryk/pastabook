@@ -1,11 +1,13 @@
 import React, { createContext, useContext, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
+import { User } from "../../data/dummyUsersData";
 
 export const AuthContext = createContext<ValueProp | null>(null);
 
 interface ValueProp {
-  token: null;
-  handleLogin: () => Promise<void>;
+  token: null | string;
+  user: null | User;
+  handleLogin: (user: User) => Promise<void>;
   handleLogout: () => void;
 }
 export const useAuthContext = () => {
@@ -16,6 +18,7 @@ export const useAuthContext = () => {
 
 export function AuthProvider({ children }: any) {
   const [token, setToken] = useState(null);
+  const [user, setUser] = useState<User | null>(null);
 
   const location = useLocation();
   const navigate = useNavigate();
@@ -25,14 +28,13 @@ export function AuthProvider({ children }: any) {
       setTimeout(() => resolve("h3uu97975nvpwev7oqm63"), 250);
     });
 
-  const handleLogin = async () => {
+  const handleLogin = async (user: User) => {
     //TODO: znowu type!!!!!
     const token: any = await fakeAuth();
     setToken(token);
-
+    setUser(user);
+    console.log(user.username);
     const origin = location.state?.from?.pathname || "/"; // co oznaczają znaki zapytania?
-    console.log("location.state: ", location.state);
-    console.log("origin: ", origin);
     navigate(origin);
   };
 
@@ -42,6 +44,7 @@ export function AuthProvider({ children }: any) {
 
   const value: ValueProp = {
     token,
+    user,
     handleLogin: handleLogin,
     handleLogout: handleLogout,
   };

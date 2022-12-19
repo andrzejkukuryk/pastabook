@@ -1,9 +1,11 @@
 import React from "react";
 import { useForm } from "react-hook-form";
+import { User, users } from "../../data/dummyUsersData";
 import styles from "./style.module.css";
 
 interface RegisterFormValues {
   email: string;
+  username: string;
   password: string;
   confirmPassword: string;
 }
@@ -17,7 +19,14 @@ export function Register() {
   } = useForm<RegisterFormValues>();
 
   const onSubmit = (data: RegisterFormValues) => {
-    console.log(data);
+    const newRegisteredUser: User = {
+      username: data.username ? data.username : "",
+      id: users[users.length - 1].id + 1,
+      email: data.email,
+      password: data.password,
+    };
+    users.push(newRegisteredUser);
+    console.log(newRegisteredUser);
   };
 
   return (
@@ -40,6 +49,16 @@ export function Register() {
           {errors.email && errors.email.type === "pattern" && (
             <p className={styles.errorMsg}>Email is not valid.</p>
           )}
+        </div>
+        <div className={styles.formInputDiv}>
+          <label htmlFor="registerUsername">Name or nick:</label>
+          <input
+            id="registerUsername"
+            type="text"
+            {...register("username", {
+              required: false,
+            })}
+          />
         </div>
         <div className={styles.formInputDiv}>
           <label htmlFor="registerPassword">Password:</label>
