@@ -1,8 +1,7 @@
-import React, { useContext } from "react";
+import React from "react";
 import { useForm } from "react-hook-form";
 import styles from "./style.module.css";
 import { users } from "../../data/dummyUsersData";
-import { AuthContext } from "../authProvider";
 import { useAuthContext } from "../authProvider";
 
 interface LoginFormValues {
@@ -26,7 +25,10 @@ export function Login() {
       (user) => user.email === data.email && user.password === data.password
     );
     if (auth) {
-      handleLogin();
+      const loggedUser = users.find(
+        (user) => user.email === data.email && user.password === data.password
+      );
+      handleLogin(loggedUser);
     }
     console.log(data);
   };

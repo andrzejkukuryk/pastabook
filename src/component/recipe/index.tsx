@@ -14,7 +14,6 @@ export function Recipe() {
   // @ts-ignore
   const { token } = useAuthContext();
 
-  console.log(token);
   return (
     <div className={styles.container}>
       <h2>{recipe?.fullName}</h2>
