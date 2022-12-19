@@ -1,9 +1,9 @@
 import React from "react";
 import { Link, useParams } from "react-router-dom";
+import { useAuthContext } from "../authProvider";
 import { recipes } from "../../data/dummyData";
 import { Recipe as RecipeType } from "../../models/recipe";
 import styles from "./style.module.css";
-
 
 export function Recipe() {
   const { recipePath } = useParams();
@@ -11,7 +11,10 @@ export function Recipe() {
   const recipe: RecipeType | undefined = recipes.find(
     (rcp) => rcp.path === recipePath
   );
+  // @ts-ignore
+  const { token } = useAuthContext();
 
+  console.log(token);
   return (
     <div className={styles.container}>
       <h2>{recipe?.fullName}</h2>
@@ -28,6 +31,8 @@ export function Recipe() {
           ))}
         </ul>
       </div>
+      {/* TODO: lista ulubionych */}
+      {token && <div>Add this recipe to your favorites</div>}
       {!recipe && <p>There's no such dish here</p>}
       <Link to="/">Back to home page</Link>
     </div>

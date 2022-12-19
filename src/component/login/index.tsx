@@ -1,25 +1,33 @@
-import React from "react";
+import React, { useContext } from "react";
 import { useForm } from "react-hook-form";
 import styles from "./style.module.css";
+import { users } from "../../data/dummyUsersData";
+import { AuthContext } from "../authProvider";
+import { useAuthContext } from "../authProvider";
 
 interface LoginFormValues {
   email: string;
   password: string;
 }
 
-interface LoginProps {
-  handleLogin: () => Promise<void>;
-}
-
-export function Login({ handleLogin }: LoginProps) {
+export function Login() {
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm<LoginFormValues>();
 
+  // dlaczego nie działa??
+  // @ts-ignore
+  const { handleLogin } = useAuthContext();
+
   const onSubmit = (data: LoginFormValues) => {
-    handleLogin();
+    const auth: boolean = users.some(
+      (user) => user.email === data.email && user.password === data.password
+    );
+    if (auth) {
+      handleLogin();
+    }
     console.log(data);
   };
 
