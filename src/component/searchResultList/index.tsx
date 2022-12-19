@@ -24,6 +24,11 @@ export function SearchResultList({ searchResult }: SearchResultListProps) {
           </Link>
         ))}
       </div>
+      <div className={styles.addRecipe}>
+        <Link to={"/add"}>
+          <button>Add new recipe</button>
+        </Link>
+      </div>
     </div>
   );
 }

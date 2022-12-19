@@ -3,19 +3,13 @@ import styles from "./style.module.css";
 import { users } from "../../data/dummyUsersData";
 import { Link } from "react-router-dom";
 import iconNotLogged from "./graph/not_logged.png";
+import { useAuthContext } from "../authProvider";
 
-interface UserLoginMenuProps {
-  token: null;
-  setToken: React.Dispatch<React.SetStateAction<null>>;
-  handleLogout: () => void;
-}
-
-export function UserLoginMenu({
-  token,
-  setToken,
-  handleLogout,
-}: UserLoginMenuProps) {
+export function UserLoginMenu() {
   const [user, setUser] = useState(users[0]);
+
+  // @ts-ignore
+  const { token, handleLogout } = useAuthContext();
 
   if (token) {
     return (

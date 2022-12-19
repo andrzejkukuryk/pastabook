@@ -1,8 +1,9 @@
-import React, { createContext, useState } from "react";
+import React, { useState } from "react";
 import "./App.css";
 import { RecipeList } from "./component/recipeList";
 import { BrowserRouter } from "react-router-dom";
 import { Routes, Route } from "react-router";
+import { AuthProvider } from "./component/authProvider";
 import { Recipe } from "./component/recipe";
 import { PageNotFound } from "./component/pageNotFound";
 import { SharedLayout } from "./component/sharedLayout";
@@ -11,50 +12,35 @@ import { Register } from "./component/register";
 import { AddRecipe } from "./component/addRecipe";
 import { recipes } from "./data/dummyData";
 import { SearchResultList } from "./component/searchResultList";
-
-const AuthContext = createContext(null);
+import { User } from "./data/dummyUsersData";
+import { ProtectedRoute } from "./component/protectedRoute";
 
 function App() {
-  const [token, setToken] = useState(null);
+  const initialUser: User | null = null;
+  const [user, setUser] = useState(initialUser);
   const [searchResult, setSearchResult] = useState(recipes);
 
-  const fakeAuth = () =>
-    new Promise<string>((resolve) => {
-      setTimeout(() => resolve("h3uu97975nvpwev7oqm63"), 250);
-    });
-
-  const handleLogin = async () => {
-    //TODO: znowu type!!!!!
-    const token: any = await fakeAuth();
-    setToken(token);
-  };
-
-  const handleLogout = () => {
-    setToken(null);
-  };
-  console.log(token);
-
   return (
-    <AuthContext.Provider value={token}>
-      <BrowserRouter>
+    <BrowserRouter>
+      <AuthProvider>
         <Routes>
           <Route
             path="/"
-            element={
-              <SharedLayout
-                token={token}
-                setToken={setToken}
-                handleLogout={handleLogout}
-                setSearchResult={setSearchResult}
-              />
-            }
+            element={<SharedLayout setSearchResult={setSearchResult} />}
           >
             <Route index element={<RecipeList />} />
             <Route path="recipes" />
             <Route path="recipes/:recipePath" element={<Recipe />} />
             <Route path="register" element={<Register />} />
-            <Route path="login" element={<Login handleLogin={handleLogin} />} />
-            <Route path="add" element={<AddRecipe />} />
+            <Route path="login" element={<Login />} />
+            <Route
+              path="add"
+              element={
+                <ProtectedRoute>
+                  <AddRecipe />
+                </ProtectedRoute>
+              }
+            />
             <Route
               path="search"
               element={<SearchResultList searchResult={searchResult} />}
@@ -62,8 +48,8 @@ function App() {
           </Route>
           <Route path="*" element={<PageNotFound />} />
         </Routes>
-      </BrowserRouter>
-    </AuthContext.Provider>
+      </AuthProvider>
+    </BrowserRouter>
   );
 }
 

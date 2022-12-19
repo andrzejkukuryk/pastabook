@@ -7,21 +7,13 @@ import { SearchMain } from "../searchMain";
 import styles from "./style.module.css";
 
 interface SharedLayoutProps {
-  token: null;
-  setToken: React.Dispatch<React.SetStateAction<null>>;
-  handleLogout: () => void;
   setSearchResult: React.Dispatch<React.SetStateAction<Recipe[]>>;
 }
 
-export function SharedLayout({
-  token,
-  setToken,
-  setSearchResult,
-  handleLogout,
-}: SharedLayoutProps) {
+export function SharedLayout({ setSearchResult }: SharedLayoutProps) {
   return (
     <div className={styles.container}>
-      <Header token={token} setToken={setToken} handleLogout={handleLogout} />
+      <Header />
       <SearchMain setSearchResult={setSearchResult} />
       <Outlet />
     </div>
