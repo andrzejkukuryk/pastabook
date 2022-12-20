@@ -16,8 +16,7 @@ export function Login() {
     formState: { errors },
   } = useForm<LoginFormValues>();
 
-  // dlaczego nie działa??
-  // @ts-ignore
+ 
   const { handleLogin } = useAuthContext();
 
   const onSubmit = (data: LoginFormValues) => {
@@ -28,7 +27,9 @@ export function Login() {
       const loggedUser = users.find(
         (user) => user.email === data.email && user.password === data.password
       );
-      handleLogin(loggedUser);
+      if (loggedUser) {
+        handleLogin(loggedUser);
+      }
     }
     console.log(data);
   };

@@ -12,12 +12,9 @@ import { Register } from "./component/register";
 import { AddRecipe } from "./component/addRecipe";
 import { recipes } from "./data/dummyData";
 import { SearchResultList } from "./component/searchResultList";
-import { User } from "./data/dummyUsersData";
 import { ProtectedRoute } from "./component/protectedRoute";
 
 function App() {
-  const initialUser: User | null = null;
-  const [user, setUser] = useState(initialUser);
   const [searchResult, setSearchResult] = useState(recipes);
 
   return (

@@ -6,9 +6,6 @@ import iconNotLogged from "./graph/not_logged.png";
 import { useAuthContext } from "../authProvider";
 
 export function UserLoginMenu() {
-  // const [user, setUser] = useState(users[0]);
-
-  // @ts-ignore
   const { token, user, handleLogout } = useAuthContext();
 
   if (token) {
@@ -16,7 +13,7 @@ export function UserLoginMenu() {
       <div className={styles.container}>
         <div className={styles.loginP}>
           <p className={styles.greetingP}>
-            Hello, {user.username ? user.username : "Pastalover"}!
+            {user && `Hello, ${user.username ? user.username : "Pastalover"}!`}
           </p>
           <p className={styles.accountSettingsP}>
             <a href="#">Account settings</a>
