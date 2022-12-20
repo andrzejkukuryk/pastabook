@@ -3,7 +3,7 @@ import "./App.css";
 import { RecipeList } from "./component/recipeList";
 import { BrowserRouter } from "react-router-dom";
 import { Routes, Route } from "react-router";
-import { AuthProvider } from "./component/authProvider";
+import { AuthProvider, useAuthContext } from "./component/authProvider";
 import { Recipe } from "./component/recipe";
 import { PageNotFound } from "./component/pageNotFound";
 import { SharedLayout } from "./component/sharedLayout";
@@ -16,6 +16,7 @@ import { ProtectedRoute } from "./component/protectedRoute";
 
 function App() {
   const [searchResult, setSearchResult] = useState(recipes);
+
 
   return (
     <BrowserRouter>

@@ -1,7 +1,7 @@
-import React, { useContext } from "react";
-import { AuthContext } from "../authProvider";
+import React from "react";
+import { useAuthContext } from "../authProvider";
 
 export function AddRecipe() {
-  const token = useContext(AuthContext);
+  const { token } = useAuthContext();
   return <div>{token && <p>Add new recipe</p>}</div>;
 }
