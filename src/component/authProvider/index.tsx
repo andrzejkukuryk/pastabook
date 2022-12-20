@@ -40,7 +40,7 @@ export const AuthProvider: FC<AuthProviderProps> = ({ children }) => {
   const location = useLocation();
   const navigate = useNavigate();
 
-  useEffect(() => {
+  const checkLocalStorage = () => {
     if (localStorage.getItem("pastabookToken")) {
       setToken(localStorage.getItem("pastabookToken"));
       const lsUser = users.find(
@@ -50,7 +50,9 @@ export const AuthProvider: FC<AuthProviderProps> = ({ children }) => {
         setUser(lsUser);
       }
     }
-  }, []);
+  };
+
+  useEffect(() => checkLocalStorage, []);
 
   const fakeAuth = () =>
     new Promise<string>((resolve) => {
