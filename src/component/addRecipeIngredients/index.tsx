@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { NewIngredient } from "../addRecipe";
 import { AddRecipeIngredientsItem } from "../addRecipeIngredientsItem";
 import styles from "./style.module.css";
@@ -12,6 +12,8 @@ export function AddRecipeIngredients({
   newIngredients,
   setNewIngredients,
 }: AddRecipeIngredientsProps) {
+  const [toManyMainIngredients, setToManyMainIngredients] =
+    useState<boolean>(false);
   const createIngredientsList = () => {
     return newIngredients.map((item, id) => (
       <AddRecipeIngredientsItem
@@ -19,6 +21,7 @@ export function AddRecipeIngredients({
         newIngredients={newIngredients}
         id={id}
         setNewIngredients={setNewIngredients}
+        setToManyMainIngredients={setToManyMainIngredients}
       />
     ));
   };
@@ -34,6 +37,7 @@ export function AddRecipeIngredients({
       <div>
         <p>Ingredients</p>
         <p>Mark 2-3 main ingredients</p>
+        {toManyMainIngredients && <p>To many main ingredients</p>}
       </div>
 
       <div>

@@ -7,19 +7,20 @@ interface AddRecipeIngredientsItemProps {
   newIngredients: NewIngredient[];
   id: number;
   setNewIngredients: React.Dispatch<React.SetStateAction<NewIngredient[]>>;
+  setToManyMainIngredients: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 export function AddRecipeIngredientsItem({
   newIngredients,
   id,
   setNewIngredients,
+  setToManyMainIngredients,
 }: AddRecipeIngredientsItemProps) {
   const {
     register,
     formState: { errors },
   } = useForm();
 
-  // let temporaryNewIngredients = [...newIngredients];
   let temporaryNewIngredients: NewIngredient[] = [];
   newIngredients.forEach((ingredient, id) => {
     ingredient.ingredientId = id;
@@ -32,7 +33,6 @@ export function AddRecipeIngredientsItem({
   };
 
   const handleChangeMain = () => {
-    // TODO: limit trzech głównych składników
     temporaryNewIngredients[id].main = !temporaryNewIngredients[id].main;
     setNewIngredients(temporaryNewIngredients);
   };
@@ -43,7 +43,21 @@ export function AddRecipeIngredientsItem({
     setNewIngredients(temporaryNewIngredients);
   };
 
-  console.log(newIngredients);
+  const countMainIngredients = () => {
+    let mainCounter: number = 0;
+    newIngredients.forEach((ingredient) => {
+      if (ingredient.main) {
+        mainCounter++;
+      }
+    });
+    if (mainCounter > 3) {
+      setToManyMainIngredients(true);
+    } else {
+      setToManyMainIngredients(false);
+    }
+  };
+
+  countMainIngredients();
   return (
     <div className={styles.container}>
       <form>
