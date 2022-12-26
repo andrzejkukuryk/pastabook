@@ -3,6 +3,7 @@ import styles from "./style.module.css";
 import { AddRecipeIngredients } from "../addRecipeIngredients";
 import { AddRecipeName } from "../addRecipeName";
 import { AddRecipePastaType } from "../addRecipePastaType";
+import { AddRecipeMethod } from "../addRecipeMethod";
 
 export interface NewIngredient {
   main: boolean;
@@ -32,6 +33,7 @@ export function AddRecipe() {
         newIngredients={newIngredients}
         setNewIngredients={setNewIngredients}
       />
+      <AddRecipeMethod />
     </div>
   );
 }
