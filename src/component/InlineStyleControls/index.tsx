@@ -9,15 +9,18 @@ const INLINE_STYLES = [
   { label: "Bold", style: "BOLD" },
   { label: "Italic", style: "ITALIC" },
   { label: "Underline", style: "UNDERLINE" },
-  { label: "Monospace", style: "CODE" },
+  // { label: "Monospace", style: "CODE" },
 ];
 
-type Props = {
+interface InlineStyleControlsProps {
   editorState: EditorState;
   onToggle: (bockType: string) => void;
-};
+}
 
-export const InlineStyleControls = ({ editorState, onToggle }: Props) => {
+export const InlineStyleControls = ({
+  editorState,
+  onToggle,
+}: InlineStyleControlsProps) => {
   const currentStyle = editorState.getCurrentInlineStyle();
 
   return (

@@ -5,16 +5,16 @@ import "draft-js/dist/Draft.css";
 import "../RichTextEditor/richText.css";
 
 const BLOCK_TYPES = [
-  { label: "H1", style: "header-one" },
-  { label: "H2", style: "header-two" },
-  { label: "H3", style: "header-three" },
-  { label: "H4", style: "header-four" },
-  { label: "H5", style: "header-five" },
-  { label: "H6", style: "header-six" },
+  // { label: "H1", style: "header-one" },
+  // { label: "H2", style: "header-two" },
+  // { label: "H3", style: "header-three" },
+  { label: "Header", style: "header-four" },
+  // { label: "H5", style: "header-five" },
+  // { label: "H6", style: "header-six" },
   { label: "Blockquote", style: "blockquote" },
   { label: "Unordered List", style: "unordered-list-item" },
   { label: "Ordered List", style: "ordered-list-item" },
-  { label: "Code Block", style: "code-block" },
+  // { label: "Code Block", style: "code-block" },
 ];
 
 interface BlockStyleControlsProps {

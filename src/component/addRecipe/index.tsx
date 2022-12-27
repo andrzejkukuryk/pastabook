@@ -18,9 +18,11 @@ export function AddRecipe() {
 
   const [newRecipeName, setNewRecipeName] = useState<string>("");
   const [newPastaType, setNewPastaType] = useState<string>("");
+  const [newMethod, setNewMethod] = useState<any>({});
   const [newIngredients, setNewIngredients] =
     useState<NewIngredient[]>(intialNewIngredients);
 
+  console.log(newMethod);
   return (
     <div className={styles.container}>
       <h2>Add new recipe</h2>
@@ -33,7 +35,7 @@ export function AddRecipe() {
         newIngredients={newIngredients}
         setNewIngredients={setNewIngredients}
       />
-      <AddRecipeMethod />
+      <AddRecipeMethod setNewMethod={setNewMethod} />
     </div>
   );
 }
