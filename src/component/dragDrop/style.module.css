@@ -1,0 +1,12 @@
+.photoPreview {
+    width: 140px;
+    margin: 10px;
+}
+
+.photoPreviewDiv {
+    display: flex;
+    flex-direction: column;
+    width: 160px;
+    align-items: center;
+    justify-content: center;
+}
