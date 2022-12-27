@@ -4,6 +4,7 @@ import { AddRecipeIngredients } from "../addRecipeIngredients";
 import { AddRecipeName } from "../addRecipeName";
 import { AddRecipePastaType } from "../addRecipePastaType";
 import { AddRecipeMethod } from "../addRecipeMethod";
+import { AddRecipePhoto } from "../addRecipePhoto";
 
 export interface NewIngredient {
   main: boolean;
@@ -22,7 +23,6 @@ export function AddRecipe() {
   const [newIngredients, setNewIngredients] =
     useState<NewIngredient[]>(intialNewIngredients);
 
-  console.log(newMethod);
   return (
     <div className={styles.container}>
       <h2>Add new recipe</h2>
@@ -36,6 +36,7 @@ export function AddRecipe() {
         setNewIngredients={setNewIngredients}
       />
       <AddRecipeMethod setNewMethod={setNewMethod} />
+      <AddRecipePhoto />
     </div>
   );
 }

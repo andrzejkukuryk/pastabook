@@ -46,7 +46,7 @@ export function AddRecipeIngredientsItem({
   const countMainIngredients = () => {
     let mainCounter: number = 0;
     newIngredients.forEach((ingredient) => {
-      if (ingredient.main) {
+      if (ingredient.main && ingredient.name) {
         mainCounter++;
       }
     });
