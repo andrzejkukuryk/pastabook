@@ -2,3 +2,11 @@
     max-width: 1280px ;
     border: 1px solid aqua;
 }
+.RichEditorRoot {
+    background: #fff;
+    border: 1px solid #ddd;
+    font-family: 'Georgia', serif;
+    font-size: 14px;
+    padding: 15px;
+    max-width: 500px;
+  }

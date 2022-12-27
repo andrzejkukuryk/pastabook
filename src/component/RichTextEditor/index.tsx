@@ -84,25 +84,31 @@ export const RichTextEditor = ({ setContent }: RichTextEditorProps) => {
 
   return (
     <>
-      <BlockStyleControls
-        editorState={editorState}
-        onToggle={toggleBlockType}
-      />
-      <InlineStyleControls
-        editorState={editorState}
-        onToggle={toggleInlineStyle}
-      />
-      <Editor
-        ref={editorRef}
-        editorState={editorState}
-        placeholder="Type a method"
-        customStyleMap={styleMap}
-        blockStyleFn={(block: ContentBlock) => getBlockStyle(block)}
-        keyBindingFn={(e) => mapKeyToEditorCommand(e)}
-        onChange={onChange}
-        spellCheck={true}
-        handleKeyCommand={handleKeyCommand}
-      />
+      <div className="RichEditor-controls">
+        <BlockStyleControls
+          editorState={editorState}
+          onToggle={toggleBlockType}
+        />
+      </div>
+      <div className="RichEditor-controls">
+        <InlineStyleControls
+          editorState={editorState}
+          onToggle={toggleInlineStyle}
+        />
+      </div>
+      <div className="RichEditor-editor">
+        <Editor
+          ref={editorRef}
+          editorState={editorState}
+          placeholder="Type a method"
+          customStyleMap={styleMap}
+          blockStyleFn={(block: ContentBlock) => getBlockStyle(block)}
+          keyBindingFn={(e) => mapKeyToEditorCommand(e)}
+          onChange={onChange}
+          spellCheck={true}
+          handleKeyCommand={handleKeyCommand}
+        />
+      </div>
     </>
   );
 };
