@@ -17,21 +17,27 @@ export function Login() {
   } = useForm<LoginFormValues>();
 
  
-  const { handleLogin } = useAuthContext();
+  const {
+    // handleLogin,
+    handleLoginFB,
+  } = useAuthContext();
 
   const onSubmit = (data: LoginFormValues) => {
-    const auth: boolean = users.some(
-      (user) => user.email === data.email && user.password === data.password
-    );
-    if (auth) {
-      const loggedUser = users.find(
-        (user) => user.email === data.email && user.password === data.password
-      );
-      if (loggedUser) {
-        handleLogin(loggedUser);
-      }
-    }
-    console.log(data);
+    // const auth: boolean = users.some(
+    //   (user) => user.email === data.email && user.password === data.password
+    // );
+    // if (auth) {
+    //   const loggedUser = users.find(
+    //     (user) => user.email === data.email && user.password === data.password
+    //   );
+    //   if (loggedUser) {
+    //     handleLogin(loggedUser);
+    //   }
+    // }
+    // console.log(data);
+    //////////////////////////
+
+    handleLoginFB(data.email, data.password);
   };
 
   return (
