@@ -1,6 +1,7 @@
 import React from "react";
 import { useForm } from "react-hook-form";
 import { User, users } from "../../data/dummyUsersData";
+import { useAuthContext } from "../authProvider";
 import styles from "./style.module.css";
 
 interface RegisterFormValues {
@@ -11,6 +12,7 @@ interface RegisterFormValues {
 }
 
 export function Register() {
+  const { handleRegisterFB } = useAuthContext();
   const {
     register,
     handleSubmit,
@@ -19,14 +21,17 @@ export function Register() {
   } = useForm<RegisterFormValues>();
 
   const onSubmit = (data: RegisterFormValues) => {
-    const newRegisteredUser: User = {
-      username: data.username ? data.username : "",
-      id: users[users.length - 1].id + 1,
-      email: data.email,
-      password: data.password,
-    };
-    users.push(newRegisteredUser);
-    console.log(newRegisteredUser);
+    // const newRegisteredUser: User = {
+    //   username: data.username ? data.username : "",
+    //   id: users[users.length - 1].id + 1,
+    //   email: data.email,
+    //   password: data.password,
+    // };
+    // users.push(newRegisteredUser);
+    // console.log(newRegisteredUser);
+    ////////////////////////////////
+
+    handleRegisterFB(data.email, data.password);
   };
 
   return (

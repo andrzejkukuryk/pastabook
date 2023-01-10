@@ -13,10 +13,10 @@ import { AddRecipe } from "./component/addRecipe";
 import { recipes } from "./data/dummyData";
 import { SearchResultList } from "./component/searchResultList";
 import { ProtectedRoute } from "./component/protectedRoute";
-
 function App() {
   const [searchResult, setSearchResult] = useState(recipes);
 
+  console.log(process.env.REACT_APP_FIREBASE_API_KEY);
 
   return (
     <BrowserRouter>

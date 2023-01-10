@@ -6,18 +6,19 @@ import iconNotLogged from "./graph/not_logged.png";
 import { useAuthContext } from "../authProvider";
 
 export function UserLoginMenu() {
-  const { token, user, handleLogout } = useAuthContext();
+  const { token, user, userFB, auth, handleLogoutFB } = useAuthContext();
 
   if (token) {
     return (
       <div className={styles.container}>
         <div className={styles.loginP}>
           <p className={styles.greetingP}>
-            {user && `Hello, ${user.username ? user.username : "Pastalover"}!`}
+            {/* {user && `Hello, ${user.username ? user.username : "Pastalover"}!`} */}
+            {userFB && `Hello, ${auth.currentUser?.email}`}
           </p>
           <p className={styles.accountSettingsP}>
             <a href="#">Account settings</a>
-            <button onClick={() => handleLogout()}>Logout</button>
+            <button onClick={handleLogoutFB}>Logout</button>
           </p>
         </div>
         <img className={styles.iconNotLogged} src={iconNotLogged} alt=""></img>
