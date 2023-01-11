@@ -1,24 +1,20 @@
 import React, { useState } from "react";
 import styles from "./style.module.css";
-import { users } from "../../data/dummyUsersData";
 import { Link } from "react-router-dom";
 import iconNotLogged from "./graph/not_logged.png";
 import { useAuthContext } from "../authProvider";
 
 export function UserLoginMenu() {
-  const { token, user, userFB, auth, handleLogoutFB } = useAuthContext();
+  const { token, user, logoutUser } = useAuthContext();
 
   if (token) {
     return (
       <div className={styles.container}>
         <div className={styles.loginP}>
-          <p className={styles.greetingP}>
-            {/* {user && `Hello, ${user.username ? user.username : "Pastalover"}!`} */}
-            {userFB && `Hello, ${auth.currentUser?.email}`}
-          </p>
+          <p className={styles.greetingP}>{user && `Hello, ${user}!`}</p>
           <p className={styles.accountSettingsP}>
             <a href="#">Account settings</a>
-            <button onClick={handleLogoutFB}>Logout</button>
+            <button onClick={logoutUser}>Logout</button>
           </p>
         </div>
         <img className={styles.iconNotLogged} src={iconNotLogged} alt=""></img>

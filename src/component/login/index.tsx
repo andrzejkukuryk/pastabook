@@ -17,10 +17,7 @@ export function Login() {
   } = useForm<LoginFormValues>();
 
  
-  const {
-    // handleLogin,
-    handleLoginFB,
-  } = useAuthContext();
+  const { loginUser } = useAuthContext();
 
   const onSubmit = (data: LoginFormValues) => {
     // const auth: boolean = users.some(
@@ -37,7 +34,7 @@ export function Login() {
     // console.log(data);
     //////////////////////////
 
-    handleLoginFB(data.email, data.password);
+    loginUser(data.email, data.password);
   };
 
   return (

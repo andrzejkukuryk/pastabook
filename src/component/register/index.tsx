@@ -12,7 +12,7 @@ interface RegisterFormValues {
 }
 
 export function Register() {
-  const { handleRegisterFB } = useAuthContext();
+  const { registerUser, isLoading } = useAuthContext();
   const {
     register,
     handleSubmit,
@@ -31,12 +31,13 @@ export function Register() {
     // console.log(newRegisteredUser);
     ////////////////////////////////
 
-    handleRegisterFB(data.email, data.password);
+    registerUser(data.email, data.password);
   };
 
   return (
     <div className={styles.container}>
       <h2>Sign up for Pastabook:</h2>
+      {isLoading && <p>Loading</p>}
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className={styles.formInputDiv}>
           <label htmlFor="registerEmail">Email:</label>
