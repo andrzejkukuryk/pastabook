@@ -11,9 +11,12 @@ export function UserLoginMenu() {
     return (
       <div className={styles.container}>
         <div className={styles.loginP}>
-          <p className={styles.greetingP}>{user && `Hello, ${user}!`}</p>
+          <p className={styles.greetingP}>
+            {user && `Hello, ${user.name ? user.name : "Pastalover"}!`}
+          </p>
           <p className={styles.accountSettingsP}>
-            <a href="#">Account settings</a>
+            <Link to="profile">Your account </Link>
+            {/* <a href="#">Account settings</a> */}
             <button onClick={logoutUser}>Logout</button>
           </p>
         </div>

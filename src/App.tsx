@@ -13,6 +13,8 @@ import { AddRecipe } from "./component/addRecipe";
 import { recipes } from "./data/dummyData";
 import { SearchResultList } from "./component/searchResultList";
 import { ProtectedRoute } from "./component/protectedRoute";
+import { UserProfile } from "./component/userProfile";
+import { UserProfileEdit } from "./component/userProfileEdit";
 function App() {
   const [searchResult, setSearchResult] = useState(recipes);
 
@@ -25,10 +27,27 @@ function App() {
             element={<SharedLayout setSearchResult={setSearchResult} />}
           >
             <Route index element={<RecipeList />} />
+            <Route path="pastabook" element={<RecipeList />} />
             <Route path="recipes" />
             <Route path="recipes/:recipePath" element={<Recipe />} />
             <Route path="register" element={<Register />} />
             <Route path="login" element={<Login />} />
+            <Route
+              path="profile"
+              element={
+                <ProtectedRoute>
+                  <UserProfile />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="editprofile"
+              element={
+                <ProtectedRoute>
+                  <UserProfileEdit />
+                </ProtectedRoute>
+              }
+            />
             <Route
               path="add"
               element={

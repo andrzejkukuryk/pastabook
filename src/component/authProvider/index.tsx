@@ -13,17 +13,7 @@ import React, {
   useEffect,
 } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import { User as UserOld, users } from "../../data/dummyUsersData";
-import {
-  // createUserWithEmailAndPassword,
-  // onAuthStateChanged,
-  signInWithEmailAndPassword,
-  signOut,
-  User,
-  UserCredential,
-  Auth,
-} from "firebase/auth";
-import { auth } from "../../firebase-config";
+// import { User as UserOld, users } from "../../data/dummyUsersData";
 
 const initialAuthContext = {
   token: null,
@@ -32,56 +22,60 @@ const initialAuthContext = {
   registerUser: () => {},
   loginUser: () => {},
   logoutUser: () => {},
+  editUser: () => {},
 } as unknown as ValueProp; // nie ma dostępu do właściwych funcji, ale wartosci zostaną nadpisane przy pierwszym renderze
 
 export const AuthContext = createContext<ValueProp>(initialAuthContext);
 
 interface ValueProp {
   token: null | string;
-  user: null | UserOld;
+  user: null | User;
   isLoading: boolean;
   registerUser: (email: string, password: string) => Promise<void>;
   loginUser: (email: string, password: string) => Promise<void>;
   logoutUser: () => void;
+  editUser: (newUserName: string) => Promise<void>
 }
 
 interface AuthProviderProps {
   children?: ReactNode;
 }
 
+interface User {
+  email: string;
+  name?: string;
+} 
 export const useAuthContext = () => {
   return useContext(AuthContext);
 };
 
 export const AuthProvider: FC<AuthProviderProps> = ({ children }) => {
-  const [token, setToken] = useState<string | null>(null);
-  const [refreshToken, setRefreshToken] = useState(null);
-  const [user, setUser] = useState(null);
+  const initialToken = localStorage.getItem("pastabookToken");
+  const initialRefreshToken = localStorage.getItem("refreshToken");
+
+  const [token, setToken] = useState<string | null>(initialToken);
+  const [refreshToken, setRefreshToken] = useState<string | null>(
+    initialRefreshToken
+  );
+  const [user, setUser] = useState<User | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [isError, setIsError] = useState(false);
 
   const location = useLocation();
   const navigate = useNavigate();
 
-  const checkLocalStorage = () => {
-    if (localStorage.getItem("refreshToken")) {
-      const lsRefreshToken = localStorage.getItem("refreshToken");
-      if (typeof lsRefreshToken === "string") {
-        refreshIdToken(lsRefreshToken);
-      }
-    }
+  // console.log("refreshToken state: ", refreshToken);
+  // console.log("token state: ", token);
 
-    if (localStorage.getItem("pastabookToken")) {
-      const lsToken = localStorage.getItem("pastabookToken");
-      setToken(lsToken);
-      if (typeof lsToken === "string") {
-        // refreshIdToken(lsToken);
-        getUserData(lsToken);
-      }
+  const tryRefreshLogin = () => {
+    if (refreshToken) {
+      refreshIdToken(refreshToken);
+    }
+    if (token) {
+      getUserData(token);
     }
   };
-
-  useEffect(() => checkLocalStorage, []);
+  useEffect(() => tryRefreshLogin(), []);
 
   const registerUser = async (email: string, password: string) => {
     setIsLoading(true);
@@ -96,7 +90,10 @@ export const AuthProvider: FC<AuthProviderProps> = ({ children }) => {
       body: JSON.stringify(body),
     });
     const jsonResponse = await response.json();
-    setUser(jsonResponse.email);
+    const registeredUser: User = {
+      email: jsonResponse.email,
+    }
+    setUser(registeredUser);
     setToken(jsonResponse.idToken);
     setRefreshToken(jsonResponse.refreshToken);
     putDataIntoLocalStorage(jsonResponse.idToken, jsonResponse.refreshToken);
@@ -117,7 +114,11 @@ export const AuthProvider: FC<AuthProviderProps> = ({ children }) => {
     });
     const jsonResponse = await response.json();
     console.log("json response login: ", jsonResponse);
-    setUser(jsonResponse.email);
+    const loggedinUser: User = {
+      email: jsonResponse.email,
+      name: jsonResponse.displayName,
+    }
+    setUser(loggedinUser);
     setToken(jsonResponse.idToken);
     setRefreshToken(jsonResponse.refreshToken);
     putDataIntoLocalStorage(jsonResponse.idToken, jsonResponse.refreshToken);
@@ -142,7 +143,7 @@ export const AuthProvider: FC<AuthProviderProps> = ({ children }) => {
   };
 
   const refreshIdToken = async (token: string) => {
-    // setIsLoading(true);
+    setIsLoading(true);
     const endpoint = `https://securetoken.googleapis.com/v1/token?key=${process.env.REACT_APP_FIREBASE_API_KEY}`;
     const data = {
       grant_type: "refresh_token",
@@ -154,9 +155,10 @@ export const AuthProvider: FC<AuthProviderProps> = ({ children }) => {
     });
 
     const jsonResponse = await response.json();
-    console.log("refresh", jsonResponse);
+    // console.log("refresh", jsonResponse);
     setToken(jsonResponse.id_token);
     putDataIntoLocalStorage(jsonResponse.id_token, jsonResponse.refresh_token);
+    setIsLoading(false);
   };
 
   const getUserData = async (token: string) => {
@@ -172,9 +174,39 @@ export const AuthProvider: FC<AuthProviderProps> = ({ children }) => {
 
     const jsonResponse = await response.json();
     console.log(jsonResponse);
-    setUser(jsonResponse.users[0].email);
+    const refreshedUser: User = {
+      email: jsonResponse.users[0].email,
+      name: jsonResponse.users[0].displayName,
+    }
+    // setUser(jsonResponse.users[0].email);
+    setUser(refreshedUser);
     setIsLoading(false);
   };
+
+  const editUser = async (newUserName: string) => {
+    const endpoint = `https://identitytoolkit.googleapis.com/v1/accounts:update?key=${process.env.REACT_APP_FIREBASE_API_KEY}`;
+    const data = {
+      idToken: token,
+      displayName: newUserName,
+      photoUrl: "",
+      returnSecureToken: true,
+    };
+    const response = await fetch(endpoint, {
+      method: "POST",
+      body: JSON.stringify(data),
+    })
+    const jsonResponse = response.json();
+    console.log("edit user response: ", jsonResponse);
+    if(typeof token === "string"){
+    getUserData(token)};
+    // const editedUser: User = {
+    //   //@ts-ignore
+    //   email: jsonResponse.email,
+    //   //@ts-ignore
+    //   name: jsonResponse.displayName,
+    // }
+    // setUser(editedUser);
+  }
 
   const value: ValueProp = {
     token,
@@ -183,6 +215,7 @@ export const AuthProvider: FC<AuthProviderProps> = ({ children }) => {
     registerUser: registerUser,
     loginUser: loginUser,
     logoutUser: logoutUser,
+    editUser: editUser,
   };
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };
