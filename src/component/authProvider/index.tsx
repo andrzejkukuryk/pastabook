@@ -34,7 +34,7 @@ interface ValueProp {
   registerUser: (email: string, password: string) => Promise<void>;
   loginUser: (email: string, password: string) => Promise<void>;
   logoutUser: () => void;
-  editUser: (newUserName: string) => Promise<void>
+  editUser: (newUserName: string) => Promise<void>;
 }
 
 interface AuthProviderProps {
@@ -44,7 +44,7 @@ interface AuthProviderProps {
 interface User {
   email: string;
   name?: string;
-} 
+}
 export const useAuthContext = () => {
   return useContext(AuthContext);
 };
@@ -92,13 +92,27 @@ export const AuthProvider: FC<AuthProviderProps> = ({ children }) => {
     const jsonResponse = await response.json();
     const registeredUser: User = {
       email: jsonResponse.email,
-    }
+    };
+    const idToken: string = jsonResponse.idToken;
+    console.log("registeredUser: ", registeredUser);
+    console.log("idToken: ", idToken);
+
     setUser(registeredUser);
-    setToken(jsonResponse.idToken);
+    // dlaczego nie działa setToken?
+    // setToken("mojchwilowytoken");
+    // console.log("token w rejestracji: ", token); // log: null
+    setToken(idToken);
     setRefreshToken(jsonResponse.refreshToken);
     putDataIntoLocalStorage(jsonResponse.idToken, jsonResponse.refreshToken);
     setIsLoading(false);
   };
+  console.log("token poza registerScope: ", token);
+  // niczego nie wnosi
+  // const setupUser = (userToSetup: User, tokenToSetup: string) => {
+  //   setUser(userToSetup);
+  //   setToken(tokenToSetup);
+  //   console.log("token after setup: ", token);
+  // };
 
   const loginUser = async (email: string, password: string) => {
     setIsLoading(true);
@@ -117,7 +131,7 @@ export const AuthProvider: FC<AuthProviderProps> = ({ children }) => {
     const loggedinUser: User = {
       email: jsonResponse.email,
       name: jsonResponse.displayName,
-    }
+    };
     setUser(loggedinUser);
     setToken(jsonResponse.idToken);
     setRefreshToken(jsonResponse.refreshToken);
@@ -155,7 +169,6 @@ export const AuthProvider: FC<AuthProviderProps> = ({ children }) => {
     });
 
     const jsonResponse = await response.json();
-    // console.log("refresh", jsonResponse);
     setToken(jsonResponse.id_token);
     putDataIntoLocalStorage(jsonResponse.id_token, jsonResponse.refresh_token);
     setIsLoading(false);
@@ -177,8 +190,7 @@ export const AuthProvider: FC<AuthProviderProps> = ({ children }) => {
     const refreshedUser: User = {
       email: jsonResponse.users[0].email,
       name: jsonResponse.users[0].displayName,
-    }
-    // setUser(jsonResponse.users[0].email);
+    };
     setUser(refreshedUser);
     setIsLoading(false);
   };
@@ -194,19 +206,14 @@ export const AuthProvider: FC<AuthProviderProps> = ({ children }) => {
     const response = await fetch(endpoint, {
       method: "POST",
       body: JSON.stringify(data),
-    })
+    });
     const jsonResponse = response.json();
+    console.log("new user token: ", token);
     console.log("edit user response: ", jsonResponse);
-    if(typeof token === "string"){
-    getUserData(token)};
-    // const editedUser: User = {
-    //   //@ts-ignore
-    //   email: jsonResponse.email,
-    //   //@ts-ignore
-    //   name: jsonResponse.displayName,
-    // }
-    // setUser(editedUser);
-  }
+    if (typeof token === "string") {
+      getUserData(token);
+    }
+  };
 
   const value: ValueProp = {
     token,

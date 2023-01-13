@@ -12,7 +12,7 @@ interface RegisterFormValues {
 }
 
 export function Register() {
-  const { registerUser, isLoading } = useAuthContext();
+  const { registerUser, editUser, token, isLoading } = useAuthContext();
   const {
     register,
     handleSubmit,
@@ -21,17 +21,14 @@ export function Register() {
   } = useForm<RegisterFormValues>();
 
   const onSubmit = (data: RegisterFormValues) => {
-    // const newRegisteredUser: User = {
-    //   username: data.username ? data.username : "",
-    //   id: users[users.length - 1].id + 1,
-    //   email: data.email,
-    //   password: data.password,
-    // };
-    // users.push(newRegisteredUser);
-    // console.log(newRegisteredUser);
-    ////////////////////////////////
-
     registerUser(data.email, data.password);
+    if (data.username !== "") {
+      setTimeout(() => {
+        editUser(data.username);
+        console.log("edytuje usera po 2 sek");
+      }, 2000);
+      // editUser(data.username);
+    }
   };
 
   return (

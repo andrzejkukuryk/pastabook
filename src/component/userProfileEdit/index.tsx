@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import styles from "./style.module.css";
 import { useAuthContext } from "../authProvider";
 import { useForm } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
 
 interface FormUserProfileEditValue {
   name: string;
@@ -17,6 +18,7 @@ export function UserProfileEdit() {
     handleSubmit,
     formState: { errors },
   } = useForm<FormUserProfileEditValue>();
+  const navigate = useNavigate();
 
   const onSubmit = (data: FormUserProfileEditValue) => {
     setNewName(data.name);
@@ -30,6 +32,7 @@ export function UserProfileEdit() {
     if (typeof newName === "string") {
       editUser(newName);
     }
+    navigate("/profile");
   };
 
   return (
