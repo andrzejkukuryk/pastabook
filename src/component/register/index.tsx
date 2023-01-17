@@ -12,7 +12,14 @@ interface RegisterFormValues {
 }
 
 export function Register() {
-  const { registerUser, editUser, token, isLoading } = useAuthContext();
+  const {
+    registerUser,
+    editUser,
+    token,
+    errorMessage,
+    setErrorMessage,
+    isLoading,
+  } = useAuthContext();
   const {
     register,
     handleSubmit,
@@ -44,6 +51,7 @@ export function Register() {
             {...register("email", {
               required: true,
               pattern: /^[^@ ]+@[^@ ]+\.[^@ .]{2,}$/,
+              onChange: () => setErrorMessage(""),
             })}
           />
           {errors.email && errors.email.type === "required" && (
@@ -51,6 +59,9 @@ export function Register() {
           )}
           {errors.email && errors.email.type === "pattern" && (
             <p className={styles.errorMsg}>Email is not valid.</p>
+          )}
+          {errorMessage === "EMAIL_EXISTS" && (
+            <p className={styles.errorMsg}>Email is in use.</p>
           )}
         </div>
         <div className={styles.formInputDiv}>

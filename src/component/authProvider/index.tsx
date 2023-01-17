@@ -19,6 +19,8 @@ const initialAuthContext = {
   token: null,
   user: null,
   isLoading: false,
+  errorMessage: "",
+  setErrorMessage: () => {},
   registerUser: () => {},
   loginUser: () => {},
   logoutUser: () => {},
@@ -31,6 +33,8 @@ interface ValueProp {
   token: null | string;
   user: null | User;
   isLoading: boolean;
+  errorMessage: string;
+  setErrorMessage: React.Dispatch<React.SetStateAction<string>>;
   registerUser: (email: string, password: string) => Promise<void>;
   loginUser: (email: string, password: string) => Promise<void>;
   logoutUser: () => void;
@@ -60,6 +64,7 @@ export const AuthProvider: FC<AuthProviderProps> = ({ children }) => {
   const [user, setUser] = useState<User | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [isError, setIsError] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
 
   const location = useLocation();
   const navigate = useNavigate();
@@ -90,6 +95,11 @@ export const AuthProvider: FC<AuthProviderProps> = ({ children }) => {
       body: JSON.stringify(body),
     });
     const jsonResponse = await response.json();
+    if (jsonResponse.error) {
+      console.log(jsonResponse.error.message);
+      setErrorMessage(jsonResponse.error.message);
+      return;
+    }
     const registeredUser: User = {
       email: jsonResponse.email,
     };
@@ -106,13 +116,41 @@ export const AuthProvider: FC<AuthProviderProps> = ({ children }) => {
     putDataIntoLocalStorage(jsonResponse.idToken, jsonResponse.refreshToken);
     setIsLoading(false);
   };
-  console.log("token poza registerScope: ", token);
-  // niczego nie wnosi
-  // const setupUser = (userToSetup: User, tokenToSetup: string) => {
-  //   setUser(userToSetup);
-  //   setToken(tokenToSetup);
-  //   console.log("token after setup: ", token);
+  // console.log("token poza registerScope: ", token);
+
+  //////////////////////////////////////
+  ///// TEN DZIAŁA
+
+  // const loginUser = async (email: string, password: string) => {
+  //   setIsLoading(true);
+  //   const endpoint = `https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=${process.env.REACT_APP_FIREBASE_API_KEY}`;
+  //   const data = {
+  //     email: email,
+  //     password: password,
+  //     returnSecureToken: true,
+  //   };
+  //   const response = await fetch(endpoint, {
+  //     method: "POST",
+  //     body: JSON.stringify(data),
+  //   });
+  //   const jsonResponse = await response.json();
+  //   console.log("json response login: ", jsonResponse);
+  //   const loggedinUser: User = {
+  //     email: jsonResponse.email,
+  //     name: jsonResponse.displayName,
+  //   };
+  //   setUser(loggedinUser);
+  //   setToken(jsonResponse.idToken);
+  //   setRefreshToken(jsonResponse.refreshToken);
+  //   putDataIntoLocalStorage(jsonResponse.idToken, jsonResponse.refreshToken);
+  //   setIsLoading(false);
+
+  //   const origin = location.state?.from?.pathname || "/";
+  //   navigate(origin);
   // };
+
+  //////////
+  ////////////////////////////////////////////
 
   const loginUser = async (email: string, password: string) => {
     setIsLoading(true);
@@ -122,24 +160,33 @@ export const AuthProvider: FC<AuthProviderProps> = ({ children }) => {
       password: password,
       returnSecureToken: true,
     };
-    const response = await fetch(endpoint, {
-      method: "POST",
-      body: JSON.stringify(data),
-    });
-    const jsonResponse = await response.json();
-    console.log("json response login: ", jsonResponse);
-    const loggedinUser: User = {
-      email: jsonResponse.email,
-      name: jsonResponse.displayName,
-    };
-    setUser(loggedinUser);
-    setToken(jsonResponse.idToken);
-    setRefreshToken(jsonResponse.refreshToken);
-    putDataIntoLocalStorage(jsonResponse.idToken, jsonResponse.refreshToken);
-    setIsLoading(false);
+    try {
+      const response = await fetch(endpoint, {
+        method: "POST",
+        body: JSON.stringify(data),
+      });
+      const jsonResponse = await response.json();
+      console.log("json response login: ", jsonResponse);
+      if (jsonResponse.error) {
+        console.log(jsonResponse.error.message);
+        setErrorMessage(jsonResponse.error.message);
+        return;
+      }
+      const loggedinUser: User = {
+        email: jsonResponse.email,
+        name: jsonResponse.displayName,
+      };
+      setUser(loggedinUser);
+      setToken(jsonResponse.idToken);
+      setRefreshToken(jsonResponse.refreshToken);
+      putDataIntoLocalStorage(jsonResponse.idToken, jsonResponse.refreshToken);
+      const origin = location.state?.from?.pathname || "/";
+      navigate(origin);
+    } catch (error) {
+      console.log("error: ", error);
+    }
 
-    const origin = location.state?.from?.pathname || "/";
-    navigate(origin);
+    setIsLoading(false);
   };
 
   const logoutUser = () => {
@@ -219,6 +266,8 @@ export const AuthProvider: FC<AuthProviderProps> = ({ children }) => {
     token,
     user,
     isLoading: isLoading,
+    errorMessage: errorMessage,
+    setErrorMessage: setErrorMessage,
     registerUser: registerUser,
     loginUser: loginUser,
     logoutUser: logoutUser,
