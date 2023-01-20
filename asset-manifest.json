@@ -1,15 +1,15 @@
 {
   "files": {
-    "main.css": "/pastabook/static/css/main.786b1b2d.css",
-    "main.js": "/pastabook/static/js/main.5f0e6bd2.js",
+    "main.css": "/pastabook/static/css/main.9d0f4102.css",
+    "main.js": "/pastabook/static/js/main.133b1a22.js",
     "static/js/787.0bc60ee2.chunk.js": "/pastabook/static/js/787.0bc60ee2.chunk.js",
     "index.html": "/pastabook/index.html",
-    "main.786b1b2d.css.map": "/pastabook/static/css/main.786b1b2d.css.map",
-    "main.5f0e6bd2.js.map": "/pastabook/static/js/main.5f0e6bd2.js.map",
+    "main.9d0f4102.css.map": "/pastabook/static/css/main.9d0f4102.css.map",
+    "main.133b1a22.js.map": "/pastabook/static/js/main.133b1a22.js.map",
     "787.0bc60ee2.chunk.js.map": "/pastabook/static/js/787.0bc60ee2.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.786b1b2d.css",
-    "static/js/main.5f0e6bd2.js"
+    "static/css/main.9d0f4102.css",
+    "static/js/main.133b1a22.js"
   ]
 }
