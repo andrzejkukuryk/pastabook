@@ -12,7 +12,7 @@ interface FormUserProfileEditValue {
 export function UserProfileEdit() {
   const [newName, setNewName] = useState<string | null>(null);
 
-  const { user, editUser } = useAuthContext();
+  const { user, token, editUser } = useAuthContext();
   const {
     register,
     handleSubmit,

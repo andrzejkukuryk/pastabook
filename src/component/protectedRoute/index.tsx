@@ -11,7 +11,6 @@ export const ProtectedRoute: FC<ProtectedRouteProps> = ({ children }) => {
 
   const { token } = useAuthContext();
   const location = useLocation();
-  console.log("token w protectedRoute: ", token, lsToken);
   if (!token && !lsToken) {
     return <Navigate to={"/login"} replace state={{ from: location }} />;
   }

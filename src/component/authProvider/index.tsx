@@ -1,9 +1,3 @@
-// TODO: funkcja do rejstracji
-// funkcja do logowania
-// obsługa błedów
-// obsługa stanu ładowania
-// state: token, dane uzytkownika
-
 import React, {
   createContext,
   useContext,
@@ -13,7 +7,6 @@ import React, {
   useEffect,
 } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-// import { User as UserOld, users } from "../../data/dummyUsersData";
 
 const initialAuthContext = {
   token: null,
@@ -21,10 +14,10 @@ const initialAuthContext = {
   isLoading: false,
   errorMessage: "",
   setErrorMessage: () => {},
-  registerUser: () => {},
   loginUser: () => {},
   logoutUser: () => {},
   editUser: () => {},
+  submitRegisterPressed: () => {},
 } as unknown as ValueProp; // nie ma dostępu do właściwych funcji, ale wartosci zostaną nadpisane przy pierwszym renderze
 
 export const AuthContext = createContext<ValueProp>(initialAuthContext);
@@ -35,10 +28,18 @@ interface ValueProp {
   isLoading: boolean;
   errorMessage: string;
   setErrorMessage: React.Dispatch<React.SetStateAction<string>>;
-  registerUser: (email: string, password: string) => Promise<void>;
   loginUser: (email: string, password: string) => Promise<void>;
   logoutUser: () => void;
   editUser: (newUserName: string) => Promise<void>;
+  submitRegisterPressed: ({
+    email,
+    password,
+    username,
+  }: {
+    email: string;
+    password: string;
+    username?: string | undefined;
+  }) => Promise<void>;
 }
 
 interface AuthProviderProps {
@@ -69,88 +70,96 @@ export const AuthProvider: FC<AuthProviderProps> = ({ children }) => {
   const location = useLocation();
   const navigate = useNavigate();
 
-  // console.log("refreshToken state: ", refreshToken);
-  // console.log("token state: ", token);
-
-  const tryRefreshLogin = () => {
+  const tryRefreshLogin = async () => {
     if (refreshToken) {
-      refreshIdToken(refreshToken);
-    }
-    if (token) {
-      getUserData(token);
+      const refreshedIdToken = await refreshIdToken(refreshToken);
+      if (typeof refreshedIdToken === "string") {
+        getUserData(refreshedIdToken);
+      }
     }
   };
-  useEffect(() => tryRefreshLogin(), []);
+  useEffect(() => {
+    tryRefreshLogin();
+  }, []);
 
-  const registerUser = async (email: string, password: string) => {
-    setIsLoading(true);
+  const registerUserRequest = async (email: string, password: string) => {
     const endpoint = `https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=${process.env.REACT_APP_FIREBASE_API_KEY}`;
     const body = {
       email: email,
       password: password,
       returnSecureToken: true,
     };
+    try {
+      const response = await fetch(endpoint, {
+        method: "POST",
+        body: JSON.stringify(body),
+      });
+      const jsonResponse = await response.json();
+      if (jsonResponse.error) {
+        setErrorMessage(jsonResponse.error.message);
+        return;
+      }
+      const idToken = jsonResponse.idToken;
+      const refreshToken = jsonResponse.refreshToken;
+      const userMail = jsonResponse.email;
+      const registeredUser: User = {
+        email: userMail,
+      };
+      setUser(registeredUser);
+      setToken(idToken);
+      setRefreshToken(refreshToken);
+      putDataIntoLocalStorage(idToken, refreshToken);
+      navigate("/");
+
+      return { idToken, userMail };
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const editUserRequest = async (token: string, username: string) => {
+    const endpoint = `https://identitytoolkit.googleapis.com/v1/accounts:update?key=${process.env.REACT_APP_FIREBASE_API_KEY}`;
+    const data = {
+      idToken: token,
+      displayName: username,
+      photoUrl: "",
+      returnSecureToken: true,
+    };
     const response = await fetch(endpoint, {
       method: "POST",
-      body: JSON.stringify(body),
+      body: JSON.stringify(data),
     });
     const jsonResponse = await response.json();
-    if (jsonResponse.error) {
-      console.log(jsonResponse.error.message);
-      setErrorMessage(jsonResponse.error.message);
-      return;
-    }
+    const userMail = jsonResponse.email;
+    const userName = jsonResponse.displayName;
     const registeredUser: User = {
-      email: jsonResponse.email,
+      email: userMail,
+      name: userName,
     };
-    const idToken: string = jsonResponse.idToken;
-    console.log("registeredUser: ", registeredUser);
-    console.log("idToken: ", idToken);
-
     setUser(registeredUser);
-    // dlaczego nie działa setToken?
-    // setToken("mojchwilowytoken");
-    // console.log("token w rejestracji: ", token); // log: null
-    setToken(idToken);
-    setRefreshToken(jsonResponse.refreshToken);
-    putDataIntoLocalStorage(jsonResponse.idToken, jsonResponse.refreshToken);
-    setIsLoading(false);
   };
-  // console.log("token poza registerScope: ", token);
 
-  //////////////////////////////////////
-  ///// TEN DZIAŁA
-
-  // const loginUser = async (email: string, password: string) => {
-  //   setIsLoading(true);
-  //   const endpoint = `https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=${process.env.REACT_APP_FIREBASE_API_KEY}`;
-  //   const data = {
-  //     email: email,
-  //     password: password,
-  //     returnSecureToken: true,
-  //   };
-  //   const response = await fetch(endpoint, {
-  //     method: "POST",
-  //     body: JSON.stringify(data),
-  //   });
-  //   const jsonResponse = await response.json();
-  //   console.log("json response login: ", jsonResponse);
-  //   const loggedinUser: User = {
-  //     email: jsonResponse.email,
-  //     name: jsonResponse.displayName,
-  //   };
-  //   setUser(loggedinUser);
-  //   setToken(jsonResponse.idToken);
-  //   setRefreshToken(jsonResponse.refreshToken);
-  //   putDataIntoLocalStorage(jsonResponse.idToken, jsonResponse.refreshToken);
-  //   setIsLoading(false);
-
-  //   const origin = location.state?.from?.pathname || "/";
-  //   navigate(origin);
-  // };
-
-  //////////
-  ////////////////////////////////////////////
+  const submitRegisterPressed = async ({
+    email,
+    password,
+    username,
+  }: {
+    email: string;
+    password: string;
+    username?: string;
+  }) => {
+    setIsLoading(true);
+    try {
+      const response = await registerUserRequest(email, password);
+      if (response?.idToken && username) {
+        editUserRequest(response.idToken, username);
+      }
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   const loginUser = async (email: string, password: string) => {
     setIsLoading(true);
@@ -216,9 +225,11 @@ export const AuthProvider: FC<AuthProviderProps> = ({ children }) => {
     });
 
     const jsonResponse = await response.json();
-    setToken(jsonResponse.id_token);
+    const refreshedIdToken = jsonResponse.id_token;
+    setToken(refreshedIdToken);
     putDataIntoLocalStorage(jsonResponse.id_token, jsonResponse.refresh_token);
     setIsLoading(false);
+    return refreshedIdToken;
   };
 
   const getUserData = async (token: string) => {
@@ -233,7 +244,6 @@ export const AuthProvider: FC<AuthProviderProps> = ({ children }) => {
     });
 
     const jsonResponse = await response.json();
-    console.log(jsonResponse);
     const refreshedUser: User = {
       email: jsonResponse.users[0].email,
       name: jsonResponse.users[0].displayName,
@@ -255,8 +265,6 @@ export const AuthProvider: FC<AuthProviderProps> = ({ children }) => {
       body: JSON.stringify(data),
     });
     const jsonResponse = response.json();
-    console.log("new user token: ", token);
-    console.log("edit user response: ", jsonResponse);
     if (typeof token === "string") {
       getUserData(token);
     }
@@ -268,10 +276,10 @@ export const AuthProvider: FC<AuthProviderProps> = ({ children }) => {
     isLoading: isLoading,
     errorMessage: errorMessage,
     setErrorMessage: setErrorMessage,
-    registerUser: registerUser,
     loginUser: loginUser,
     logoutUser: logoutUser,
     editUser: editUser,
+    submitRegisterPressed: submitRegisterPressed,
   };
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };

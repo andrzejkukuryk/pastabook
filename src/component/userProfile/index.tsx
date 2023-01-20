@@ -5,7 +5,6 @@ import styles from "./style.module.css";
 
 export function UserProfile() {
   const { user } = useAuthContext();
-  console.log(user);
 
   return (
     <div className={styles.container}>

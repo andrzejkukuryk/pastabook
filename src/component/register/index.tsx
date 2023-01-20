@@ -13,7 +13,7 @@ interface RegisterFormValues {
 
 export function Register() {
   const {
-    registerUser,
+    submitRegisterPressed,
     editUser,
     token,
     errorMessage,
@@ -27,15 +27,13 @@ export function Register() {
     formState: { errors },
   } = useForm<RegisterFormValues>();
 
-  const onSubmit = (data: RegisterFormValues) => {
-    registerUser(data.email, data.password);
-    if (data.username !== "") {
-      setTimeout(() => {
-        editUser(data.username);
-        console.log("edytuje usera po 2 sek");
-      }, 2000);
-      // editUser(data.username);
-    }
+  const onSubmit = async (data: RegisterFormValues) => {
+    const registerRequestData = {
+      email: data.email,
+      password: data.password,
+      username: data.username,
+    };
+    submitRegisterPressed(registerRequestData);
   };
 
   return (
