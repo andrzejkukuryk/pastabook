@@ -9,7 +9,8 @@
 }
 
 .starContainer img {
-    width: 30px;
+    width: 16px;
+    filter: invert(93%) sepia(73%) saturate(3358%) hue-rotate(325deg) brightness(100%) contrast(101%);
 }
 
 .starDisabled {
@@ -19,4 +20,3 @@
 .starEnabled {
     display: block;
 }
-

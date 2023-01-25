@@ -3,6 +3,7 @@ import styles from "./style.module.css";
 import { allMainIngredients } from "../../data/dummyData";
 import { useNavigate } from "react-router-dom";
 import { TYPE_BYINGREDIENT } from "../searchMain";
+import { useRecipeContext } from "../../data/recipeProvider";
 
 interface SearchByIngredientProps {
   ingredientsChecked: boolean[];
@@ -17,6 +18,7 @@ export function SearchByIngredient({
   chooseIngredientsHandler,
   searchResult,
 }: SearchByIngredientProps) {
+  const { allMainIngredients } = useRecipeContext();
   const navigate = useNavigate();
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();

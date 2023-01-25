@@ -3,6 +3,7 @@ import styles from "./style.module.css";
 import { allPastaTypes } from "../../data/dummyData";
 import { useNavigate } from "react-router-dom";
 import { TYPE_BYTYPE } from "../searchMain";
+import { useRecipeContext } from "../../data/recipeProvider";
 
 interface SearchByTypeProps {
   typeChecked: boolean[];
@@ -17,6 +18,7 @@ export function SearchByType({
   chooseTypeHandler,
   searchResult,
 }: SearchByTypeProps) {
+  const { allPastaTypes } = useRecipeContext();
   const navigate = useNavigate();
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();

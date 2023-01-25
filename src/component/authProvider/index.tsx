@@ -64,7 +64,6 @@ export const AuthProvider: FC<AuthProviderProps> = ({ children }) => {
   );
   const [user, setUser] = useState<User | null>(null);
   const [isLoading, setIsLoading] = useState(false);
-  const [isError, setIsError] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
 
   const location = useLocation();

@@ -3,6 +3,7 @@ export class Dish {
   pastaType: string;
   mainIngredients: string[];
   otherIngredients: string[];
+  method: string;
   imageSource: string;
   rate: number;
 
@@ -11,6 +12,7 @@ export class Dish {
     pastaType: string,
     mainIngredients: string[],
     otherIngredients: string[],
+    method: string,
     imageSource: string,
     rate: number
   ) {
@@ -18,6 +20,7 @@ export class Dish {
     this.pastaType = pastaType;
     this.mainIngredients = mainIngredients;
     this.otherIngredients = otherIngredients;
+    this.method = method;
     this.imageSource = imageSource;
     this.rate = rate;
   }

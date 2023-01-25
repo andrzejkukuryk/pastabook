@@ -9,17 +9,25 @@ import {
   recipes,
 } from "../../data/dummyData";
 import { Recipe } from "../../models/recipe";
+import { Dish } from "../../models/dish";
+import { useRecipeContext } from "../../data/recipeProvider";
 
 export const TYPE_BYNAME = "byName";
 export const TYPE_BYTYPE = "byType";
 export const TYPE_BYINGREDIENT = "byIngredient";
 
 interface SearchMainProps {
-  setSearchResult: React.Dispatch<React.SetStateAction<Recipe[]>>;
+  setSearchResult: React.Dispatch<React.SetStateAction<Dish[]>>;
 }
 
 export function SearchMain({ setSearchResult }: SearchMainProps) {
   const [choice, setChoice] = useState(TYPE_BYNAME);
+  const {
+    recipes,
+    allPastaTypes,
+    allMainIngredients,
+    getIngredientsForSearch,
+  } = useRecipeContext();
 
   const initialTypeChecked: boolean[] = new Array(allPastaTypes.length).fill(
     false
@@ -43,6 +51,11 @@ export function SearchMain({ setSearchResult }: SearchMainProps) {
   const [filteredByIngredients, setFilteredByIngredients] = useState(recipes);
   const [searchedPhrase, setSearchedPhrase] = useState(initialSearchedPhrase);
   const [filteredByName, setFilteredByName] = useState(recipes);
+
+  console.log("type checked: ", typeChecked);
+  useEffect(() => {
+    getIngredientsForSearch();
+  }, []);
 
   const chooseType = (position: number): void => {
     const updatedTypeChecked: boolean[] = typeChecked.map((item, index) =>
@@ -93,7 +106,7 @@ export function SearchMain({ setSearchResult }: SearchMainProps) {
   };
 
   const filterByIngredients = () => {
-    let newFilteredByIngredients: Recipe[] = [];
+    let newFilteredByIngredients: Dish[] = [];
     selectedIngredients.forEach((ingrenient) => {
       const filteredRecipes = recipes.filter((recipe) =>
         recipe.mainIngredients.includes(ingrenient)
@@ -112,7 +125,7 @@ export function SearchMain({ setSearchResult }: SearchMainProps) {
   };
 
   const filterByName = () => {
-    let newFilteredByName: Recipe[] = [];
+    let newFilteredByName: Dish[] = [];
     newFilteredByName = recipes.filter((recipe) =>
       recipe.fullName.toLowerCase().includes(searchedPhrase.toLowerCase())
     );
@@ -124,7 +137,7 @@ export function SearchMain({ setSearchResult }: SearchMainProps) {
   useEffect(() => filterByName(), [searchedPhrase]);
 
   const searchResult = (searchType: string) => {
-    let newSearchResult: Recipe[] = [];
+    let newSearchResult: Dish[] = [];
     if (searchType === TYPE_BYNAME) {
       setSearchResult(filteredByName);
     }

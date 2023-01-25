@@ -2,10 +2,13 @@ import React, { useContext, useState } from "react";
 import { Link } from "react-router-dom";
 import { RecipeListItem } from "../recipeListItem";
 import styles from "./style.module.css";
-import { recipes } from "../../data/dummyData";
-import { ProtectedRoute } from "../protectedRoute";
+// import { recipes } from "../../data/dummyData";
+import { useRecipeContext } from "../../data/recipeProvider";
 
 export function RecipeList() {
+  const {recipes} = useRecipeContext();
+
+
   return (
     <div className={styles.container}>
       <h2 className={styles.lastRecipesTitle}>Last recipes: </h2>
