@@ -29,7 +29,9 @@ export class Dish {
   }
 
   get fullName() {
-    return `${this.pastaType} ${this.dishName}`;
+    return `${this.pastaType[0].toUpperCase()}${this.pastaType.slice(1)} ${
+      this.dishName
+    }`;
   }
 
   get ingredients() {

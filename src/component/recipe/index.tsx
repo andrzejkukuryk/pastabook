@@ -4,14 +4,17 @@ import { useAuthContext } from "../authProvider";
 import { recipes } from "../../data/dummyData";
 import { Recipe as RecipeType } from "../../models/recipe";
 import styles from "./style.module.css";
+import { Dish } from "../../models/dish";
+import { useRecipeContext } from "../../data/recipeProvider";
 
 export function Recipe() {
   const { recipePath } = useParams();
+  const { recipes } = useRecipeContext();
 
-  const recipe: RecipeType | undefined = recipes.find(
+  const recipe: Dish | undefined = recipes.find(
     (rcp) => rcp.path === recipePath
   );
-  // @ts-ignore
+
   const { token } = useAuthContext();
 
   return (

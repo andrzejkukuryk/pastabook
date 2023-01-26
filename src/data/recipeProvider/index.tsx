@@ -15,8 +15,8 @@ const initialRecipeContext = {
   recipes: [],
   allPastaTypes: [],
   allMainIngredients: [],
-  getIngredientsForSearch: () => {},
-};
+  sendNewRecipe: () => {},
+} as unknown as ValueProp;
 
 export const RecipeContext = createContext<ValueProp>(initialRecipeContext);
 
@@ -24,7 +24,7 @@ interface ValueProp {
   recipes: Dish[];
   allPastaTypes: string[];
   allMainIngredients: string[];
-  getIngredientsForSearch: () => void;
+  sendNewRecipe: (newRecipe: Recipe) => Promise<void>;
 }
 
 interface RecipeProviderProps {
@@ -128,7 +128,7 @@ export const RecipeProvider: FC<RecipeProviderProps> = ({ children }) => {
     recipes: recipes,
     allPastaTypes: allPastaTypes,
     allMainIngredients: allMainIngredients,
-    getIngredientsForSearch: getIngredientsForSearch,
+    sendNewRecipe: sendNewRecipe,
   };
 
   return (

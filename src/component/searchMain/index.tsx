@@ -22,12 +22,7 @@ interface SearchMainProps {
 
 export function SearchMain({ setSearchResult }: SearchMainProps) {
   const [choice, setChoice] = useState(TYPE_BYNAME);
-  const {
-    recipes,
-    allPastaTypes,
-    allMainIngredients,
-    getIngredientsForSearch,
-  } = useRecipeContext();
+  const { recipes, allPastaTypes, allMainIngredients } = useRecipeContext();
 
   const initialTypeChecked: boolean[] = new Array(allPastaTypes.length).fill(
     false
@@ -52,10 +47,7 @@ export function SearchMain({ setSearchResult }: SearchMainProps) {
   const [searchedPhrase, setSearchedPhrase] = useState(initialSearchedPhrase);
   const [filteredByName, setFilteredByName] = useState(recipes);
 
-  console.log("type checked: ", typeChecked);
-  useEffect(() => {
-    getIngredientsForSearch();
-  }, []);
+  // console.log("type checked: ", typeChecked);
 
   const chooseType = (position: number): void => {
     const updatedTypeChecked: boolean[] = typeChecked.map((item, index) =>

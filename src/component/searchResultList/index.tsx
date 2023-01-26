@@ -1,11 +1,12 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { Dish } from "../../models/dish";
 import { Recipe } from "../../models/recipe";
 import { RecipeListItem } from "../recipeListItem";
 import styles from "./style.module.css";
 
 interface SearchResultListProps {
-  searchResult: Recipe[];
+  searchResult: Dish[];
 }
 
 export function SearchResultList({ searchResult }: SearchResultListProps) {
