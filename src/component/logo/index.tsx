@@ -8,7 +8,7 @@ import { Col, Container, Image, Row } from "react-bootstrap";
 
 export function Logo() {
   return (
-    <Link to="/">
+    <Link to="/" style={{ textDecoration: "none" }}>
       <Container>
         <Row>
           <Col xs={2}>

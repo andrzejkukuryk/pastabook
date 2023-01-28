@@ -1,37 +1,43 @@
 import React, { useState } from "react";
 import styles from "./style.module.css";
-import { Link } from "react-router-dom";
-import iconNotLogged from "./graph/not_logged.png";
+import "./style.css";
+import userIcon from "./graph/userIcon.png";
 import { useAuthContext } from "../authProvider";
+import {
+  Col,
+  Container,
+  Dropdown,
+  DropdownButton,
+  Image,
+  Row,
+} from "react-bootstrap";
 
 export function UserLoginMenu() {
-  const { token, user, logoutUser } = useAuthContext();
+  const { user, logoutUser } = useAuthContext();
 
-  if (token) {
+  {
     return (
-      <div className={styles.container}>
-        <div className={styles.loginP}>
-          <p className={styles.greetingP}>
-            {user && `Hello, ${user.name ? user.name : "Pastalover"}!`}
-          </p>
-          <p className={styles.accountSettingsP}>
-            <Link to="profile">Your account </Link>
-            {/* <a href="#">Account settings</a> */}
-            <button onClick={logoutUser}>Logout</button>
-          </p>
-        </div>
-        <img className={styles.iconNotLogged} src={iconNotLogged} alt=""></img>
-      </div>
+      <Container>
+        <Row>
+          <Col className="px-0">
+            <p className="h6 mt-2 text-nowrap">
+              {user && `Hello, ${user.name ? user.name : "Pastalover"}!`}
+            </p>
+          </Col>
+          <Col>
+            <Dropdown>
+              <Dropdown.Toggle variant="primary" className="px-0">
+                <Image src={userIcon} className="align-top"></Image>
+              </Dropdown.Toggle>
+              <Dropdown.Menu align="end" className="shadow">
+                <Dropdown.Item href="/profile">My account</Dropdown.Item>
+                <Dropdown.Divider />
+                <Dropdown.Item onClick={logoutUser}>Log out</Dropdown.Item>
+              </Dropdown.Menu>
+            </Dropdown>
+          </Col>
+        </Row>
+      </Container>
     );
   }
-
-  return (
-    <div className={styles.container}>
-      <p className={styles.loginP}>
-        <Link to="login">Login</Link> &nbsp;|&nbsp;
-        <Link to="register">Sign up</Link>
-      </p>
-      <img className={styles.iconNotLogged} src={iconNotLogged} alt=""></img>
-    </div>
-  );
 }

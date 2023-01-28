@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styles from "./style.module.css";
 import { AddRecipeIngredients } from "../addRecipeIngredients";
 import { AddRecipeName } from "../addRecipeName";
@@ -19,13 +19,16 @@ export function AddRecipe() {
   const intialNewIngredients: NewIngredient[] = [
     { main: false, name: "", ingredientId: 0 },
   ];
+
   const { sendNewRecipe } = useRecipeContext();
 
   const [newRecipeName, setNewRecipeName] = useState<string>("");
   const [newPastaType, setNewPastaType] = useState<string>("");
   const [newMethod, setNewMethod] = useState<any>({});
+  const [methodHasText, setMethodHasText] = useState<boolean>(false);
   const [newIngredients, setNewIngredients] =
     useState<NewIngredient[]>(intialNewIngredients);
+  const [noError, setNoError] = useState<boolean>(false);
 
   const newMethodHtml = draftToHtml(newMethod);
 
@@ -54,6 +57,19 @@ export function AddRecipe() {
     return recipe;
   };
 
+  const errorCheck = () => {
+    setNoError(
+      newRecipeName.length > 0 &&
+        newPastaType.length > 0 &&
+        methodHasText &&
+        newIngredients.some((ingredient) => ingredient.name.length > 0)
+    );
+  };
+  useEffect(
+    () => errorCheck(),
+    [newRecipeName, newPastaType, newMethod, newIngredients]
+  );
+
   return (
     <div className={styles.container}>
       <h2>Add new recipe</h2>
@@ -66,11 +82,16 @@ export function AddRecipe() {
         newIngredients={newIngredients}
         setNewIngredients={setNewIngredients}
       />
-      <AddRecipeMethod setNewMethod={setNewMethod} />
+      <AddRecipeMethod
+        setNewMethod={setNewMethod}
+        setMethodHasText={setMethodHasText}
+      />
       <AddRecipePhoto />
-      <button onClick={() => sendNewRecipe(createRecipeForUpload())}>
-        Add new recipe
-      </button>
+      {noError && (
+        <button onClick={() => sendNewRecipe(createRecipeForUpload())}>
+          Add new recipe
+        </button>
+      )}
     </div>
   );
 }

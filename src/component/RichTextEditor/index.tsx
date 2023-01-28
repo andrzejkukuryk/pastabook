@@ -21,9 +21,13 @@ import { InlineStyleControls } from "../InlineStyleControls";
 
 interface RichTextEditorProps {
   setContent: (state: RawDraftContentState) => void;
+  setMethodHasText: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-export const RichTextEditor = ({ setContent }: RichTextEditorProps) => {
+export const RichTextEditor = ({
+  setContent,
+  setMethodHasText,
+}: RichTextEditorProps) => {
   const editorRef = useRef(null);
   const [editorState, setEditorState] = useState(EditorState.createEmpty());
 
@@ -81,6 +85,8 @@ export const RichTextEditor = ({ setContent }: RichTextEditorProps) => {
   const toggleInlineStyle = (inlineStyle: string) => {
     onChange(RichUtils.toggleInlineStyle(editorState, inlineStyle));
   };
+
+  setMethodHasText(editorState.getCurrentContent().hasText());
 
   return (
     <>

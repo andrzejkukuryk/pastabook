@@ -1,21 +1,33 @@
 import React from "react";
-import { Container, Navbar } from "react-bootstrap";
+import { Container, Nav, Navbar } from "react-bootstrap";
+import { useAuthContext } from "../authProvider";
 import { Logo } from "../logo";
 import { UserLoginMenu } from "../userLoginMenu";
+import "./style.css";
 import styles from "./style.module.css";
 
 export function Header() {
+  const { token } = useAuthContext();
+
   return (
-    // <div className={styles.container}>
-    //   <Logo />
-    //   <UserLoginMenu />
-    // </div>
-    <Navbar className="navbar" bg="warning" variant="dark">
+    <Navbar className="navbar navbar-custom" variant="dark">
       <Container>
         <Navbar.Brand>
           <Logo />
         </Navbar.Brand>
-        <UserLoginMenu />
+        <Nav>
+          {!token && (
+            <Nav.Link href="/login" className="text-dark">
+              Login
+            </Nav.Link>
+          )}
+          {!token && (
+            <Nav.Link href="/register" className="text-dark">
+              Sign Up
+            </Nav.Link>
+          )}
+          {token && <UserLoginMenu />}
+        </Nav>
       </Container>
     </Navbar>
   );

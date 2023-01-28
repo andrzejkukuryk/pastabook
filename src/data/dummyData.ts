@@ -61,24 +61,9 @@ const ragu = new Dish(
   1.9
 );
 
-const carbonara2 = new Dish(
-  "Carbonara",
-  "Rigatoni",
-  ["guanciale", "egg", "pecorino"],
-  ["black pepper"],
-  loremMethod,
-  "https://www.cucchiaio.it/content/cucchiaio/it/ricette/2009/11/ricetta-spaghetti-carbonara/_jcr_content/header-par/image_single.img.jpg/1617198167116.jpg",
-  3
-);
 
-export const recipes: Recipe[] = [
-  aglioOlio,
-  carbonara,
-  arrabbiata,
-  pesto,
-  ragu,
-  carbonara2,
-];
+
+export const recipes: Recipe[] = [aglioOlio, carbonara, arrabbiata, pesto, ragu];
 
 export const allMainIngredients: string[] = [];
 const getAllMainIngerdients = () => {
