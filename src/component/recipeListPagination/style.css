@@ -1,0 +1,7 @@
+.page-item a {
+    color: #B54942 !important;
+}
+
+.page-item.active {
+    color: #7ab542 !important;;
+}

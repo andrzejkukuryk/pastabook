@@ -1,0 +1,18 @@
+.card-body {
+    display: flex;
+    justify-content: space-between;
+  }
+ 
+  .card-title {
+    height: 25px;
+  }
+
+  .card-img-top {
+    height: 157px;
+    object-fit: cover;
+  }
+
+  a {
+    color: #212529;
+    text-decoration: none;
+  }

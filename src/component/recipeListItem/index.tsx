@@ -1,6 +1,7 @@
 import React from "react";
 import { RecipeRatingStars } from "../recipeRatingStars";
 import styles from "./style.module.css";
+import "./style.css";
 import { Card, Container } from "react-bootstrap";
 
 interface RecipeListItemProps {
@@ -16,27 +17,10 @@ export function RecipeListItem({
 }: RecipeListItemProps) {
   return (
     <>
-      <style type="text/css">
-        {`
-    .card-body {
-      display: flex;
-      justify-content: space-between;
-    }
-    a {
-      color: #212529;
-      text-decoration: none;
-    }
-    `}
-      </style>
-
-      <Card style={{ width: 370, height: 210 }}>
-        <Card.Img
-          variant="top"
-          src={imageSource}
-          style={{ height: 157, objectFit: "cover" }}
-        />
+      <Card style={{ width: 370, height: 210, marginBottom: 25 }}>
+        <Card.Img variant="top" src={imageSource} />
         <Card.Body>
-          <Card.Title>{dishName}</Card.Title>
+          <Card.Title style={{ textDecoration: "none" }}>{dishName}</Card.Title>
           <RecipeRatingStars rate={rate} />
         </Card.Body>
       </Card>

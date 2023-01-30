@@ -2,6 +2,7 @@ import React from "react";
 import { set, useForm } from "react-hook-form";
 import styles from "./style.module.css";
 import { useAuthContext } from "../authProvider";
+import { Container, Form } from "react-bootstrap";
 
 interface LoginFormValues {
   email: string;
@@ -18,20 +19,6 @@ export function Login() {
   const { loginUser, errorMessage, setErrorMessage } = useAuthContext();
 
   const onSubmit = (data: LoginFormValues) => {
-    // const auth: boolean = users.some(
-    //   (user) => user.email === data.email && user.password === data.password
-    // );
-    // if (auth) {
-    //   const loggedUser = users.find(
-    //     (user) => user.email === data.email && user.password === data.password
-    //   );
-    //   if (loggedUser) {
-    //     handleLogin(loggedUser);
-    //   }
-    // }
-    // console.log(data);
-    //////////////////////////
-
     loginUser(data.email, data.password);
   };
 

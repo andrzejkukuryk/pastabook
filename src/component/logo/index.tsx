@@ -1,7 +1,6 @@
 import React from "react";
 import styles from "./style.module.css";
 import "./style.css";
-import logoPNG from "./graph/logo.png";
 import bookHeart from "./graph/book-heart.png";
 import { Link } from "react-router-dom";
 import { Col, Container, Image, Row } from "react-bootstrap";
