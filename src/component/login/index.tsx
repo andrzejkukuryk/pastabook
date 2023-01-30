@@ -1,8 +1,10 @@
 import React from "react";
 import { set, useForm } from "react-hook-form";
 import styles from "./style.module.css";
+import "./style.css";
 import { useAuthContext } from "../authProvider";
-import { Container, Form } from "react-bootstrap";
+import { Button, Col, Container, Form, Row } from "react-bootstrap";
+import { Link, useNavigate } from "react-router-dom";
 
 interface LoginFormValues {
   email: string;
@@ -17,66 +19,86 @@ export function Login() {
   } = useForm<LoginFormValues>();
 
   const { loginUser, errorMessage, setErrorMessage } = useAuthContext();
+  const navigate = useNavigate();
 
   const onSubmit = (data: LoginFormValues) => {
     loginUser(data.email, data.password);
   };
 
   return (
-    <div className={styles.container}>
-      <h2>Login to Pastabook:</h2>
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <div className={styles.formInputDiv}>
-          <label htmlFor="loginEmail">Email:</label>
-          <input
-            id="loginEmail"
-            type="text"
-            {...register("email", {
-              required: true,
-              pattern: /^[^@ ]+@[^@ ]+\.[^@ .]{2,}$/,
-              onChange: () => setErrorMessage(""),
-            })}
-          />
-          {errors.email && errors.email.type === "required" && (
-            <p className={styles.errorMsg}>Email is required.</p>
-          )}
-          {errors.email && errors.email.type === "pattern" && (
-            <p className={styles.errorMsg}>Email is not valid.</p>
-          )}
-          {errorMessage === "EMAIL_NOT_FOUND" && (
-            <p className={styles.errorMsg}>Email not found.</p>
-          )}
-        </div>
-        <div className={styles.formInputDiv}>
-          <label htmlFor="loginPassword">Password:</label>
-          <input
-            id="loginPassword"
-            type="password"
-            {...register("password", {
-              required: true,
-              minLength: 8,
-              onChange: () => setErrorMessage(""),
-            })}
-          />
-          {errors.password && errors.password.type === "required" && (
-            <p className={styles.errorMsg}>Password is required.</p>
-          )}
-          {errors.password && errors.password.type === "minLength" && (
-            <p className={styles.errorMsg}>
-              Password needs at least 8 charackters.
-            </p>
-          )}
-          {errorMessage === "INVALID_PASSWORD" && (
-            <p className={styles.errorMsg}>Password incorrect.</p>
-          )}
-        </div>
-        <div className={styles.formInputDiv}>
-          <label></label>
-          <button className={styles.btn} type="submit">
-            Login
-          </button>
-        </div>
-      </form>
-    </div>
+    <Container>
+      <Row>
+        <Col>
+          <h2 className="h2 mb-4">Log in</h2>
+        </Col>
+      </Row>
+      <Row>
+        <Col sm={4}>
+          <form onSubmit={handleSubmit(onSubmit)}>
+            <Form.Group className="mb-3" controlId="email">
+              <Form.Label>Email</Form.Label>
+              <Form.Control
+                type="email"
+                placeholder="Type your email"
+                {...register("email", {
+                  required: "Please enter your email",
+                  pattern: {
+                    value: /^[^@ ]+@[^@ ]+\.[^@ .]{2,}$/,
+                    message: "Please enter a valid email",
+                  },
+                  onChange: () => setErrorMessage(""),
+                })}
+              />
+              {errors.email && (
+                <p className="errorMsg">{errors.email.message}</p>
+              )}
+              {errorMessage === "EMAIL_NOT_FOUND" && (
+                <p className="errorMsg"> Email not found.</p>
+              )}
+            </Form.Group>
+
+            <Form.Group className="mb-3" controlId="password">
+              <Form.Label>Password</Form.Label>
+              <Form.Control
+                type="password"
+                placeholder="Type password"
+                {...register("password", {
+                  required: "Please enter your password",
+                  minLength: {
+                    value: 8,
+                    message: "Password needs at least 8 charackters",
+                  },
+                  onChange: () => setErrorMessage(""),
+                })}
+              />
+              {errors.password && (
+                <p className="errorMsg">{errors.password.message}</p>
+              )}
+              {errorMessage === "INVALID_PASSWORD" && (
+                <p className="errorMsg"> Password incorrect</p>
+              )}
+            </Form.Group>
+
+            <label></label>
+            <Button type="submit" variant="secondary" className="me-3">
+              Login
+            </Button>
+            <Button variant="outline-secondary" onClick={() => navigate("/")}>
+              Back to homepage
+            </Button>
+          </form>
+        </Col>
+      </Row>
+      <Row>
+        <Col>
+          <p className="mt-3 h6">
+            Don't have an account?{" "}
+            <Link to="/register" className="sign-up-link">
+              Sign up
+            </Link>
+          </p>
+        </Col>
+      </Row>
+    </Container>
   );
 }

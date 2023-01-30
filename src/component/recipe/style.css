@@ -4,10 +4,10 @@
 }
 
 .btn-outline-secondary:hover {
-    background-color: #B54942;
+    background-color: #B54942 !important;
     color: #FFF !important;
 }
 
 .btn-outline-secondary:active {
-    background-color: #812a25 !important
+    background-color: #812a25 !important;
 }

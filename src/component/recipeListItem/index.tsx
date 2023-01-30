@@ -19,8 +19,8 @@ export function RecipeListItem({
     <>
       <Card style={{ width: 370, height: 210, marginBottom: 25 }}>
         <Card.Img variant="top" src={imageSource} />
-        <Card.Body>
-          <Card.Title style={{ textDecoration: "none" }}>{dishName}</Card.Title>
+        <Card.Body style={{ height: 70 }}>
+          <Card.Title>{dishName}</Card.Title>
           <RecipeRatingStars rate={rate} />
         </Card.Body>
       </Card>
