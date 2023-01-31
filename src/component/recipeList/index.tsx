@@ -38,13 +38,26 @@ export function RecipeList() {
             className="float-end"
             onClick={() => navigate("/add")}
           >
-            + Add a new recipe
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="16"
+              height="20"
+              fill="currentColor"
+              className="bi bi-plus-lg me-2"
+              viewBox="0 2 16 16"
+            >
+              <path
+                fill-rule="evenodd"
+                d="M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2Z"
+              />
+            </svg>
+            Add a new recipe
           </Button>
         </Col>
       </Row>
-      <Row>
+      <Row className="g-4 d-flex justify-content-between">
         {recipes.slice(indexOfFirstItem, indexOfLastItem).map((recipe) => (
-          <Col sm={12} md={6} xl={4}>
+          <Col sm={12} md={6} xl={4} className="d-flex justify-content-center">
             <Link
               to={`/recipes/${recipe.path}`}
               key={recipe.path}
@@ -60,7 +73,7 @@ export function RecipeList() {
         ))}
       </Row>
       {numberOfPages > 1 && (
-        <Row>
+        <Row className="mt-5">
           <Col>
             <RecipeListPagination
               numberOfPages={numberOfPages}

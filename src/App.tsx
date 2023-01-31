@@ -16,6 +16,8 @@ import { ProtectedRoute } from "./component/protectedRoute";
 import { UserProfile } from "./component/userProfile";
 import { UserProfileEdit } from "./component/userProfileEdit";
 import { RecipeProvider, useRecipeContext } from "./data/recipeProvider";
+import "./css/main.css";
+
 function App() {
   const { recipes } = useRecipeContext();
   const [searchResult, setSearchResult] = useState(recipes);
