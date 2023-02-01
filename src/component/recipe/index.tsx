@@ -90,10 +90,8 @@ export function Recipe() {
             <Col sm={12} md={8}>
               <>
                 <h3 className="h5">Method</h3>
-                <div id="methodDiv">
-                  <p></p>
-                </div>
-                {recipe?.method}
+                <div dangerouslySetInnerHTML={{ __html: recipe.method }}></div>
+
                 {/* Jak wstawić tutaj html collection? */}
                 {/* {method?.item(0)} */}
               </>

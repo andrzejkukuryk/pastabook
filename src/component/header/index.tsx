@@ -10,7 +10,7 @@ export function Header() {
   const { token } = useAuthContext();
 
   return (
-    <Navbar className="navbar navbar-custom" variant="dark">
+    <Navbar className="navbar" bg="primary" variant="dark">
       <Container>
         <Navbar.Brand>
           <Logo />
