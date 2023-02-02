@@ -33,9 +33,12 @@ export function Login() {
         </Col>
       </Row>
       <Row>
-        <Col sm={4}>
+        <Col>
           <form onSubmit={handleSubmit(onSubmit)}>
-            <Form.Group className="mb-3" controlId="email">
+            <Form.Group
+              className="mb-3 col-lg-4 col-md-6 col-xs-12"
+              controlId="email"
+            >
               <Form.Label>Email</Form.Label>
               <Form.Control
                 type="email"
@@ -57,7 +60,10 @@ export function Login() {
               )}
             </Form.Group>
 
-            <Form.Group className="mb-3" controlId="password">
+            <Form.Group
+              className="mb-3 col-lg-4 col-md-6 col-xs-12"
+              controlId="password"
+            >
               <Form.Label>Password</Form.Label>
               <Form.Control
                 type="password"
@@ -92,8 +98,8 @@ export function Login() {
       <Row>
         <Col>
           <p className="mt-3 h6">
-            Don't have an account?{" "}
-            <Link to="/register" className="sign-up-link">
+            Don't have an account?
+            <Link to="/register" className="sign-up-link ms-2">
               Sign up
             </Link>
           </p>

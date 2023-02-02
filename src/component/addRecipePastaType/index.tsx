@@ -1,4 +1,5 @@
 import React from "react";
+import { Form, Placeholder } from "react-bootstrap";
 import { useForm } from "react-hook-form";
 import styles from "./style.module.css";
 
@@ -53,27 +54,28 @@ export function AddRecipePastaType({
   };
 
   return (
-    <div className={styles.container}>
-      <form>
-        <label htmlFor="newPastaType">Pasta type</label>
-        <select
-          id="newPastaType"
-          {...register("pastaType", {
-            required: true,
-            onChange(event) {
-              setNewPastaType(event.target.value);
-            },
-          })}
-        >
-          <option value="" disabled selected>
-            Select pasta type
-          </option>
-          {createOptions()}
-        </select>
-        {errors.pastaType && errors.pastaType.type === "required" && (
-          <p>Please, type a dish's name.</p>
-        )}
-      </form>
-    </div>
+    <Form.Group
+      controlId="pastaType"
+      className="mb-3 col-lg-4 col-md-6 col-xs-12"
+    >
+      <Form.Label>Pasta type</Form.Label>
+      <Form.Select
+        placeholder="Choose"
+        {...register("pastaType", {
+          required: "Choose pasta type",
+          onChange(event) {
+            setNewPastaType(event.target.value);
+          },
+        })}
+      >
+        <option disabled selected value={""}>
+          Select pasta type
+        </option>
+        {createOptions()}
+      </Form.Select>
+      {errors.pastaType && (
+        <p className="errorMsg">{errors.pastaType.message}</p>
+      )}
+    </Form.Group>
   );
 }

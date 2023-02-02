@@ -8,6 +8,7 @@ import { AddRecipePhoto } from "../addRecipePhoto";
 import { Recipe } from "../../models/recipe";
 import draftToHtml from "draftjs-to-html";
 import { useRecipeContext } from "../../data/recipeProvider";
+import { Col, Container, Form, Row } from "react-bootstrap";
 
 export interface NewIngredient {
   main: boolean;
@@ -71,27 +72,60 @@ export function AddRecipe() {
   );
 
   return (
-    <div className={styles.container}>
-      <h2>Add new recipe</h2>
-      <AddRecipeName
-        newRecipeName={newRecipeName}
-        setNewRecipeName={setNewRecipeName}
-      />
-      <AddRecipePastaType setNewPastaType={setNewPastaType} />
-      <AddRecipeIngredients
-        newIngredients={newIngredients}
-        setNewIngredients={setNewIngredients}
-      />
-      <AddRecipeMethod
-        setNewMethod={setNewMethod}
-        setMethodHasText={setMethodHasText}
-      />
-      <AddRecipePhoto />
+    // <div className={styles.container}>
+    //   <h2>Add new recipe</h2>
+    //   <AddRecipeName
+    //     newRecipeName={newRecipeName}
+    //     setNewRecipeName={setNewRecipeName}
+    //   />
+    //   <AddRecipePastaType setNewPastaType={setNewPastaType} />
+    //   <AddRecipeIngredients
+    //     newIngredients={newIngredients}
+    //     setNewIngredients={setNewIngredients}
+    //   />
+    //   <AddRecipeMethod
+    //     setNewMethod={setNewMethod}
+    //     setMethodHasText={setMethodHasText}
+    //   />
+    //   <AddRecipePhoto />
+    //   {noError && (
+    //     <button onClick={() => sendNewRecipe(createRecipeForUpload())}>
+    //       Add new recipe
+    //     </button>
+    //   )}
+    // </div>
+    <Container>
+      <Row>
+        <Col>
+          <h2 className="h2">Add new recipe</h2>
+        </Col>
+      </Row>
+      <Row>
+        <Col>
+          <Form>
+            <Form.Label>General</Form.Label>
+            <AddRecipeName
+              newRecipeName={newRecipeName}
+              setNewRecipeName={setNewRecipeName}
+            />
+            <AddRecipePastaType setNewPastaType={setNewPastaType} />
+            <AddRecipeIngredients
+              newIngredients={newIngredients}
+              setNewIngredients={setNewIngredients}
+            />
+            <AddRecipeMethod
+              setNewMethod={setNewMethod}
+              setMethodHasText={setMethodHasText}
+            />
+            <AddRecipePhoto />
+          </Form>
+        </Col>
+      </Row>
       {noError && (
         <button onClick={() => sendNewRecipe(createRecipeForUpload())}>
           Add new recipe
         </button>
       )}
-    </div>
+    </Container>
   );
 }

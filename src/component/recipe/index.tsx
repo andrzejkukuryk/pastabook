@@ -36,7 +36,6 @@ export function Recipe() {
 
   console.log(method?.item(0));
   return (
-    //TODO: kolor aktywnego buttona ulubionych
     <>
       {recipe && (
         <Container>

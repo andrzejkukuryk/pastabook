@@ -26,12 +26,27 @@ export function AddRecipeIngredients({
     ));
   };
 
+  /////////////
+  // orginal
+
+  // const handleClickAddIngredient = () => {
+  //   setNewIngredients([
+  //     ...newIngredients,
+  //     { main: false, name: "", ingredientId: 0 },
+  //   ]);
+  // };
+
+  ////
+  /////////////
+
   const handleClickAddIngredient = () => {
-    setNewIngredients([
-      ...newIngredients,
-      { main: false, name: "", ingredientId: 0 },
-    ]);
+    debugger;
+    const temporaryNewIngredients = [...newIngredients];
+    temporaryNewIngredients.push({ main: false, name: "", ingredientId: 0 });
+    setNewIngredients(temporaryNewIngredients);
   };
+
+  console.log("newIngredients state: ", newIngredients);
   return (
     <div className={styles.container}>
       <div>

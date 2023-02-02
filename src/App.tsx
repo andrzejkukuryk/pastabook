@@ -10,13 +10,16 @@ import { SharedLayout } from "./component/sharedLayout";
 import { Login } from "./component/login";
 import { Register } from "./component/register";
 import { AddRecipe } from "./component/addRecipe";
-// import { recipes } from "./data/dummyData";
+import { AddNewRecipe } from "./component/addNewRecipe";
 import { SearchResultList } from "./component/searchResultList";
 import { ProtectedRoute } from "./component/protectedRoute";
 import { UserProfile } from "./component/userProfile";
 import { UserProfileEdit } from "./component/userProfileEdit";
 import { RecipeProvider, useRecipeContext } from "./data/recipeProvider";
-import "./css/main.css";
+//@ts-ignore
+import Breakpoints from "breakpoints-js";
+// import "./css/main.css";
+Breakpoints();
 
 function App() {
   const { recipes } = useRecipeContext();
@@ -57,7 +60,7 @@ function App() {
                 path="add"
                 element={
                   <ProtectedRoute>
-                    <AddRecipe />
+                    <AddNewRecipe />
                   </ProtectedRoute>
                 }
               />

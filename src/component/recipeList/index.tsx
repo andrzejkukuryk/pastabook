@@ -2,17 +2,18 @@ import React, { useContext, useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { RecipeListItem } from "../recipeListItem";
 import styles from "./style.module.css";
-import "./style.css";
-// import { recipes } from "../../data/dummyData";
 import { useRecipeContext } from "../../data/recipeProvider";
 import { Button, Col, Container, Row } from "react-bootstrap";
 import { RecipeListPagination } from "../recipeListPagination";
+//@ts-ignore
+import Breakpoints from "breakpoints-js";
 
 export function RecipeList() {
   const { recipes } = useRecipeContext();
   const navigate = useNavigate();
+
   const [currentPage, setCurrentPage] = useState<number>(1);
-  const [itemsPerPage, setItemsPerPage] = useState<number>(3);
+  const [itemsPerPage, setItemsPerPage] = useState<number>(6);
   const [numberOfPages, setNumberOfPages] = useState<number>(1);
 
   const indexOfLastItem = currentPage * itemsPerPage;
