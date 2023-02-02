@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { RichTextEditor } from "../RichTextEditor";
 import styles from "./style.module.css";
+import "./style.css";
 
 interface AddRecipeMethodProps {
   setNewMethod: React.Dispatch<any>;
@@ -16,14 +17,11 @@ export function AddRecipeMethod({
   useEffect(() => setNewMethod(content), [content]);
 
   return (
-    <div className={styles.container}>
-      <p>Method</p>
-      <div className={styles.RichEditorRoot}>
-        <RichTextEditor
-          setContent={setContent}
-          setMethodHasText={setMethodHasText}
-        />
-      </div>
+    <div className="RichEditorRoot col-lg-4 col-md-6 col-xs-12">
+      <RichTextEditor
+        setContent={setContent}
+        setMethodHasText={setMethodHasText}
+      />
     </div>
   );
 }

@@ -1,5 +1,6 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Button, Col, Container, Form, Row } from "react-bootstrap";
+import { AddRecipeMethod } from "../addRecipeMethod";
 
 export function AddNewRecipe() {
   const initialNewIngredients = [{ main: false, name: "", ingredientId: 0 }];
@@ -9,6 +10,10 @@ export function AddNewRecipe() {
   const [newIngredients, setNewIngredients] = useState<NewIngredient[]>(
     initialNewIngredients
   );
+  const [tooManyMainIngredients, setTooManyMainIngredients] =
+    useState<boolean>(false);
+  const [newMethod, setNewMethod] = useState<any>({});
+  const [methodHasText, setMethodHasText] = useState<boolean>(false);
 
   // pastaTypes section ///////////
 
@@ -120,6 +125,24 @@ export function AddNewRecipe() {
     ));
   };
 
+  const countMainIngredients = () => {
+    let mainCounter: number = 0;
+    newIngredients.forEach((ingredient) => {
+      if (ingredient.main && ingredient.name) {
+        mainCounter++;
+      }
+    });
+    if (mainCounter > 3) {
+      setTooManyMainIngredients(true);
+    } else {
+      setTooManyMainIngredients(false);
+    }
+  };
+
+  useEffect(() => {
+    countMainIngredients();
+  }, [newIngredients]);
+
   return (
     <Container>
       <Row>
@@ -158,6 +181,9 @@ export function AddNewRecipe() {
             </Form.Text>
 
             {createIngredientsList()}
+            {tooManyMainIngredients && (
+              <Form.Text>You can set max 3 main ingredients</Form.Text>
+            )}
             <Container fluid>
               <Row>
                 <Col className="col-lg-4 col-md-6 col-xs-12 d-flex justify-content-end">
@@ -185,6 +211,14 @@ export function AddNewRecipe() {
                 <Col className="col-lg-8 col-md-6 col-xs-none"></Col>
               </Row>
             </Container>
+            <Form.Label className="h4">Method</Form.Label>
+            <Form.Text className="d-block">
+              Please describe how to prepare the dish
+            </Form.Text>
+            <AddRecipeMethod
+              setNewMethod={setNewMethod}
+              setMethodHasText={setMethodHasText}
+            />
           </Form>
         </Col>
       </Row>

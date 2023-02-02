@@ -90,13 +90,13 @@ export const RichTextEditor = ({
 
   return (
     <>
-      <div className="RichEditor-controls">
+      <div className="RichEditor-controls d-inline-block">
         <BlockStyleControls
           editorState={editorState}
           onToggle={toggleBlockType}
         />
       </div>
-      <div className="RichEditor-controls">
+      <div className="RichEditor-controls d-inline-block">
         <InlineStyleControls
           editorState={editorState}
           onToggle={toggleInlineStyle}
