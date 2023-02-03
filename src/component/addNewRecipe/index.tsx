@@ -1,7 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { Button, Col, Container, Form, Row } from "react-bootstrap";
+import { Button, Col, Container, Form, InputGroup, Row } from "react-bootstrap";
+import { Recipe } from "../../models/recipe";
+import draftToHtml from "draftjs-to-html";
 import { AddRecipeMethod } from "../addRecipeMethod";
 import { AddRecipePhoto } from "../addRecipePhoto";
+import { useRecipeContext } from "../../data/recipeProvider";
+import { useNavigate } from "react-router-dom";
+import "./style.css";
 
 export function AddNewRecipe() {
   const initialNewIngredients = [{ main: false, name: "", ingredientId: 0 }];
@@ -11,10 +16,14 @@ export function AddNewRecipe() {
   const [newIngredients, setNewIngredients] = useState<NewIngredient[]>(
     initialNewIngredients
   );
+  const [noIngredients, setNoIngredients] = useState<boolean>(true);
   const [tooManyMainIngredients, setTooManyMainIngredients] =
     useState<boolean>(false);
   const [newMethod, setNewMethod] = useState<any>({});
   const [methodHasText, setMethodHasText] = useState<boolean>(false);
+  const [validated, setValidated] = useState(false);
+
+  const navigate = useNavigate();
 
   // pastaTypes section ///////////
 
@@ -92,6 +101,7 @@ export function AddNewRecipe() {
       <div>
         <Form.Group className="mb-3 col-lg-4 col-md-6 col-xs-12 d-inline-block">
           <Form.Control
+            required
             type="text"
             placeholder="Type ingredient name"
             value={ingredient.name}
@@ -100,7 +110,7 @@ export function AddNewRecipe() {
             }}
           />
         </Form.Group>
-        <Form.Group className=" d-inline-block">
+        <Form.Group className=" d-inline-block ms-2">
           <Form.Check
             type="switch"
             label="main ingredient"
@@ -140,9 +150,81 @@ export function AddNewRecipe() {
     }
   };
 
+  const countIngredients = () => {
+    if (newIngredients.some((ingredient) => ingredient.name.length > 0)) {
+      setNoIngredients(false);
+    } else {
+      setNoIngredients(true);
+    }
+  };
+
   useEffect(() => {
     countMainIngredients();
+    countIngredients();
   }, [newIngredients]);
+
+  //  create recipe section /////////////////////
+
+  const newMethodHtml = draftToHtml(newMethod);
+  const { sendNewRecipe } = useRecipeContext();
+
+  const createRecipeForUpload = () => {
+    const newMainIngredients: string[] = [];
+    const newOtherIngredients: string[] = [];
+    newIngredients.forEach((ingredient) => {
+      if (ingredient.name.length > 0) {
+        if (ingredient.main) {
+          newMainIngredients.push(ingredient.name.toLowerCase());
+        } else {
+          newOtherIngredients.push(ingredient.name.toLowerCase());
+        }
+      }
+    });
+
+    const recipe: Recipe = {
+      dishName: newRecipeName,
+      pastaType: newPastaType,
+      mainIngredients: newMainIngredients,
+      ingredients: newOtherIngredients,
+      method: newMethodHtml,
+      imageSource:
+        "https://www.insidetherustickitchen.com/wp-content/uploads/2017/11/Italian-Beef-Ragu-740px-Inside-the-Rustic-Kitchen-26.jpg",
+      rate: 2.1,
+    };
+
+    return recipe;
+  };
+
+  const noErrors =
+    newRecipeName.length > 0 &&
+    newPastaType.length > 0 &&
+    !tooManyMainIngredients &&
+    !noIngredients &&
+    methodHasText;
+
+  const handleClickSave = () => {
+    if (noErrors) {
+      sendNewRecipe(createRecipeForUpload());
+    }
+  };
+
+  const clearAndBackHome = () => {
+    setNewRecipeName("");
+    setNewPastaType("");
+    setNewIngredients(initialNewIngredients);
+    setNewMethod({});
+    navigate("/");
+  };
+
+  const handleSubmit = (event: any) => {
+    const form = event.currentTarget;
+    if (form.checkValidity() === false) {
+      event.preventDefault();
+      event.stopPropagation();
+    }
+
+    setValidated(true);
+  };
 
   return (
     <Container>
@@ -153,7 +235,7 @@ export function AddNewRecipe() {
       </Row>
       <Row>
         <Col>
-          <Form>
+          <Form noValidate validated={validated} onSubmit={handleSubmit}>
             <Form.Label className="h4">General</Form.Label>
             <Form.Group className="mb-3 col-lg-4 col-md-6 col-xs-12">
               <Form.Label>Dish name</Form.Label>
@@ -162,28 +244,44 @@ export function AddNewRecipe() {
                 placeholder="Type dish name"
                 value={newRecipeName}
                 onChange={(e) => setNewRecipeName(e.target.value)}
+                required
               />
+              <Form.Control.Feedback type="invalid">
+                Dish name cannot be empty
+              </Form.Control.Feedback>
             </Form.Group>
             <Form.Group className="mb-3 col-lg-4 col-md-6 col-xs-12">
               <Form.Label>Pasta type</Form.Label>
               <Form.Select
                 value={newPastaType}
                 onChange={(e) => setNewPastaType(e.target.value)}
+                required
               >
                 <option disabled selected value={""}>
                   Select pasta type
                 </option>
                 {createOptions()}
               </Form.Select>
+              <Form.Control.Feedback type="invalid">
+                Please choose pasta type
+              </Form.Control.Feedback>
             </Form.Group>
+
             <Form.Label className="h4 mt-3">Ingredients</Form.Label>
             <Form.Text className="d-block">
               Add new ingredients and mark 1-3 main ingredients
             </Form.Text>
 
             {createIngredientsList()}
-            {tooManyMainIngredients && (
-              <Form.Text>You can set max 3 main ingredients</Form.Text>
+            {noIngredients && validated && (
+              <Form.Text className="text-danger">
+                You have to add at least 1 ingredient
+              </Form.Text>
+            )}
+            {tooManyMainIngredients && validated && (
+              <Form.Text className="text-danger">
+                You can set max 3 main ingredients
+              </Form.Text>
             )}
             <Container fluid>
               <Row>
@@ -216,15 +314,39 @@ export function AddNewRecipe() {
             <Form.Text className="d-block">
               Please describe how to prepare the dish
             </Form.Text>
-            <AddRecipeMethod
-              setNewMethod={setNewMethod}
-              setMethodHasText={setMethodHasText}
-            />
+            <Form.Group>
+              <AddRecipeMethod
+                setNewMethod={setNewMethod}
+                methodHasText={methodHasText}
+                setMethodHasText={setMethodHasText}
+                validated={validated}
+              />
+              {!methodHasText && validated && (
+                <Form.Text className="text-danger">
+                  Method description cannot be empty
+                </Form.Text>
+              )}
+            </Form.Group>
             <Form.Label className="h4 mt-4">Photo</Form.Label>
             <Form.Text className="d-block">
               Please add a photo of a dish in .JPG .PNG or .GIF format
             </Form.Text>
             <AddRecipePhoto />
+            <Button
+              type="submit"
+              variant="secondary"
+              className="mt-3 mb-5 me-2"
+              onClick={handleClickSave}
+            >
+              Save
+            </Button>
+            <Button
+              variant="outline-secondary"
+              className="mt-3 mb-5"
+              onClick={clearAndBackHome}
+            >
+              Discard and close
+            </Button>
           </Form>
         </Col>
       </Row>

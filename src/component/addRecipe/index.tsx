@@ -113,10 +113,10 @@ export function AddRecipe() {
               newIngredients={newIngredients}
               setNewIngredients={setNewIngredients}
             />
-            <AddRecipeMethod
+            {/* <AddRecipeMethod
               setNewMethod={setNewMethod}
               setMethodHasText={setMethodHasText}
-            />
+            /> */}
             <AddRecipePhoto />
           </Form>
         </Col>

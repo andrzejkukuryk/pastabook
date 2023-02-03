@@ -3,8 +3,11 @@
     background: #fff;
     border: 1px solid #ddd;
     border-radius: 6px;
-    font-family: 'Georgia', serif;
+    font-family: 'Open Sans', serif;
     font-size: 14px;
     padding: 15px;
-    max-width: 500px;
+  }
+
+  .red-border {
+    border-color: #b02a37;
   }
