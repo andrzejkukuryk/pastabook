@@ -1,11 +1,12 @@
 .photoPreview {
     width: 140px;
-    margin: 10px;
+    margin: 10px 10px 10px 40px;
+    
 }
 
 .photoPreviewDiv {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     width: 160px;
     align-items: center;
     justify-content: center;

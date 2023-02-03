@@ -15,16 +15,18 @@
  .RichEditor-root {
     background: #fff;
     border: 1px solid #ddd;
-    font-family: 'Georgia', serif;
+    font-family: 'Open Sans', serif;
     font-size: 14px;
     padding: 15px;
   }
   
   .RichEditor-editor {
     border-top: 1px solid #ddd;
+    font-family: "Open Sans";
     cursor: text;
     font-size: 16px;
-    margin-top: 10px;
+    margin-top: 2px;
+    
   }
   
   .RichEditor-editor .public-DraftEditorPlaceholder-root,
@@ -76,5 +78,5 @@
   }
   
   .RichEditor-activeButton {
-    color: #5890ff;
+    color: #B54942;
   }

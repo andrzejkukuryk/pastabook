@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Button, Col, Container, Form, Row } from "react-bootstrap";
 import { AddRecipeMethod } from "../addRecipeMethod";
+import { AddRecipePhoto } from "../addRecipePhoto";
 
 export function AddNewRecipe() {
   const initialNewIngredients = [{ main: false, name: "", ingredientId: 0 }];
@@ -219,6 +220,11 @@ export function AddNewRecipe() {
               setNewMethod={setNewMethod}
               setMethodHasText={setMethodHasText}
             />
+            <Form.Label className="h4 mt-4">Photo</Form.Label>
+            <Form.Text className="d-block">
+              Please add a photo of a dish in .JPG .PNG or .GIF format
+            </Form.Text>
+            <AddRecipePhoto />
           </Form>
         </Col>
       </Row>

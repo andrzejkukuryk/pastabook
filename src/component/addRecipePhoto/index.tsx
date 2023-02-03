@@ -4,8 +4,7 @@ import styles from "./style.module.css";
 
 export function AddRecipePhoto() {
   return (
-    <div className={styles.container}>
-      <p>Photo</p>
+    <div className="mt-2 col-lg-4 col-md-6 col-xs-12">
       <DragDrop />
     </div>
   );

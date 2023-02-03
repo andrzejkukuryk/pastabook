@@ -60,6 +60,7 @@ export function AddRecipeIngredientsItem({
   };
 
   countMainIngredients();
+  console.log("temporary new ingrediets: ", temporaryNewIngredients);
   return (
     // <>
     //   <Form.Group controlId="ingredient" className="d-inline-block">
