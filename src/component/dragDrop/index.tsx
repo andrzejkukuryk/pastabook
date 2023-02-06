@@ -30,8 +30,6 @@ export function DragDrop() {
 
   useEffect(() => previewFile(), [file]);
 
-  /////////////////
-  //
   const jpgIcon = (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -91,8 +89,6 @@ export function DragDrop() {
     </div>
   );
 
-  //
-  ///////////////////
   return (
     <div className="border border-1 rounded-2 p-3">
       <FileUploader

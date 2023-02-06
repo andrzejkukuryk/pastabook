@@ -1,13 +1,5 @@
 import React, { useEffect, useState } from "react";
-import {
-  Alert,
-  Button,
-  Col,
-  Container,
-  Form,
-  InputGroup,
-  Row,
-} from "react-bootstrap";
+import { Alert, Button, Col, Container, Form, Row } from "react-bootstrap";
 import { Recipe } from "../../models/recipe";
 import draftToHtml from "draftjs-to-html";
 import { AddRecipeMethod } from "../addRecipeMethod";
@@ -360,7 +352,7 @@ export function AddNewRecipe() {
                 <Col className="col-lg-4 col-md-6 col-xs-12 d-flex justify-content-end">
                   <Button
                     variant="outline-secondary"
-                    className="d-block"
+                    className="d-block border-0"
                     onClick={addIngredient}
                   >
                     <svg

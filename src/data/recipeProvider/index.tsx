@@ -42,6 +42,7 @@ const endpoint =
 
 export const RecipeProvider: FC<RecipeProviderProps> = ({ children }) => {
   const [recipes, setRecipes] = useState<Dish[]>([]);
+  const [filteredRecipes, setFilteredRecipes] = useState<Dish[]>(recipes);
   const [allPastaTypes, setAllPastaTypes] = useState<string[]>([]);
   const [allMainIngredients, setAllMainIngredients] = useState<string[]>([]);
 
@@ -49,7 +50,6 @@ export const RecipeProvider: FC<RecipeProviderProps> = ({ children }) => {
     getRecipes();
     getAllPastaTypes();
     getAllMainIngerdients();
-    // sendNewRecipe(dummyRecipes[5]);
   }, []);
 
   const getRecipes = async () => {
@@ -118,7 +118,7 @@ export const RecipeProvider: FC<RecipeProviderProps> = ({ children }) => {
         if (temporaryAllMainIngredients.includes(ingredient)) {
           return;
         } else {
-          temporaryAllMainIngredients.push(ingredient);
+          temporaryAllMainIngredients.push(ingredient.toLowerCase());
         }
       });
     });
@@ -126,10 +126,6 @@ export const RecipeProvider: FC<RecipeProviderProps> = ({ children }) => {
     setAllMainIngredients(temporaryAllMainIngredients);
   };
 
-  const getIngredientsForSearch = () => {
-    getAllPastaTypes();
-    getAllMainIngerdients();
-  };
 
   const value: ValueProp = {
     recipes: recipes,
