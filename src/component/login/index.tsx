@@ -2,7 +2,7 @@ import React from "react";
 import { set, useForm } from "react-hook-form";
 import styles from "./style.module.css";
 import "./style.css";
-import { useAuthContext } from "../authProvider";
+import { useAuthContext } from "../../data/authProvider";
 import { Button, Col, Container, Form, Row } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
 

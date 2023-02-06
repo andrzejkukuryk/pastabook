@@ -2,7 +2,7 @@ import React from "react";
 import { Container, Row, Col, Form, Button } from "react-bootstrap";
 import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
-import { useAuthContext } from "../authProvider";
+import { useAuthContext } from "../../data/authProvider";
 import styles from "./style.module.css";
 
 interface RegisterFormValues {

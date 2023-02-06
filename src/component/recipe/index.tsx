@@ -1,6 +1,6 @@
 import React from "react";
 import { Link, useParams } from "react-router-dom";
-import { useAuthContext } from "../authProvider";
+import { useAuthContext } from "../../data/authProvider";
 import { recipes } from "../../data/dummyData";
 import { Recipe as RecipeType } from "../../models/recipe";
 import styles from "./style.module.css";

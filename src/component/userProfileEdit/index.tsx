@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import styles from "./style.module.css";
-import { useAuthContext } from "../authProvider";
+import { useAuthContext } from "../../data/authProvider";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 

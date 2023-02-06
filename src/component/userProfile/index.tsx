@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { useAuthContext } from "../authProvider";
+import { useAuthContext } from "../../data/authProvider";
 import styles from "./style.module.css";
 
 export function UserProfile() {

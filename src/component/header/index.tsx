@@ -1,6 +1,6 @@
 import React from "react";
 import { Container, Nav, Navbar } from "react-bootstrap";
-import { useAuthContext } from "../authProvider";
+import { useAuthContext } from "../../data/authProvider";
 import { Logo } from "../logo";
 import { UserLoginMenu } from "../userLoginMenu";
 import "./style.css";

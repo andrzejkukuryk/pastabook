@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import styles from "./style.module.css";
 import "./style.css";
 import userIcon from "./graph/userIcon.png";
-import { useAuthContext } from "../authProvider";
+import { useAuthContext } from "../../data/authProvider";
 import {
   Col,
   Container,
