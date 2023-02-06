@@ -1,5 +1,13 @@
 import React, { useEffect, useState } from "react";
-import { Button, Col, Container, Form, InputGroup, Row } from "react-bootstrap";
+import {
+  Alert,
+  Button,
+  Col,
+  Container,
+  Form,
+  InputGroup,
+  Row,
+} from "react-bootstrap";
 import { Recipe } from "../../models/recipe";
 import draftToHtml from "draftjs-to-html";
 import { AddRecipeMethod } from "../addRecipeMethod";
@@ -166,7 +174,7 @@ export function AddNewRecipe() {
   //  create recipe section /////////////////////
 
   const newMethodHtml = draftToHtml(newMethod);
-  const { sendNewRecipe } = useRecipeContext();
+  const { sendNewRecipe, getRecipes } = useRecipeContext();
 
   const createRecipeForUpload = () => {
     const newMainIngredients: string[] = [];
@@ -195,17 +203,38 @@ export function AddNewRecipe() {
     return recipe;
   };
 
-  const noErrors =
-    newRecipeName.length > 0 &&
-    newPastaType.length > 0 &&
-    !tooManyMainIngredients &&
-    !noIngredients &&
-    methodHasText;
+  const countErrors = () => {
+    const errors = [
+      newRecipeName.length === 0,
+      newPastaType.length === 0,
+      tooManyMainIngredients,
+      noIngredients,
+      !methodHasText,
+    ];
+    return errors.filter((err) => err).length;
+  };
+
+  const noErrors = countErrors() === 0;
+
+  const handleScrollOnTop = () => {
+    const element = document.getElementById("top");
+    if (element) {
+      element.scrollIntoView({ behavior: "smooth" });
+    }
+  };
+
+  const recipeHrefAfterUpload = () => {
+    const dishname = newRecipeName.toLowerCase().replace(/\s+/g, "");
+    const href = `/recipes/${dishname}`;
+
+    return href;
+  };
 
   const handleClickSave = () => {
     if (noErrors) {
       sendNewRecipe(createRecipeForUpload());
     }
+    handleScrollOnTop();
   };
 
   const clearAndBackHome = () => {
@@ -227,12 +256,55 @@ export function AddNewRecipe() {
   };
 
   return (
-    <Container>
+    <Container id="top">
       <Row>
         <Col>
           <h2 className="h2">Add new recipe</h2>
         </Col>
       </Row>
+      {validated && countErrors() > 0 && (
+        <Row>
+          <Col>
+            <Alert variant="danger">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="20"
+                height="20"
+                fill="currentColor"
+                className="bi bi-exclamation-circle me-1"
+                viewBox="0 2 20 16"
+              >
+                <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z" />
+                <path d="M7.002 11a1 1 0 1 1 2 0 1 1 0 0 1-2 0zM7.1 4.995a.905.905 0 1 1 1.8 0l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 4.995z" />
+              </svg>
+              <b>There are some errors({countErrors()}). </b> Please correct
+              them.
+            </Alert>
+          </Col>
+        </Row>
+      )}
+      {validated && countErrors() === 0 && (
+        <Row>
+          <Col>
+            <Alert variant="success">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="20"
+                height="20"
+                fill="currentColor"
+                className="bi bi-check-lg me-1"
+                viewBox="0 2 20 16"
+              >
+                <path d="M12.736 3.97a.733.733 0 0 1 1.047 0c.286.289.29.756.01 1.05L7.88 12.01a.733.733 0 0 1-1.065.02L3.217 8.384a.757.757 0 0 1 0-1.06.733.733 0 0 1 1.047 0l3.052 3.093 5.4-6.425a.247.247 0 0 1 .02-.022Z" />
+              </svg>
+              New recipe added correctly. Click{" "}
+              <Alert.Link href={recipeHrefAfterUpload()}>here</Alert.Link> to
+              see your recipe or <Alert.Link href="/">here</Alert.Link> to back
+              to homepage.
+            </Alert>
+          </Col>
+        </Row>
+      )}
       <Row>
         <Col>
           <Form noValidate validated={validated} onSubmit={handleSubmit}>

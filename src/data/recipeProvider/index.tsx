@@ -16,6 +16,7 @@ const initialRecipeContext = {
   allPastaTypes: [],
   allMainIngredients: [],
   sendNewRecipe: () => {},
+  getRecipes: () => {},
 } as unknown as ValueProp;
 
 export const RecipeContext = createContext<ValueProp>(initialRecipeContext);
@@ -25,6 +26,7 @@ interface ValueProp {
   allPastaTypes: string[];
   allMainIngredients: string[];
   sendNewRecipe: (newRecipe: Recipe) => Promise<void>;
+  getRecipes: () => Promise<void>;
 }
 
 interface RecipeProviderProps {
@@ -59,11 +61,16 @@ export const RecipeProvider: FC<RecipeProviderProps> = ({ children }) => {
     const downloadedRecipes = Object.values(response) as Recipe[];
     console.log("z firebase: ", downloadedRecipes);
     downloadedRecipes.forEach((recipe) => {
+      const dishIngredients = recipe.ingredients ? recipe.ingredients : [];
+      const dishMainIngredients = recipe.mainIngredients
+        ? recipe.mainIngredients
+        : [];
+
       const dish = new Dish(
         recipe.dishName,
         recipe.pastaType,
-        recipe.mainIngredients,
-        recipe.ingredients,
+        dishMainIngredients,
+        dishIngredients,
         recipe.method,
         recipe.imageSource,
         recipe.rate
@@ -129,6 +136,7 @@ export const RecipeProvider: FC<RecipeProviderProps> = ({ children }) => {
     allPastaTypes: allPastaTypes,
     allMainIngredients: allMainIngredients,
     sendNewRecipe: sendNewRecipe,
+    getRecipes: getRecipes,
   };
 
   return (

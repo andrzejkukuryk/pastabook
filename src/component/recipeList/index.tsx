@@ -27,7 +27,7 @@ export function RecipeList() {
   useEffect(() => countNumberOfPages(), [recipes, itemsPerPage]);
 
   return (
-    <Container fluid>
+    <Container>
       <Row>
         <Col>
           <h2>Last recipes</h2>
