@@ -1,10 +1,21 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Button, Col, Container, Form, InputGroup, Row } from "react-bootstrap";
+import { useNavigate } from "react-router-dom";
+import { useRecipeContext } from "../../data/recipeProvider";
 import { SearchFiltersMain } from "../searchFiltersMain";
 import { SearchFiltersType } from "../searchFiltersType";
 
 export function Search() {
   const [searchPhrase, setSearchPhrase] = useState<string>("");
+  const { filterByName } = useRecipeContext();
+
+  const navigate = useNavigate();
+
+  const handleSubmit = (e: any) => {
+    e.preventDefault();
+    filterByName(searchPhrase);
+    navigate("/search");
+  };
 
   return (
     <Container className="my-4">
@@ -19,7 +30,11 @@ export function Search() {
                 value={searchPhrase}
                 onChange={(e) => setSearchPhrase(e.target.value)}
               ></Form.Control>
-              <Button type="submit" variant="outline-secondary">
+              <Button
+                type="submit"
+                variant="outline-secondary"
+                onClick={handleSubmit}
+              >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   width="20"
@@ -36,7 +51,15 @@ export function Search() {
           </Form>
         </Col>
         <Col xs={4} lg={2}>
-          <Button variant="outline-secondary" className="border-0">
+          <Button
+            variant="outline-secondary"
+            className="border-0"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#collapseFilters"
+            aria-expanded="false"
+            aria-controls="collapseFilters"
+          >
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="20"
@@ -52,20 +75,20 @@ export function Search() {
         </Col>
         <Col xs={false} lg={2} />
       </Row>
-      <Row>
-        <Col xs={false} lg={2} />
-        <Col xs={8} lg={6}>
-          <SearchFiltersType />
-        </Col>
-        <Col xs={false} lg={2} />
-      </Row>
-      <Row>
-        <Col xs={false} lg={2} />
-        <Col xs={8} lg={6}>
-          <SearchFiltersMain />
-        </Col>
-        <Col xs={false} lg={2} />
-      </Row>
+      <div className="collapse" id="collapseFilters">
+        <Row>
+          <Col xs={false} lg={2} />
+          <Col xs={12} lg={10}>
+            <SearchFiltersType />
+          </Col>
+        </Row>
+        <Row>
+          <Col xs={false} lg={2} />
+          <Col xs={12} lg={10}>
+            <SearchFiltersMain />
+          </Col>
+        </Row>
+      </div>
     </Container>
   );
 }

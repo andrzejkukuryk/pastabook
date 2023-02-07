@@ -13,9 +13,13 @@ import { recipes as dummyRecipes } from "../dummyData";
 
 const initialRecipeContext = {
   recipes: [],
+  filteredRecipes: [],
   allPastaTypes: [],
   allMainIngredients: [],
   sendNewRecipe: () => {},
+  filterByName: () => {},
+  filterByType: () => {},
+  filterByMain: () => {},
   getRecipes: () => {},
 } as unknown as ValueProp;
 
@@ -23,9 +27,13 @@ export const RecipeContext = createContext<ValueProp>(initialRecipeContext);
 
 interface ValueProp {
   recipes: Dish[];
+  filteredRecipes: Dish[];
   allPastaTypes: string[];
   allMainIngredients: string[];
   sendNewRecipe: (newRecipe: Recipe) => Promise<void>;
+  filterByName: (name: string) => void;
+  filterByType: (types: string[]) => void;
+  filterByMain: (mains: string[]) => void;
   getRecipes: () => Promise<void>;
 }
 
@@ -42,7 +50,9 @@ const endpoint =
 
 export const RecipeProvider: FC<RecipeProviderProps> = ({ children }) => {
   const [recipes, setRecipes] = useState<Dish[]>([]);
-  const [filteredRecipes, setFilteredRecipes] = useState<Dish[]>(recipes);
+  const [filteredRecipes, setFilteredRecipes] = useState<Dish[]>([]);
+  const [filteredByType, setFilteredByType] = useState<Dish[]>([]);
+  const [filteredByMain, setFilteredByMain] = useState<Dish[]>([]);
   const [allPastaTypes, setAllPastaTypes] = useState<string[]>([]);
   const [allMainIngredients, setAllMainIngredients] = useState<string[]>([]);
 
@@ -78,6 +88,8 @@ export const RecipeProvider: FC<RecipeProviderProps> = ({ children }) => {
       temporaryRecipes.push(dish);
     });
     setRecipes(temporaryRecipes);
+
+    setFilteredRecipes(temporaryRecipes);
   };
 
   const sendNewRecipe = async (newRecipe: Recipe) => {
@@ -126,12 +138,74 @@ export const RecipeProvider: FC<RecipeProviderProps> = ({ children }) => {
     setAllMainIngredients(temporaryAllMainIngredients);
   };
 
+  const filterByName = (name: string) => {
+    const temporaryFilteredRecipes = [...recipes].filter((recipe) =>
+      recipe.fullName.toLowerCase().includes(name.toLowerCase())
+    );
+    setFilteredRecipes(temporaryFilteredRecipes);
+  };
+
+  const filterByType = (types: string[]) => {
+    let temporaryFilteredRecipes: Dish[] = [];
+
+    types.forEach((type) => {
+      [...recipes].forEach((recipe) => {
+        if (recipe.pastaType === type) {
+          temporaryFilteredRecipes.push(recipe);
+        }
+      });
+    });
+
+    setFilteredByType(temporaryFilteredRecipes);
+  };
+
+  const filterByMain = (mains: string[]) => {
+    let temporaryFilteredRecipes: Dish[] = [];
+
+    mains.forEach((main) =>
+      [...recipes].forEach((recipe) => {
+        if (
+          recipe.mainIngredients
+            .map((ingr) => ingr.toLowerCase())
+            .includes(main)
+        ) {
+          if (!temporaryFilteredRecipes.includes(recipe)) {
+            temporaryFilteredRecipes.push(recipe);
+          }
+        }
+      })
+    );
+    setFilteredByMain(temporaryFilteredRecipes);
+  };
+
+  const mergeFilters = () => {
+    const mergedFilteredRecipes = [...filteredByType, ...filteredByMain];
+    const uniqueRecipes: Dish[] = [];
+    mergedFilteredRecipes.forEach((recipe) => {
+      if (!uniqueRecipes.includes(recipe)) {
+        uniqueRecipes.push(recipe);
+      }
+    });
+    if (uniqueRecipes.length > 0) {
+      setFilteredRecipes(uniqueRecipes);
+    } else {
+      setFilteredRecipes(recipes);
+    }
+  };
+
+  useEffect(() => {
+    mergeFilters();
+  }, [filteredByMain, filteredByType]);
 
   const value: ValueProp = {
     recipes: recipes,
+    filteredRecipes: filteredRecipes,
     allPastaTypes: allPastaTypes,
     allMainIngredients: allMainIngredients,
     sendNewRecipe: sendNewRecipe,
+    filterByName: filterByName,
+    filterByType: filterByType,
+    filterByMain: filterByMain,
     getRecipes: getRecipes,
   };
 

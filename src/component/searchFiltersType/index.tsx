@@ -1,10 +1,17 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Container, Form, Row } from "react-bootstrap";
+import { useNavigate } from "react-router-dom";
 import { useRecipeContext } from "../../data/recipeProvider";
 
 export function SearchFiltersType() {
   const [filters, setFilters] = useState<string[]>([]);
-  const { allPastaTypes } = useRecipeContext();
+  const { allPastaTypes, filterByType } = useRecipeContext();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    filterByType(filters);
+    navigate("/search");
+  }, [filters]);
 
   const addFilter = (type: string) => {
     let temporaryFilters = [...filters];

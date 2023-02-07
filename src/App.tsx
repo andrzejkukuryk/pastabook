@@ -22,18 +22,14 @@ import Breakpoints from "breakpoints-js";
 Breakpoints();
 
 function App() {
-  const { recipes } = useRecipeContext();
-  const [searchResult, setSearchResult] = useState(recipes);
+
 
   return (
     <BrowserRouter>
       <AuthProvider>
         <RecipeProvider>
           <Routes>
-            <Route
-              path="/"
-              element={<SharedLayout setSearchResult={setSearchResult} />}
-            >
+            <Route path="/" element={<SharedLayout />}>
               <Route index element={<RecipeList />} />
               <Route path="pastabook" element={<RecipeList />} />
               <Route path="recipes" />
@@ -64,10 +60,7 @@ function App() {
                   </ProtectedRoute>
                 }
               />
-              <Route
-                path="search"
-                element={<SearchResultList searchResult={searchResult} />}
-              />
+              <Route path="search" element={<SearchResultList />} />
             </Route>
             <Route path="*" element={<PageNotFound />} />
           </Routes>

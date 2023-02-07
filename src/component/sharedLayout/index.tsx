@@ -1,22 +1,14 @@
 import React from "react";
 import { Outlet } from "react-router-dom";
-import { Dish } from "../../models/dish";
-import { Recipe } from "../../models/recipe";
 import { Header } from "../header";
 import { Search } from "../search";
-import { SearchMain } from "../searchMain";
 
 import styles from "./style.module.css";
 
-interface SharedLayoutProps {
-  setSearchResult: React.Dispatch<React.SetStateAction<Dish[]>>;
-}
-
-export function SharedLayout({ setSearchResult }: SharedLayoutProps) {
+export function SharedLayout() {
   return (
     <div className={styles.container}>
       <Header />
-      {/* <SearchMain setSearchResult={setSearchResult} /> */}
       <Search />
       <Outlet />
     </div>
