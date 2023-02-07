@@ -53,6 +53,9 @@ export const RecipeProvider: FC<RecipeProviderProps> = ({ children }) => {
   const [filteredRecipes, setFilteredRecipes] = useState<Dish[]>([]);
   const [filteredByType, setFilteredByType] = useState<Dish[]>([]);
   const [filteredByMain, setFilteredByMain] = useState<Dish[]>([]);
+  const [mergedFilteredRecipes, setMergedFilteredRecipes] = useState<Dish[]>(
+    []
+  );
   const [allPastaTypes, setAllPastaTypes] = useState<string[]>([]);
   const [allMainIngredients, setAllMainIngredients] = useState<string[]>([]);
 
@@ -139,7 +142,7 @@ export const RecipeProvider: FC<RecipeProviderProps> = ({ children }) => {
   };
 
   const filterByName = (name: string) => {
-    const temporaryFilteredRecipes = [...recipes].filter((recipe) =>
+    const temporaryFilteredRecipes = mergedFilteredRecipes.filter((recipe) =>
       recipe.fullName.toLowerCase().includes(name.toLowerCase())
     );
     setFilteredRecipes(temporaryFilteredRecipes);
@@ -188,8 +191,10 @@ export const RecipeProvider: FC<RecipeProviderProps> = ({ children }) => {
     });
     if (uniqueRecipes.length > 0) {
       setFilteredRecipes(uniqueRecipes);
+      setMergedFilteredRecipes(uniqueRecipes);
     } else {
       setFilteredRecipes(recipes);
+      setMergedFilteredRecipes(recipes);
     }
   };
 
