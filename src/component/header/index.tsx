@@ -3,14 +3,14 @@ import { Container, Nav, Navbar } from "react-bootstrap";
 import { useAuthContext } from "../../data/authProvider";
 import { Logo } from "../logo";
 import { UserLoginMenu } from "../userLoginMenu";
-import "./style.css";
-import styles from "./style.module.css";
+
+
 
 export function Header() {
   const { token } = useAuthContext();
 
   return (
-    <Navbar className="navbar" bg="primary" variant="dark">
+    <Navbar className="navbar rounded-2" bg="secondary" variant="dark">
       <Container>
         <Navbar.Brand>
           <Logo />

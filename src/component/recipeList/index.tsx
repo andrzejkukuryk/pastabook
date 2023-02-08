@@ -1,11 +1,9 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { RecipeListItem } from "../recipeListItem";
 import { useRecipeContext } from "../../data/recipeProvider";
 import { Button, Col, Container, Row } from "react-bootstrap";
 import { RecipeListPagination } from "../recipeListPagination";
-//@ts-ignore
-import Breakpoints from "breakpoints-js";
 
 export function RecipeList() {
   const { recipes } = useRecipeContext();
@@ -34,7 +32,7 @@ export function RecipeList() {
 
         <Col>
           <Button
-            variant="secondary"
+            variant="primary"
             className="float-end"
             onClick={() => navigate("/add")}
           >

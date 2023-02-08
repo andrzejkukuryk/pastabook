@@ -1,7 +1,6 @@
 import React from "react";
-import { set, useForm } from "react-hook-form";
-import styles from "./style.module.css";
-import "./style.css";
+import { useForm } from "react-hook-form";
+// import "./style.css";
 import { useAuthContext } from "../../data/authProvider";
 import { Button, Col, Container, Form, Row } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
@@ -86,10 +85,10 @@ export function Login() {
             </Form.Group>
 
             <label></label>
-            <Button type="submit" variant="secondary" className="me-3">
+            <Button type="submit" variant="primary" className="me-3">
               Login
             </Button>
-            <Button variant="outline-secondary" onClick={() => navigate("/")}>
+            <Button variant="outline-primary" onClick={() => navigate("/")}>
               Back to homepage
             </Button>
           </form>
@@ -99,7 +98,11 @@ export function Login() {
         <Col>
           <p className="mt-3 h6">
             Don't have an account?
-            <Link to="/register" className="sign-up-link ms-2">
+            <Link
+              to="/register"
+              className="ms-2"
+              style={{ textDecoration: "none" }}
+            >
               Sign up
             </Link>
           </p>

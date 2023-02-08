@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+// import "bootstrap/dist/css/bootstrap.min.css";
 import "./App.css";
 import { RecipeList } from "./component/recipeList";
 import { BrowserRouter } from "react-router-dom";
@@ -22,7 +23,6 @@ import Breakpoints from "breakpoints-js";
 Breakpoints();
 
 function App() {
-
 
   return (
     <BrowserRouter>

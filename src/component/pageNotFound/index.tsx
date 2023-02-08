@@ -1,13 +1,14 @@
 import React from "react";
 import styles from "./style.module.css";
 import { Link } from "react-router-dom";
+import { Container } from "react-bootstrap";
 
 export function PageNotFound() {
   return (
-    <div className={styles.container}>
+    <Container>
       <h2>404</h2>
       <p>Page not found</p>
       <Link to="/">go back to homepage</Link>
-    </div>
+    </Container>
   );
 }

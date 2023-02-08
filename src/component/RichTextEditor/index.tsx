@@ -7,10 +7,7 @@ import {
   getDefaultKeyBinding,
   ContentBlock,
   DraftHandleValue,
-  convertFromHTML,
-  convertFromRaw,
   convertToRaw,
-  ContentState,
   RawDraftContentState,
 } from "draft-js";
 import "draft-js/dist/Draft.css";

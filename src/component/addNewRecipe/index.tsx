@@ -351,7 +351,7 @@ export function AddNewRecipe() {
               <Row>
                 <Col className="col-lg-4 col-md-6 col-xs-12 d-flex justify-content-end">
                   <Button
-                    variant="outline-secondary"
+                    variant="outline-primary"
                     className="d-block border-0"
                     onClick={addIngredient}
                   >
@@ -398,14 +398,14 @@ export function AddNewRecipe() {
             <AddRecipePhoto />
             <Button
               type="submit"
-              variant="secondary"
+              variant="primary"
               className="mt-3 mb-5 me-2"
               onClick={handleClickSave}
             >
               Save
             </Button>
             <Button
-              variant="outline-secondary"
+              variant="outline-primary"
               className="mt-3 mb-5"
               onClick={clearAndBackHome}
             >

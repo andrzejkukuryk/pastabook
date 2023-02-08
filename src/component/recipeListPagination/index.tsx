@@ -1,5 +1,4 @@
 import Pagination from "react-bootstrap/Pagination";
-import "./style.css";
 interface RecipeListPaginationProps {
   numberOfPages: number;
   currentPage: number;

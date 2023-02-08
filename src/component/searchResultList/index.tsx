@@ -70,7 +70,7 @@ export function SearchResultList() {
 
         <Col>
           <Button
-            variant="secondary"
+            variant="primary"
             className="float-end"
             onClick={() => navigate("/add")}
           >

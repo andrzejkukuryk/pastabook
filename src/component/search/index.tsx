@@ -32,7 +32,8 @@ export function Search() {
               ></Form.Control>
               <Button
                 type="submit"
-                variant="outline-secondary"
+                variant="outline-primary"
+                className="border"
                 onClick={handleSubmit}
               >
                 <svg
@@ -52,7 +53,7 @@ export function Search() {
         </Col>
         <Col xs={4} lg={2}>
           <Button
-            variant="outline-secondary"
+            variant="outline-primary"
             className="border-0"
             type="button"
             data-bs-toggle="collapse"

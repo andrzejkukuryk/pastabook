@@ -1,8 +1,6 @@
 import React from "react";
 import { EditorState } from "draft-js";
-
 import { StyleButton } from "../StyleButton";
-// import "draft-js/dist/Draft.css";
 import "../RichTextEditor/richText.css";
 
 const boldIcon = (

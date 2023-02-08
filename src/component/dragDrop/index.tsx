@@ -79,7 +79,7 @@ export function DragDrop() {
   );
 
   const customDragNDropArea = (
-    <div className=" border border-secondary rounded-2 p-2 text-secondary">
+    <div className=" border border-primary rounded-2 p-2 ">
       {jpgIcon}
       {gifIcon}
       {pngIcon}
