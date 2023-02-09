@@ -10,4 +10,10 @@
   font-family: "Open Sans";
 }
 
+.errorMsg {
+  color: red;
+  font-size: 0.6em;
+  margin-top: 5px;
+  margin-left: 10px;
+}
 

@@ -1,16 +1,7 @@
 import React, { useState } from "react";
-import styles from "./style.module.css";
-import "./style.css";
-import userIcon from "./graph/userIcon.png";
+// import "./style.css";
 import { useAuthContext } from "../../data/authProvider";
-import {
-  Col,
-  Container,
-  Dropdown,
-  DropdownButton,
-  Image,
-  Row,
-} from "react-bootstrap";
+import { Col, Container, Dropdown, Row } from "react-bootstrap";
 
 export function UserLoginMenu() {
   const { user, logoutUser } = useAuthContext();
@@ -26,12 +17,15 @@ export function UserLoginMenu() {
           </Col>
           <Col>
             <Dropdown>
-              <Dropdown.Toggle variant="primary" className="px-0">
+              <Dropdown.Toggle
+                variant="secondary"
+                className="px-0 text-primary"
+              >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   width="24"
                   height="24"
-                  fill="#B54942"
+                  fill="currentColor"
                   className="bi bi-person-circle"
                   viewBox="0 0 16 16"
                 >
@@ -41,7 +35,6 @@ export function UserLoginMenu() {
                     d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1z"
                   />
                 </svg>
-                {/* <Image src={userIcon} className="align-top"></Image> */}
               </Dropdown.Toggle>
               <Dropdown.Menu align="end" className="shadow">
                 <Dropdown.Item href="/profile">My account</Dropdown.Item>

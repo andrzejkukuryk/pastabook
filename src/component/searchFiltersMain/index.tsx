@@ -10,7 +10,7 @@ export function SearchFiltersMain() {
 
   useEffect(() => {
     filterByMain(filters);
-    navigate("/search");
+    // navigate("/search");
   }, [filters]);
 
   const addFilter = (type: string) => {
@@ -43,10 +43,10 @@ export function SearchFiltersMain() {
     return filters.map((filter) => (
       <div
         key={`chip${filter}`}
-        className="border border-color rounded rounded-sm ps-2 py-1 mt-2 me-2 text-secondary d-inline-block"
+        className="border border-color rounded rounded-sm ps-2 py-1 mt-2 me-2 text-primary d-inline-block"
       >
         {filter}
-        <a href="#" className="text-secondary">
+        <a href="#" className="text-primary">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="20"

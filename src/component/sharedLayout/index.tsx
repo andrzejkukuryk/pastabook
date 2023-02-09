@@ -7,7 +7,7 @@ import styles from "./style.module.css";
 
 export function SharedLayout() {
   return (
-    <div className={styles.container}>
+    <div>
       <Header />
       <Search />
       <Outlet />

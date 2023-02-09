@@ -1,16 +1,14 @@
-import React, { useState } from "react";
-// import "bootstrap/dist/css/bootstrap.min.css";
+import React from "react";
 import "./App.css";
 import { RecipeList } from "./component/recipeList";
 import { BrowserRouter } from "react-router-dom";
 import { Routes, Route } from "react-router";
-import { AuthProvider, useAuthContext } from "./data/authProvider";
+import { AuthProvider } from "./data/authProvider";
 import { Recipe } from "./component/recipe";
 import { PageNotFound } from "./component/pageNotFound";
 import { SharedLayout } from "./component/sharedLayout";
 import { Login } from "./component/login";
 import { Register } from "./component/register";
-import { AddRecipe } from "./component/addRecipe";
 import { AddNewRecipe } from "./component/addNewRecipe";
 import { SearchResultList } from "./component/searchResultList";
 import { ProtectedRoute } from "./component/protectedRoute";
@@ -23,7 +21,6 @@ import Breakpoints from "breakpoints-js";
 Breakpoints();
 
 function App() {
-
   return (
     <BrowserRouter>
       <AuthProvider>
