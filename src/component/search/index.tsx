@@ -33,7 +33,7 @@ export function Search() {
               <Button
                 type="submit"
                 variant="outline-primary"
-                className="bordery"
+                className="border"
                 onClick={handleSubmit}
               >
                 <svg

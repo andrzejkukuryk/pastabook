@@ -14,10 +14,9 @@ import { SearchResultList } from "./component/searchResultList";
 import { ProtectedRoute } from "./component/protectedRoute";
 import { UserProfile } from "./component/userProfile";
 import { UserProfileEdit } from "./component/userProfileEdit";
-import { RecipeProvider, useRecipeContext } from "./data/recipeProvider";
+import { RecipeProvider } from "./data/recipeProvider";
 //@ts-ignore
 import Breakpoints from "breakpoints-js";
-// import "./css/main.css";
 Breakpoints();
 
 function App() {
