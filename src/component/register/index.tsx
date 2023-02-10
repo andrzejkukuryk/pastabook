@@ -45,7 +45,7 @@ export function Register() {
           <p>Loading</p>
         </Row>
       )}
-      <form onSubmit={handleSubmit(onSubmit)}>
+      <form noValidate onSubmit={handleSubmit(onSubmit)}>
         <Form.Group
           controlId="email"
           className="mt-3 col-lg-4 col-md-6 col-xs-12"
@@ -138,7 +138,7 @@ export function Register() {
       </form>
       <Row>
         <Col>
-          <p className="mt-3 h6">
+          <p className="mt-4 h6">
             Already a member?
             <Link
               to="/login"

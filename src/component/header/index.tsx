@@ -1,10 +1,9 @@
 import React from "react";
 import { Container, Nav, Navbar } from "react-bootstrap";
+import { Link } from "react-router-dom";
 import { useAuthContext } from "../../data/authProvider";
 import { Logo } from "../logo";
 import { UserLoginMenu } from "../userLoginMenu";
-
-
 
 export function Header() {
   const { token } = useAuthContext();
@@ -17,14 +16,22 @@ export function Header() {
         </Navbar.Brand>
         <Nav>
           {!token && (
-            <Nav.Link href="/login" className="text-dark">
+            <Link
+              to="/login"
+              className="text-dark me-4"
+              style={{ textDecoration: "none", fontWeight: 600 }}
+            >
               Login
-            </Nav.Link>
+            </Link>
           )}
           {!token && (
-            <Nav.Link href="/register" className="text-dark">
-              Sign Up
-            </Nav.Link>
+            <Link
+              to="/register"
+              className="text-dark me-3"
+              style={{ textDecoration: "none", fontWeight: 600 }}
+            >
+              Sign up
+            </Link>
           )}
           {token && <UserLoginMenu />}
         </Nav>

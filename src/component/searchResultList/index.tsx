@@ -47,7 +47,7 @@ export function SearchResultList() {
               viewBox="0 2 16 16"
             >
               <path
-                fill-rule="evenodd"
+                fillRule="evenodd"
                 d="M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2Z"
               />
             </svg>
@@ -55,7 +55,7 @@ export function SearchResultList() {
           </Button>
         </Col>
       </Row>
-      <Row className="g-4 d-flex justify-content-between">
+      <Row className="g-4 mt-1 d-flex justify-content-between">
         {filteredRecipes
           .slice(indexOfFirstItem, indexOfLastItem)
           .map((recipe) => (

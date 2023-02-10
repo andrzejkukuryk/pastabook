@@ -21,7 +21,9 @@ export function AddNewRecipe() {
     useState<boolean>(false);
   const [newMethod, setNewMethod] = useState<any>({});
   const [methodHasText, setMethodHasText] = useState<boolean>(false);
-  const [validated, setValidated] = useState(false);
+  const [validated, setValidated] = useState<boolean>(false);
+  const [submited, setSubmited] = useState<boolean>(false);
+  const [showWarning, setShowWarning] = useState<boolean>(false);
 
   const navigate = useNavigate();
 
@@ -98,29 +100,43 @@ export function AddNewRecipe() {
 
   const createIngredientsList = () => {
     return newIngredients.map((ingredient, index) => (
-      <div>
-        <Form.Group className="mb-3 col-lg-4 col-md-6 col-xs-12 d-inline-block">
+      <div key={`addedIngredient${index}`}>
+        <Form.Group
+          className="mb-3 col-lg-4 col-md-6 col-xs-12 d-inline-block"
+          controlId={`ingredient${index}`}
+        >
           <Form.Control
             required
             type="text"
             placeholder="Type ingredient name"
             value={ingredient.name}
             onChange={(e) => {
+              setValidated(false);
               handleChangeName(e.target.value, index);
             }}
           />
         </Form.Group>
-        <Form.Group className=" d-inline-block ms-2">
+        <Form.Group
+          className=" d-inline-block ms-2"
+          controlId={`mainSwitch${index}`}
+        >
           <Form.Check
             type="switch"
             label="main ingredient"
             checked={ingredient.main}
             onChange={() => {
+              setValidated(false);
               handleChangeMain(index);
             }}
           />
         </Form.Group>
-        <Button variant="white" onClick={() => handleClickRemove(index)}>
+        <Button
+          variant="white"
+          onClick={() => {
+            setValidated(false);
+            handleClickRemove(index);
+          }}
+        >
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="16"
@@ -223,8 +239,11 @@ export function AddNewRecipe() {
   };
 
   const handleClickSave = () => {
-    if (noErrors) {
+    if (submited) {
+      setShowWarning(true);
+    } else if (noErrors && !submited) {
       sendNewRecipe(createRecipeForUpload());
+      setSubmited(true);
     }
     handleScrollOnTop();
   };
@@ -237,12 +256,9 @@ export function AddNewRecipe() {
     navigate("/");
   };
 
-  const handleSubmit = (event: any) => {
-    const form = event.currentTarget;
-    if (form.checkValidity() === false) {
-      event.preventDefault();
-      event.stopPropagation();
-    }
+  const handleSubmit = (event: React.SyntheticEvent) => {
+    event.preventDefault();
+    event.stopPropagation();
 
     setValidated(true);
   };
@@ -275,7 +291,7 @@ export function AddNewRecipe() {
           </Col>
         </Row>
       )}
-      {validated && countErrors() === 0 && (
+      {validated && noErrors && (
         <Row>
           <Col>
             <Alert variant="success">
@@ -297,6 +313,28 @@ export function AddNewRecipe() {
           </Col>
         </Row>
       )}
+      {showWarning && (
+        <Row>
+          <Col>
+            <Alert variant="warning">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="20"
+                height="20"
+                fill="currentColor"
+                className="bi bi-info-circle me-1"
+                viewBox="0 2 20 16"
+              >
+                <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z" />
+                <path d="m8.93 6.588-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533L8.93 6.588zM9 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0z" />
+              </svg>
+              You have already added this recipe. Click{" "}
+              <Alert.Link href="/add">here</Alert.Link> if you would like to add
+              another.
+            </Alert>
+          </Col>
+        </Row>
+      )}
       <Row>
         <Col>
           <Form noValidate validated={validated} onSubmit={handleSubmit}>
@@ -307,7 +345,10 @@ export function AddNewRecipe() {
                 type="text"
                 placeholder="Type dish name"
                 value={newRecipeName}
-                onChange={(e) => setNewRecipeName(e.target.value)}
+                onChange={(e) => {
+                  setValidated(false);
+                  setNewRecipeName(e.target.value);
+                }}
                 required
               />
               <Form.Control.Feedback type="invalid">
@@ -317,11 +358,14 @@ export function AddNewRecipe() {
             <Form.Group className="mb-3 col-lg-4 col-md-6 col-xs-12">
               <Form.Label>Pasta type</Form.Label>
               <Form.Select
-                value={newPastaType}
-                onChange={(e) => setNewPastaType(e.target.value)}
+                defaultValue={""}
+                onChange={(e) => {
+                  setValidated(false);
+                  setNewPastaType(e.target.value);
+                }}
                 required
               >
-                <option disabled selected value={""}>
+                <option disabled value={""}>
                   Select pasta type
                 </option>
                 {createOptions()}
@@ -364,7 +408,7 @@ export function AddNewRecipe() {
                       viewBox="0 2 18 16"
                     >
                       <path
-                        fill-rule="evenodd"
+                        fillRule="evenodd"
                         d="M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2Z"
                       />
                     </svg>
@@ -384,6 +428,7 @@ export function AddNewRecipe() {
                 methodHasText={methodHasText}
                 setMethodHasText={setMethodHasText}
                 validated={validated}
+                setValidated={setValidated}
               />
               {!methodHasText && validated && (
                 <Form.Text className="text-danger">

@@ -142,9 +142,12 @@ export const RecipeProvider: FC<RecipeProviderProps> = ({ children }) => {
   };
 
   const filterByName = (name: string) => {
-    const temporaryFilteredRecipes = mergedFilteredRecipes.filter((recipe) =>
-      recipe.fullName.toLowerCase().includes(name.toLowerCase())
-    );
+const searchArea =
+  mergedFilteredRecipes.length > 0 ? mergedFilteredRecipes : recipes;
+
+const temporaryFilteredRecipes = searchArea.filter((recipe) =>
+  recipe.fullName.toLowerCase().includes(name.toLowerCase())
+);
     setFilteredRecipes(temporaryFilteredRecipes);
   };
 

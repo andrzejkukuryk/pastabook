@@ -33,7 +33,7 @@ export function Login() {
       </Row>
       <Row>
         <Col>
-          <form onSubmit={handleSubmit(onSubmit)}>
+          <form noValidate onSubmit={handleSubmit(onSubmit)}>
             <Form.Group
               className="mb-3 col-lg-4 col-md-6 col-xs-12"
               controlId="email"
@@ -85,10 +85,14 @@ export function Login() {
             </Form.Group>
 
             <label></label>
-            <Button type="submit" variant="primary" className="me-3">
+            <Button type="submit" variant="primary" className="mt-2 me-3">
               Login
             </Button>
-            <Button variant="outline-primary" onClick={() => navigate("/")}>
+            <Button
+              variant="outline-primary"
+              className="mt-2"
+              onClick={() => navigate("/")}
+            >
               Back to homepage
             </Button>
           </form>
@@ -96,7 +100,7 @@ export function Login() {
       </Row>
       <Row>
         <Col>
-          <p className="mt-3 h6">
+          <p className="mt-4 h6">
             Don't have an account?
             <Link
               to="/register"

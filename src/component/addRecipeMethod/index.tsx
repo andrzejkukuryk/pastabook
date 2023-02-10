@@ -7,6 +7,7 @@ interface AddRecipeMethodProps {
   methodHasText: boolean;
   setMethodHasText: React.Dispatch<React.SetStateAction<boolean>>;
   validated: boolean;
+  setValidated: (value: React.SetStateAction<boolean>) => void;
 }
 
 export function AddRecipeMethod({
@@ -14,10 +15,14 @@ export function AddRecipeMethod({
   methodHasText,
   setMethodHasText,
   validated,
+  setValidated,
 }: AddRecipeMethodProps) {
   const [content, setContent] = useState<any>({});
 
-  useEffect(() => setNewMethod(content), [content]);
+  useEffect(() => {
+    setNewMethod(content);
+    setValidated(false);
+  }, [content]);
 
   const error = validated && !methodHasText;
 

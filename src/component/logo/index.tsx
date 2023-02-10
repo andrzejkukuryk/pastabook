@@ -9,7 +9,11 @@ export function Logo() {
       <Container>
         <Row>
           <Col xs={2}>
-            <Image src={bookHeart} className="align-top" />
+            <Image
+              src={bookHeart}
+              className="align-top"
+              style={{ width: 30 }}
+            />
           </Col>
           <Col>
             <h1 className="h4 text-dark fw-bold align-top">Pastabook</h1>
