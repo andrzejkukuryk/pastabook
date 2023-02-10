@@ -26,6 +26,7 @@ export const StyleButton = ({
     <button
       className={className + `${active ? " RichEditor-activeButton" : ""}`}
       onClick={_onToggle}
+      onMouseDown={(e) => e.preventDefault()}
     >
       {label}
     </button>

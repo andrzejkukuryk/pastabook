@@ -5,7 +5,7 @@ import draftToHtml from "draftjs-to-html";
 import { AddRecipeMethod } from "../addRecipeMethod";
 import { AddRecipePhoto } from "../addRecipePhoto";
 import { useRecipeContext } from "../../data/recipeProvider";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import "./style.css";
 
 export function AddNewRecipe() {
@@ -17,6 +17,7 @@ export function AddNewRecipe() {
     initialNewIngredients
   );
   const [noIngredients, setNoIngredients] = useState<boolean>(true);
+  const [noMainIngredients, setNoMainIngredients] = useState<boolean>(false);
   const [tooManyMainIngredients, setTooManyMainIngredients] =
     useState<boolean>(false);
   const [newMethod, setNewMethod] = useState<any>({});
@@ -164,6 +165,11 @@ export function AddNewRecipe() {
     } else {
       setTooManyMainIngredients(false);
     }
+    if (mainCounter === 0) {
+      setNoMainIngredients(true);
+    } else {
+      setNoMainIngredients(false);
+    }
   };
 
   const countIngredients = () => {
@@ -215,6 +221,7 @@ export function AddNewRecipe() {
     const errors = [
       newRecipeName.length === 0,
       newPastaType.length === 0,
+      noMainIngredients,
       tooManyMainIngredients,
       noIngredients,
       !methodHasText,
@@ -234,18 +241,18 @@ export function AddNewRecipe() {
   const recipeHrefAfterUpload = () => {
     const dishname = newRecipeName.toLowerCase().replace(/\s+/g, "");
     const href = `/recipes/${dishname}`;
-
     return href;
   };
 
-  const handleClickSave = () => {
+  const handleClickSave = async () => {
     if (submited) {
       setShowWarning(true);
     } else if (noErrors && !submited) {
       sendNewRecipe(createRecipeForUpload());
+      getRecipes();
       setSubmited(true);
     }
-    handleScrollOnTop();
+    await handleScrollOnTop();
   };
 
   const clearAndBackHome = () => {
@@ -306,9 +313,14 @@ export function AddNewRecipe() {
                 <path d="M12.736 3.97a.733.733 0 0 1 1.047 0c.286.289.29.756.01 1.05L7.88 12.01a.733.733 0 0 1-1.065.02L3.217 8.384a.757.757 0 0 1 0-1.06.733.733 0 0 1 1.047 0l3.052 3.093 5.4-6.425a.247.247 0 0 1 .02-.022Z" />
               </svg>
               New recipe added correctly. Click{" "}
-              <Alert.Link href={recipeHrefAfterUpload()}>here</Alert.Link> to
-              see your recipe or <Alert.Link href="/">here</Alert.Link> to back
-              to homepage.
+              <Link to={recipeHrefAfterUpload()} className="alert-link">
+                here
+              </Link>{" "}
+              to see your recipe or{" "}
+              <Link to="/" className="alert-link">
+                here
+              </Link>{" "}
+              to back to homepage.
             </Alert>
           </Col>
         </Row>
@@ -329,8 +341,10 @@ export function AddNewRecipe() {
                 <path d="m8.93 6.588-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533L8.93 6.588zM9 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0z" />
               </svg>
               You have already added this recipe. Click{" "}
-              <Alert.Link href="/add">here</Alert.Link> if you would like to add
-              another.
+              <Link className="alert-link" to="/add">
+                here
+              </Link>{" "}
+              if you would like to add another.
             </Alert>
           </Col>
         </Row>
@@ -384,6 +398,12 @@ export function AddNewRecipe() {
             {noIngredients && validated && (
               <Form.Text className="text-danger">
                 You have to add at least 1 ingredient
+                <br />
+              </Form.Text>
+            )}
+            {noMainIngredients && validated && (
+              <Form.Text className="text-danger">
+                You have to set at least 1 main ingredient
               </Form.Text>
             )}
             {tooManyMainIngredients && validated && (

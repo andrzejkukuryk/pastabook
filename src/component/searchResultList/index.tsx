@@ -58,8 +58,9 @@ export function SearchResultList() {
       <Row className="g-4 mt-1 d-flex justify-content-between">
         {filteredRecipes
           .slice(indexOfFirstItem, indexOfLastItem)
-          .map((recipe) => (
+          .map((recipe, index) => (
             <Col
+              key={`result${index}`}
               sm={12}
               md={6}
               xl={4}

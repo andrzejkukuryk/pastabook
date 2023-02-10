@@ -9,7 +9,6 @@ import React, {
 import { Dish } from "../../models/dish";
 
 import { Recipe } from "../../models/recipe";
-import { recipes as dummyRecipes } from "../dummyData";
 
 const initialRecipeContext = {
   recipes: [],
@@ -51,6 +50,7 @@ const endpoint =
 export const RecipeProvider: FC<RecipeProviderProps> = ({ children }) => {
   const [recipes, setRecipes] = useState<Dish[]>([]);
   const [filteredRecipes, setFilteredRecipes] = useState<Dish[]>([]);
+  const [filteredByName, setFilteredByName] = useState<Dish[]>([]);
   const [filteredByType, setFilteredByType] = useState<Dish[]>([]);
   const [filteredByMain, setFilteredByMain] = useState<Dish[]>([]);
   const [mergedFilteredRecipes, setMergedFilteredRecipes] = useState<Dish[]>(
@@ -66,13 +66,13 @@ export const RecipeProvider: FC<RecipeProviderProps> = ({ children }) => {
   }, []);
 
   const getRecipes = async () => {
+    console.log("pobieram");
     const temporaryRecipes: Dish[] = [];
     const jsonResponse = await fetch(endpoint, {
       method: "GET",
     });
     const response = await jsonResponse.json();
     const downloadedRecipes = Object.values(response) as Recipe[];
-    console.log("z firebase: ", downloadedRecipes);
     downloadedRecipes.forEach((recipe) => {
       const dishIngredients = recipe.ingredients ? recipe.ingredients : [];
       const dishMainIngredients = recipe.mainIngredients
@@ -142,20 +142,22 @@ export const RecipeProvider: FC<RecipeProviderProps> = ({ children }) => {
   };
 
   const filterByName = (name: string) => {
-const searchArea =
-  mergedFilteredRecipes.length > 0 ? mergedFilteredRecipes : recipes;
+    const searchArea =
+      mergedFilteredRecipes.length > 0 ? mergedFilteredRecipes : recipes;
 
-const temporaryFilteredRecipes = searchArea.filter((recipe) =>
-  recipe.fullName.toLowerCase().includes(name.toLowerCase())
-);
+    const temporaryFilteredRecipes = searchArea.filter((recipe) =>
+      recipe.fullName.toLowerCase().includes(name.toLowerCase())
+    );
+    setFilteredByName(temporaryFilteredRecipes);
     setFilteredRecipes(temporaryFilteredRecipes);
   };
 
   const filterByType = (types: string[]) => {
+    const searchArea = filteredByName.length > 0 ? filteredByName : recipes;
     let temporaryFilteredRecipes: Dish[] = [];
 
     types.forEach((type) => {
-      [...recipes].forEach((recipe) => {
+      searchArea.forEach((recipe) => {
         if (recipe.pastaType === type) {
           temporaryFilteredRecipes.push(recipe);
         }
@@ -166,10 +168,11 @@ const temporaryFilteredRecipes = searchArea.filter((recipe) =>
   };
 
   const filterByMain = (mains: string[]) => {
+    const searchArea = filteredByName.length > 0 ? filteredByName : recipes;
     let temporaryFilteredRecipes: Dish[] = [];
 
     mains.forEach((main) =>
-      [...recipes].forEach((recipe) => {
+      searchArea.forEach((recipe) => {
         if (
           recipe.mainIngredients
             .map((ingr) => ingr.toLowerCase())
