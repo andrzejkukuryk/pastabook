@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Button } from "react-bootstrap";
 import { FileUploader } from "react-drag-drop-files";
 import styles from "./style.module.css";
+import "./style.css";
 
 const fileTypes = ["JPG", "PNG", "GIF"];
 
@@ -79,18 +80,18 @@ export function DragDrop() {
   );
 
   const customDragNDropArea = (
-    <div className=" border border-primary rounded-2 p-2 ">
+    <div className=" border border-primary rounded-2 p-2 w-100">
       {jpgIcon}
       {gifIcon}
       {pngIcon}
-      <p className="h6 mt-2 mb-5">
+      <div className="h6 mt-2 mb-5">
         To add a photo <a href="#">click</a> or drop a file here
-      </p>
+      </div>
     </div>
   );
 
   return (
-    <div className="border border-1 rounded-2 p-3">
+    <div className="border border-1 rounded-2 p-3 setLabelWidth">
       <FileUploader
         handleChange={handleChange}
         name="file"

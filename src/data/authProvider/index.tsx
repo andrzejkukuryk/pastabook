@@ -174,7 +174,6 @@ export const AuthProvider: FC<AuthProviderProps> = ({ children }) => {
         body: JSON.stringify(data),
       });
       const jsonResponse = await response.json();
-      console.log("json response login: ", jsonResponse);
       if (jsonResponse.error) {
         console.log(jsonResponse.error.message);
         setErrorMessage(jsonResponse.error.message);

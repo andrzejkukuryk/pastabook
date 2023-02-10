@@ -66,7 +66,6 @@ export const RecipeProvider: FC<RecipeProviderProps> = ({ children }) => {
   }, []);
 
   const getRecipes = async () => {
-    console.log("pobieram");
     const temporaryRecipes: Dish[] = [];
     const jsonResponse = await fetch(endpoint, {
       method: "GET",

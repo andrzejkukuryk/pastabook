@@ -54,21 +54,29 @@ export function RecipeList() {
         </Col>
       </Row>
       <Row className="g-4 mt-1 d-flex justify-content-between">
-        {recipes.slice(indexOfFirstItem, indexOfLastItem).map((recipe) => (
-          <Col sm={12} md={6} xl={4} className="d-flex justify-content-center">
-            <Link
-              to={`/recipes/${recipe.path}`}
-              key={recipe.path}
-              style={{ textDecoration: "none", color: "#212529" }}
+        {recipes
+          .slice(indexOfFirstItem, indexOfLastItem)
+          .map((recipe, index) => (
+            <Col
+              sm={12}
+              md={6}
+              xl={4}
+              className="d-flex justify-content-center"
+              key={`recipe${index}`}
             >
-              <RecipeListItem
-                dishName={recipe.fullName}
-                imageSource={recipe.imageSource}
-                rate={recipe.rate}
-              />
-            </Link>
-          </Col>
-        ))}
+              <Link
+                to={`/recipes/${recipe.path}`}
+                key={recipe.path}
+                style={{ textDecoration: "none", color: "#212529" }}
+              >
+                <RecipeListItem
+                  dishName={recipe.fullName}
+                  imageSource={recipe.imageSource}
+                  rate={recipe.rate}
+                />
+              </Link>
+            </Col>
+          ))}
       </Row>
       {numberOfPages > 1 && (
         <Row className="mt-5">
