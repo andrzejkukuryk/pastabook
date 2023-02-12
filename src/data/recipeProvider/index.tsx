@@ -91,7 +91,7 @@ export const RecipeProvider: FC<RecipeProviderProps> = ({ children }) => {
     });
     setRecipes(temporaryRecipes);
 
-    setFilteredRecipes(temporaryRecipes);
+    setFilteredByName(temporaryRecipes);
   };
 
   const sendNewRecipe = async (newRecipe: Recipe) => {
@@ -141,10 +141,10 @@ export const RecipeProvider: FC<RecipeProviderProps> = ({ children }) => {
   };
 
   const filterByName = (name: string) => {
-    const searchArea =
-      mergedFilteredRecipes.length > 0 ? mergedFilteredRecipes : recipes;
+    // const searchArea =
+    //   mergedFilteredRecipes.length > 0 ? mergedFilteredRecipes : recipes;
 
-    const temporaryFilteredRecipes = searchArea.filter((recipe) =>
+    const temporaryFilteredRecipes = recipes.filter((recipe) =>
       recipe.fullName.toLowerCase().includes(name.toLowerCase())
     );
     setFilteredByName(temporaryFilteredRecipes);
@@ -152,11 +152,11 @@ export const RecipeProvider: FC<RecipeProviderProps> = ({ children }) => {
   };
 
   const filterByType = (types: string[]) => {
-    const searchArea = filteredByName.length > 0 ? filteredByName : recipes;
+    // const searchArea = filteredByName.length > 0 ? filteredByName : recipes;
     let temporaryFilteredRecipes: Dish[] = [];
 
     types.forEach((type) => {
-      searchArea.forEach((recipe) => {
+      recipes.forEach((recipe) => {
         if (recipe.pastaType === type) {
           temporaryFilteredRecipes.push(recipe);
         }
@@ -167,11 +167,11 @@ export const RecipeProvider: FC<RecipeProviderProps> = ({ children }) => {
   };
 
   const filterByMain = (mains: string[]) => {
-    const searchArea = filteredByName.length > 0 ? filteredByName : recipes;
+    // const searchArea = filteredByName.length > 0 ? filteredByName : recipes;
     let temporaryFilteredRecipes: Dish[] = [];
 
     mains.forEach((main) =>
-      searchArea.forEach((recipe) => {
+      recipes.forEach((recipe) => {
         if (
           recipe.mainIngredients
             .map((ingr) => ingr.toLowerCase())
@@ -195,10 +195,10 @@ export const RecipeProvider: FC<RecipeProviderProps> = ({ children }) => {
       }
     });
     if (uniqueRecipes.length > 0) {
-      setFilteredRecipes(uniqueRecipes);
+      // setFilteredRecipes(uniqueRecipes);
       setMergedFilteredRecipes(uniqueRecipes);
     } else {
-      setFilteredRecipes(recipes);
+      // setFilteredRecipes(recipes);
       setMergedFilteredRecipes(recipes);
     }
   };
@@ -206,6 +206,23 @@ export const RecipeProvider: FC<RecipeProviderProps> = ({ children }) => {
   useEffect(() => {
     mergeFilters();
   }, [filteredByMain, filteredByType]);
+
+  const prepairToDisplayFilteredRecipes = () => {
+    const temporaryFilteredRecipes: Dish[] = [];
+    recipes.forEach((recipe) => {
+      if (
+        mergedFilteredRecipes.includes(recipe) &&
+        filteredByName.includes(recipe)
+      ) {
+        temporaryFilteredRecipes.push(recipe);
+      }
+    });
+    setFilteredRecipes(temporaryFilteredRecipes);
+  };
+
+  useEffect(() => {
+    prepairToDisplayFilteredRecipes();
+  }, [mergedFilteredRecipes, filteredByName]);
 
   const value: ValueProp = {
     recipes: recipes,
