@@ -18,6 +18,7 @@ const initialAuthContext = {
   logoutUser: () => {},
   editUser: () => {},
   submitRegisterPressed: () => {},
+  addToFavorites: () => {},
 } as unknown as ValueProp; // nie ma dostępu do właściwych funcji, ale wartosci zostaną nadpisane przy pierwszym renderze
 
 export const AuthContext = createContext<ValueProp>(initialAuthContext);
@@ -40,6 +41,7 @@ interface ValueProp {
     password: string;
     username?: string | undefined;
   }) => Promise<void>;
+  addToFavorites: (userMail: string, recipeUrl: string) => Promise<void>;
 }
 
 interface AuthProviderProps {
@@ -65,6 +67,10 @@ export const AuthProvider: FC<AuthProviderProps> = ({ children }) => {
   const [user, setUser] = useState<User | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
+  const [userExists, setUserExists] = useState<boolean>(false);
+  const [userHasFavorites, setUserHasFavorites] = useState<boolean>(false);
+  // const [currentFavorites, setCurrentFavorites] = useState<string[]>([]);
+  const [userHasRated, setUserHasRated] = useState<boolean>(false);
 
   const location = useLocation();
   const navigate = useNavigate();
@@ -268,6 +274,84 @@ export const AuthProvider: FC<AuthProviderProps> = ({ children }) => {
     }
   };
 
+  //////////////////////////
+  ///// favorites section
+
+  const addToFavorites = async (userMail: string, recipeUrl: string) => {
+    await getUsersInfo(userMail);
+    console.log("userExists: ", userExists);
+    if (userExists) {
+      addNextFavorite(userMail, recipeUrl);
+    } else {
+      addUserAndFirstFavorite(userMail, recipeUrl);
+    }
+  };
+
+  const getUsersFavorites = async (userMail: string) => {
+    const prepairEmail = userMail.replace(/\W/g, "").toLowerCase();
+    const endpoint = `https://${process.env.REACT_APP_FIREBASE_PROJECT_ID}-default-rtdb.europe-west1.firebasedatabase.app/users/${prepairEmail}.json`;
+    const response = await fetch(endpoint, {
+      method: "GET",
+    });
+    const jsonResponse = await response.json();
+    return jsonResponse.favorites;
+  };
+
+  const addNextFavorite = async (userMail: string, recipeUrl: string) => {
+    const prepairEmail = userMail.replace(/\W/g, "").toLowerCase();
+    const endpoint = `https://${process.env.REACT_APP_FIREBASE_PROJECT_ID}-default-rtdb.europe-west1.firebasedatabase.app/users/${prepairEmail}.json`;
+
+    const currentFavorites = await getUsersFavorites(userMail);
+    const body = {
+      favorites: [...currentFavorites, recipeUrl],
+    };
+    const response = await fetch(endpoint, {
+      method: "PATCH",
+      body: JSON.stringify(body),
+    });
+  };
+
+  const addUserAndFirstFavorite = async (
+    userMail: string,
+    recipeUrl: string
+  ) => {
+    const prepairEmail = userMail.replace(/\W/g, "").toLowerCase();
+    const endpoint = `https://${process.env.REACT_APP_FIREBASE_PROJECT_ID}-default-rtdb.europe-west1.firebasedatabase.app/users/${prepairEmail}.json`;
+    const body = {
+      favorites: [recipeUrl],
+    };
+    const response = await fetch(endpoint, {
+      method: "PUT",
+      body: JSON.stringify(body),
+    });
+  };
+
+  const getUsersInfo = async (userMail: string) => {
+    const prepairEmail = userMail.replace(/\W/g, "").toLowerCase();
+    const endpoint = `https://${process.env.REACT_APP_FIREBASE_PROJECT_ID}-default-rtdb.europe-west1.firebasedatabase.app/users.json`;
+    const response = await fetch(endpoint, {
+      method: "GET",
+    });
+    const jsonResponse = await response.json();
+    if (jsonResponse[prepairEmail]) {
+      setUserExists(true);
+      if (jsonResponse[prepairEmail].favorites) {
+        setUserHasFavorites(true);
+      } else {
+        setUserHasFavorites(false);
+      }
+      if (jsonResponse[prepairEmail].rated) {
+        setUserHasRated(true);
+      } else {
+        setUserHasRated(false);
+      }
+    } else {
+      setUserExists(false);
+      setUserHasFavorites(false);
+      setUserHasRated(false);
+    }
+  };
+
   const value: ValueProp = {
     token,
     user,
@@ -278,6 +362,7 @@ export const AuthProvider: FC<AuthProviderProps> = ({ children }) => {
     logoutUser: logoutUser,
     editUser: editUser,
     submitRegisterPressed: submitRegisterPressed,
+    addToFavorites: addToFavorites,
   };
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };

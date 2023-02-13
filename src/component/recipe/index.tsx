@@ -13,20 +13,7 @@ export function Recipe() {
     (rcp) => rcp.path === recipePath
   );
 
-  const { token } = useAuthContext();
-
-  const createMethod = () => {
-    const parser = new DOMParser();
-    let method;
-    if (recipe) {
-      method = parser.parseFromString(recipe.method, "text/html");
-    }
-    return method?.body.children;
-  };
-
-  const method = createMethod();
-
-  const methodDiv = document.getElementById("methodDiv");
+  const { token, user, addToFavorites } = useAuthContext();
 
   return (
     <>
@@ -37,8 +24,12 @@ export function Recipe() {
               <h2>{recipe?.fullName}</h2>
             </Col>
             <Col>
-              {token && (
-                <Button variant="outline-primary" className="float-end">
+              {token && user && (
+                <Button
+                  variant="outline-primary"
+                  className="float-end"
+                  onClick={() => addToFavorites(user.email, recipe.path)}
+                >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     width="16"

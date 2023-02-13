@@ -65,6 +65,9 @@ export const RecipeProvider: FC<RecipeProviderProps> = ({ children }) => {
     getAllMainIngerdients();
   }, []);
 
+  /////////////////////
+  /// recipes section
+
   const getRecipes = async () => {
     const temporaryRecipes: Dish[] = [];
     const jsonResponse = await fetch(endpoint, {
@@ -90,7 +93,7 @@ export const RecipeProvider: FC<RecipeProviderProps> = ({ children }) => {
       temporaryRecipes.push(dish);
     });
     setRecipes(temporaryRecipes);
-
+    setMergedFilteredRecipes(temporaryRecipes);
     setFilteredByName(temporaryRecipes);
   };
 
@@ -140,19 +143,18 @@ export const RecipeProvider: FC<RecipeProviderProps> = ({ children }) => {
     setAllMainIngredients(temporaryAllMainIngredients);
   };
 
-  const filterByName = (name: string) => {
-    // const searchArea =
-    //   mergedFilteredRecipes.length > 0 ? mergedFilteredRecipes : recipes;
+  /////////////////////////
+  //// search section
 
+  const filterByName = (name: string) => {
     const temporaryFilteredRecipes = recipes.filter((recipe) =>
       recipe.fullName.toLowerCase().includes(name.toLowerCase())
     );
     setFilteredByName(temporaryFilteredRecipes);
-    setFilteredRecipes(temporaryFilteredRecipes);
+    // setFilteredRecipes(temporaryFilteredRecipes);
   };
 
   const filterByType = (types: string[]) => {
-    // const searchArea = filteredByName.length > 0 ? filteredByName : recipes;
     let temporaryFilteredRecipes: Dish[] = [];
 
     types.forEach((type) => {
@@ -167,7 +169,6 @@ export const RecipeProvider: FC<RecipeProviderProps> = ({ children }) => {
   };
 
   const filterByMain = (mains: string[]) => {
-    // const searchArea = filteredByName.length > 0 ? filteredByName : recipes;
     let temporaryFilteredRecipes: Dish[] = [];
 
     mains.forEach((main) =>
@@ -195,10 +196,8 @@ export const RecipeProvider: FC<RecipeProviderProps> = ({ children }) => {
       }
     });
     if (uniqueRecipes.length > 0) {
-      // setFilteredRecipes(uniqueRecipes);
       setMergedFilteredRecipes(uniqueRecipes);
     } else {
-      // setFilteredRecipes(recipes);
       setMergedFilteredRecipes(recipes);
     }
   };
