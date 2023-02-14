@@ -91,6 +91,13 @@ export function SearchResultList() {
           </Col>
         </Row>
       )}
+      {filteredRecipes.length === 0 && (
+        <Row>
+          <Col>
+            <p className="h5 mt-5">Nothing found</p>
+          </Col>
+        </Row>
+      )}
     </Container>
   );
 }

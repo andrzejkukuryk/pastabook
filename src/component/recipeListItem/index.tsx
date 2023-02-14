@@ -20,9 +20,9 @@ export function RecipeListItem({
         <Card.Img variant="top" src={imageSource} />
         <Card.Body
           className="d-flex justify-content-between"
-          style={{ height: 70 }}
+          style={{ height: 70, paddingTop: 8 }}
         >
-          <Card.Title>{dishName}</Card.Title>
+          <Card.Title style={{ paddingTop: 7 }}>{dishName}</Card.Title>
           <RecipeRatingStars rate={rate} />
         </Card.Body>
       </Card>
