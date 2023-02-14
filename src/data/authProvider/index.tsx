@@ -19,6 +19,8 @@ const initialAuthContext = {
   editUser: () => {},
   submitRegisterPressed: () => {},
   addToFavorites: () => {},
+  removeFromFavorites: () => {},
+  currentFavorites: [],
 } as unknown as ValueProp; // nie ma dostępu do właściwych funcji, ale wartosci zostaną nadpisane przy pierwszym renderze
 
 export const AuthContext = createContext<ValueProp>(initialAuthContext);
@@ -42,6 +44,8 @@ interface ValueProp {
     username?: string | undefined;
   }) => Promise<void>;
   addToFavorites: (userMail: string, recipeUrl: string) => Promise<void>;
+  removeFromFavorites: (userMail: string, recipeUrl: string) => Promise<void>;
+  currentFavorites: string[];
 }
 
 interface AuthProviderProps {
@@ -69,7 +73,7 @@ export const AuthProvider: FC<AuthProviderProps> = ({ children }) => {
   const [errorMessage, setErrorMessage] = useState("");
   const [userExists, setUserExists] = useState<boolean>(false);
   const [userHasFavorites, setUserHasFavorites] = useState<boolean>(false);
-  // const [currentFavorites, setCurrentFavorites] = useState<string[]>([]);
+  const [currentFavorites, setCurrentFavorites] = useState<string[]>([]);
   const [userHasRated, setUserHasRated] = useState<boolean>(false);
 
   const location = useLocation();
@@ -86,6 +90,12 @@ export const AuthProvider: FC<AuthProviderProps> = ({ children }) => {
   useEffect(() => {
     tryRefreshLogin();
   }, []);
+
+  useEffect(() => {
+    if (user) {
+      getUsersInfo(user?.email);
+    }
+  }, [user]);
 
   const registerUserRequest = async (email: string, password: string) => {
     const endpoint = `https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=${process.env.REACT_APP_FIREBASE_API_KEY}`;
@@ -208,6 +218,10 @@ export const AuthProvider: FC<AuthProviderProps> = ({ children }) => {
     setToken(null);
     localStorage.removeItem("pastabookToken");
     localStorage.removeItem("refreshToken");
+    setCurrentFavorites([]);
+    setUserExists(false);
+    setUserHasFavorites(false);
+    setUserHasRated(false);
     setIsLoading(false);
   };
 
@@ -278,13 +292,14 @@ export const AuthProvider: FC<AuthProviderProps> = ({ children }) => {
   ///// favorites section
 
   const addToFavorites = async (userMail: string, recipeUrl: string) => {
-    await getUsersInfo(userMail);
     console.log("userExists: ", userExists);
     if (userExists) {
       addNextFavorite(userMail, recipeUrl);
     } else {
       addUserAndFirstFavorite(userMail, recipeUrl);
     }
+    getUsersFavorites(userMail);
+    getUsersInfo(userMail);
   };
 
   const getUsersFavorites = async (userMail: string) => {
@@ -294,14 +309,16 @@ export const AuthProvider: FC<AuthProviderProps> = ({ children }) => {
       method: "GET",
     });
     const jsonResponse = await response.json();
-    return jsonResponse.favorites;
+    if (jsonResponse) {
+      setCurrentFavorites(jsonResponse.favorites);
+    } else {
+      setCurrentFavorites([]);
+    }
   };
 
   const addNextFavorite = async (userMail: string, recipeUrl: string) => {
     const prepairEmail = userMail.replace(/\W/g, "").toLowerCase();
     const endpoint = `https://${process.env.REACT_APP_FIREBASE_PROJECT_ID}-default-rtdb.europe-west1.firebasedatabase.app/users/${prepairEmail}.json`;
-
-    const currentFavorites = await getUsersFavorites(userMail);
     const body = {
       favorites: [...currentFavorites, recipeUrl],
     };
@@ -309,6 +326,8 @@ export const AuthProvider: FC<AuthProviderProps> = ({ children }) => {
       method: "PATCH",
       body: JSON.stringify(body),
     });
+    const jsonResponse = await response.json();
+    setCurrentFavorites(jsonResponse.favorites);
   };
 
   const addUserAndFirstFavorite = async (
@@ -324,6 +343,29 @@ export const AuthProvider: FC<AuthProviderProps> = ({ children }) => {
       method: "PUT",
       body: JSON.stringify(body),
     });
+    const jsonResponse = await response.json();
+    setCurrentFavorites(jsonResponse.favorites);
+    setUserExists(true);
+  };
+
+  const removeFromFavorites = async (userMail: string, recipeUrl: string) => {
+    const prepairEmail = userMail.replace(/\W/g, "").toLowerCase();
+    const endpoint = `https://${process.env.REACT_APP_FIREBASE_PROJECT_ID}-default-rtdb.europe-west1.firebasedatabase.app/users/${prepairEmail}.json`;
+    const newFavorites = currentFavorites.filter((item) => item !== recipeUrl);
+    const body = {
+      favorites: newFavorites,
+    };
+    const response = await fetch(endpoint, {
+      method: "PATCH",
+      body: JSON.stringify(body),
+    });
+    const jsonResponse = await response.json();
+    if (jsonResponse.favorites) {
+      setCurrentFavorites(jsonResponse.favorites);
+    } else {
+      setCurrentFavorites([]);
+    }
+    getUsersInfo(userMail);
   };
 
   const getUsersInfo = async (userMail: string) => {
@@ -336,6 +378,7 @@ export const AuthProvider: FC<AuthProviderProps> = ({ children }) => {
     if (jsonResponse[prepairEmail]) {
       setUserExists(true);
       if (jsonResponse[prepairEmail].favorites) {
+        setCurrentFavorites(jsonResponse[prepairEmail].favorites);
         setUserHasFavorites(true);
       } else {
         setUserHasFavorites(false);
@@ -352,6 +395,8 @@ export const AuthProvider: FC<AuthProviderProps> = ({ children }) => {
     }
   };
 
+  console.log("currentFavorites: ", currentFavorites);
+
   const value: ValueProp = {
     token,
     user,
@@ -363,6 +408,8 @@ export const AuthProvider: FC<AuthProviderProps> = ({ children }) => {
     editUser: editUser,
     submitRegisterPressed: submitRegisterPressed,
     addToFavorites: addToFavorites,
+    removeFromFavorites: removeFromFavorites,
+    currentFavorites: currentFavorites,
   };
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };
