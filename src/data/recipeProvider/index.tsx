@@ -16,6 +16,7 @@ const initialRecipeContext = {
   filteredRecipes: [],
   allPastaTypes: [],
   allMainIngredients: [],
+  isErrorRecipe: false,
   sendNewRecipe: () => {},
   filterByName: () => {},
   filterByType: () => {},
@@ -30,6 +31,7 @@ interface ValueProp {
   filteredRecipes: Dish[];
   allPastaTypes: string[];
   allMainIngredients: string[];
+  isErrorRecipe: boolean;
   sendNewRecipe: (newRecipe: Recipe) => Promise<void>;
   filterByName: (name: string) => void;
   filterByType: (types: string[]) => void;
@@ -59,6 +61,7 @@ export const RecipeProvider: FC<RecipeProviderProps> = ({ children }) => {
   );
   const [allPastaTypes, setAllPastaTypes] = useState<string[]>([]);
   const [allMainIngredients, setAllMainIngredients] = useState<string[]>([]);
+  const [isErrorRecipe, setIsErrorRecipe] = useState<boolean>(false);
 
   const { token } = useAuthContext();
 
@@ -73,6 +76,7 @@ export const RecipeProvider: FC<RecipeProviderProps> = ({ children }) => {
 
   const getRecipes = async () => {
     try {
+      setIsErrorRecipe(false);
       const temporaryRecipes: Dish[] = [];
       const jsonResponse = await fetch(endpoint, {
         method: "GET",
@@ -95,60 +99,82 @@ export const RecipeProvider: FC<RecipeProviderProps> = ({ children }) => {
           recipe.rate
         );
         temporaryRecipes.push(dish);
+        console.log(downloadedRecipes);
       });
       setRecipes(temporaryRecipes);
       setMergedFilteredRecipes(temporaryRecipes);
       setFilteredByName(temporaryRecipes);
     } catch (error) {
-      console.log(error);
+      setIsErrorRecipe(true);
+      console.log("getRecipes: ", error, "isErrorRecipe: ", isErrorRecipe);
     }
   };
+
+  console.log("recipes: ", recipes);
 
   const sendNewRecipe = async (newRecipe: Recipe) => {
     const endpoint = `https://pastabook-e1b8c-default-rtdb.europe-west1.firebasedatabase.app/recipes.json?auth=${token}`;
     const body = newRecipe;
-    const response = await fetch(endpoint, {
-      method: "POST",
-      body: JSON.stringify(body),
-    });
+    try {
+      setIsErrorRecipe(false);
+      const response = await fetch(endpoint, {
+        method: "POST",
+        body: JSON.stringify(body),
+      });
+    } catch (error) {
+      setIsErrorRecipe(true);
+      console.log(error);
+    }
   };
 
   const getAllPastaTypes = async () => {
     const temporaryAllPastaTypes: string[] = [];
-    const jsonResponse = await fetch(endpoint, {
-      method: "GET",
-    });
-    const response = await jsonResponse.json();
-    const downloadedRecipes = Object.values(response) as Recipe[];
-    downloadedRecipes.forEach((recipe) => {
-      const newPastaType = recipe.pastaType.toLowerCase();
-      if (temporaryAllPastaTypes.includes(newPastaType)) {
-        return;
-      } else {
-        temporaryAllPastaTypes.push(newPastaType);
-      }
-    });
-    setAllPastaTypes(temporaryAllPastaTypes);
+    try {
+      setIsErrorRecipe(false);
+      const jsonResponse = await fetch(endpoint, {
+        method: "GET",
+      });
+      const response = await jsonResponse.json();
+      const downloadedRecipes = Object.values(response) as Recipe[];
+      downloadedRecipes.forEach((recipe) => {
+        const newPastaType = recipe.pastaType.toLowerCase();
+        if (temporaryAllPastaTypes.includes(newPastaType)) {
+          return;
+        } else {
+          temporaryAllPastaTypes.push(newPastaType);
+        }
+      });
+      setAllPastaTypes(temporaryAllPastaTypes);
+    } catch (error) {
+      setIsErrorRecipe(true);
+      console.log(error);
+    }
   };
 
   const getAllMainIngerdients = async () => {
     const temporaryAllMainIngredients: string[] = [];
-    const jsonResponse = await fetch(endpoint, {
-      method: "GET",
-    });
-    const response = await jsonResponse.json();
-    const downloadedRecipes = Object.values(response) as Recipe[];
-    downloadedRecipes.forEach((recipe) => {
-      recipe.mainIngredients.forEach((ingredient: string) => {
-        if (temporaryAllMainIngredients.includes(ingredient)) {
-          return;
-        } else {
-          temporaryAllMainIngredients.push(ingredient.toLowerCase());
-        }
+    try {
+      setIsErrorRecipe(false);
+      const jsonResponse = await fetch(endpoint, {
+        method: "GET",
       });
-    });
+      const response = await jsonResponse.json();
+      const downloadedRecipes = Object.values(response) as Recipe[];
+      downloadedRecipes.forEach((recipe) => {
+        recipe.mainIngredients.forEach((ingredient: string) => {
+          if (temporaryAllMainIngredients.includes(ingredient)) {
+            return;
+          } else {
+            temporaryAllMainIngredients.push(ingredient.toLowerCase());
+          }
+        });
+      });
 
-    setAllMainIngredients(temporaryAllMainIngredients);
+      setAllMainIngredients(temporaryAllMainIngredients);
+    } catch (error) {
+      setIsErrorRecipe(true);
+      console.log(error);
+    }
   };
 
   /////////////////////////
@@ -159,7 +185,6 @@ export const RecipeProvider: FC<RecipeProviderProps> = ({ children }) => {
       recipe.fullName.toLowerCase().includes(name.toLowerCase())
     );
     setFilteredByName(temporaryFilteredRecipes);
-    // setFilteredRecipes(temporaryFilteredRecipes);
   };
 
   const filterByType = (types: string[]) => {
@@ -236,6 +261,7 @@ export const RecipeProvider: FC<RecipeProviderProps> = ({ children }) => {
     filteredRecipes: filteredRecipes,
     allPastaTypes: allPastaTypes,
     allMainIngredients: allMainIngredients,
+    isErrorRecipe: isErrorRecipe,
     sendNewRecipe: sendNewRecipe,
     filterByName: filterByName,
     filterByType: filterByType,

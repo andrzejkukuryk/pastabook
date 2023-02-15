@@ -460,8 +460,6 @@ export const AuthProvider: FC<AuthProviderProps> = ({ children }) => {
     }
   };
 
-  console.log("currentFavorites: ", currentFavorites);
-
   const value: ValueProp = {
     token,
     user,
