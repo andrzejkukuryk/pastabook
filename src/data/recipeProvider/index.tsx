@@ -9,6 +9,7 @@ import React, {
 import { Dish } from "../../models/dish";
 
 import { Recipe } from "../../models/recipe";
+import { useAuthContext } from "../authProvider";
 
 const initialRecipeContext = {
   recipes: [],
@@ -59,6 +60,8 @@ export const RecipeProvider: FC<RecipeProviderProps> = ({ children }) => {
   const [allPastaTypes, setAllPastaTypes] = useState<string[]>([]);
   const [allMainIngredients, setAllMainIngredients] = useState<string[]>([]);
 
+  const { token } = useAuthContext();
+
   useEffect(() => {
     getRecipes();
     getAllPastaTypes();
@@ -69,35 +72,40 @@ export const RecipeProvider: FC<RecipeProviderProps> = ({ children }) => {
   /// recipes section
 
   const getRecipes = async () => {
-    const temporaryRecipes: Dish[] = [];
-    const jsonResponse = await fetch(endpoint, {
-      method: "GET",
-    });
-    const response = await jsonResponse.json();
-    const downloadedRecipes = Object.values(response) as Recipe[];
-    downloadedRecipes.forEach((recipe) => {
-      const dishIngredients = recipe.ingredients ? recipe.ingredients : [];
-      const dishMainIngredients = recipe.mainIngredients
-        ? recipe.mainIngredients
-        : [];
+    try {
+      const temporaryRecipes: Dish[] = [];
+      const jsonResponse = await fetch(endpoint, {
+        method: "GET",
+      });
+      const response = await jsonResponse.json();
+      const downloadedRecipes = Object.values(response) as Recipe[];
+      downloadedRecipes.forEach((recipe) => {
+        const dishIngredients = recipe.ingredients ? recipe.ingredients : [];
+        const dishMainIngredients = recipe.mainIngredients
+          ? recipe.mainIngredients
+          : [];
 
-      const dish = new Dish(
-        recipe.dishName,
-        recipe.pastaType,
-        dishMainIngredients,
-        dishIngredients,
-        recipe.method,
-        recipe.imageSource,
-        recipe.rate
-      );
-      temporaryRecipes.push(dish);
-    });
-    setRecipes(temporaryRecipes);
-    setMergedFilteredRecipes(temporaryRecipes);
-    setFilteredByName(temporaryRecipes);
+        const dish = new Dish(
+          recipe.dishName,
+          recipe.pastaType,
+          dishMainIngredients,
+          dishIngredients,
+          recipe.method,
+          recipe.imageSource,
+          recipe.rate
+        );
+        temporaryRecipes.push(dish);
+      });
+      setRecipes(temporaryRecipes);
+      setMergedFilteredRecipes(temporaryRecipes);
+      setFilteredByName(temporaryRecipes);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const sendNewRecipe = async (newRecipe: Recipe) => {
+    const endpoint = `https://pastabook-e1b8c-default-rtdb.europe-west1.firebasedatabase.app/recipes.json?auth=${token}`;
     const body = newRecipe;
     const response = await fetch(endpoint, {
       method: "POST",

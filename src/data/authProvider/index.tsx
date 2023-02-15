@@ -70,6 +70,7 @@ export const AuthProvider: FC<AuthProviderProps> = ({ children }) => {
   );
   const [user, setUser] = useState<User | null>(null);
   const [isLoading, setIsLoading] = useState(false);
+  const [isErrorAuth, setIsErrorAuth] = useState<boolean>(false);
   const [errorMessage, setErrorMessage] = useState("");
   const [userExists, setUserExists] = useState<boolean>(false);
   const [userHasFavorites, setUserHasFavorites] = useState<boolean>(false);
@@ -105,6 +106,7 @@ export const AuthProvider: FC<AuthProviderProps> = ({ children }) => {
       returnSecureToken: true,
     };
     try {
+      setIsErrorAuth(false);
       const response = await fetch(endpoint, {
         method: "POST",
         body: JSON.stringify(body),
@@ -128,6 +130,7 @@ export const AuthProvider: FC<AuthProviderProps> = ({ children }) => {
 
       return { idToken, userMail };
     } catch (error) {
+      setIsErrorAuth(true);
       console.log(error);
     }
   };
@@ -140,18 +143,25 @@ export const AuthProvider: FC<AuthProviderProps> = ({ children }) => {
       photoUrl: "",
       returnSecureToken: true,
     };
-    const response = await fetch(endpoint, {
-      method: "POST",
-      body: JSON.stringify(data),
-    });
-    const jsonResponse = await response.json();
-    const userMail = jsonResponse.email;
-    const userName = jsonResponse.displayName;
-    const registeredUser: User = {
-      email: userMail,
-      name: userName,
-    };
-    setUser(registeredUser);
+
+    try {
+      setIsErrorAuth(false);
+      const response = await fetch(endpoint, {
+        method: "POST",
+        body: JSON.stringify(data),
+      });
+      const jsonResponse = await response.json();
+      const userMail = jsonResponse.email;
+      const userName = jsonResponse.displayName;
+      const registeredUser: User = {
+        email: userMail,
+        name: userName,
+      };
+      setUser(registeredUser);
+    } catch (error) {
+      setIsErrorAuth(true);
+      console.log(error);
+    }
   };
 
   const submitRegisterPressed = async ({
@@ -165,11 +175,13 @@ export const AuthProvider: FC<AuthProviderProps> = ({ children }) => {
   }) => {
     setIsLoading(true);
     try {
+      setIsErrorAuth(false);
       const response = await registerUserRequest(email, password);
       if (response?.idToken && username) {
         editUserRequest(response.idToken, username);
       }
     } catch (error) {
+      setIsErrorAuth(true);
       console.log(error);
     } finally {
       setIsLoading(false);
@@ -185,6 +197,7 @@ export const AuthProvider: FC<AuthProviderProps> = ({ children }) => {
       returnSecureToken: true,
     };
     try {
+      setIsErrorAuth(false);
       const response = await fetch(endpoint, {
         method: "POST",
         body: JSON.stringify(data),
@@ -206,6 +219,7 @@ export const AuthProvider: FC<AuthProviderProps> = ({ children }) => {
       const origin = location.state?.from?.pathname || "/";
       navigate(origin);
     } catch (error) {
+      setIsErrorAuth(true);
       console.log("error: ", error);
     }
 
@@ -237,17 +251,26 @@ export const AuthProvider: FC<AuthProviderProps> = ({ children }) => {
       grant_type: "refresh_token",
       refreshToken: token,
     };
-    const response = await fetch(endpoint, {
-      method: "POST",
-      body: JSON.stringify(data),
-    });
+    try {
+      setIsErrorAuth(false);
+      const response = await fetch(endpoint, {
+        method: "POST",
+        body: JSON.stringify(data),
+      });
 
-    const jsonResponse = await response.json();
-    const refreshedIdToken = jsonResponse.id_token;
-    setToken(refreshedIdToken);
-    putDataIntoLocalStorage(jsonResponse.id_token, jsonResponse.refresh_token);
+      const jsonResponse = await response.json();
+      const refreshedIdToken = jsonResponse.id_token;
+      setToken(refreshedIdToken);
+      putDataIntoLocalStorage(
+        jsonResponse.id_token,
+        jsonResponse.refresh_token
+      );
+      return refreshedIdToken;
+    } catch (error) {
+      setIsErrorAuth(true);
+      console.log(error);
+    }
     setIsLoading(false);
-    return refreshedIdToken;
   };
 
   const getUserData = async (token: string) => {
@@ -256,17 +279,23 @@ export const AuthProvider: FC<AuthProviderProps> = ({ children }) => {
     const data = {
       idToken: token,
     };
-    const response = await fetch(endpoint, {
-      method: "POST",
-      body: JSON.stringify(data),
-    });
+    try {
+      setIsErrorAuth(false);
+      const response = await fetch(endpoint, {
+        method: "POST",
+        body: JSON.stringify(data),
+      });
 
-    const jsonResponse = await response.json();
-    const refreshedUser: User = {
-      email: jsonResponse.users[0].email,
-      name: jsonResponse.users[0].displayName,
-    };
-    setUser(refreshedUser);
+      const jsonResponse = await response.json();
+      const refreshedUser: User = {
+        email: jsonResponse.users[0].email,
+        name: jsonResponse.users[0].displayName,
+      };
+      setUser(refreshedUser);
+    } catch (error) {
+      setIsErrorAuth(true);
+      console.log(error);
+    }
     setIsLoading(false);
   };
 
@@ -278,13 +307,19 @@ export const AuthProvider: FC<AuthProviderProps> = ({ children }) => {
       photoUrl: "",
       returnSecureToken: true,
     };
-    const response = await fetch(endpoint, {
-      method: "POST",
-      body: JSON.stringify(data),
-    });
-    const jsonResponse = response.json();
-    if (typeof token === "string") {
-      getUserData(token);
+    try {
+      setIsErrorAuth(false);
+      const response = await fetch(endpoint, {
+        method: "POST",
+        body: JSON.stringify(data),
+      });
+      const jsonResponse = response.json();
+      if (typeof token === "string") {
+        getUserData(token);
+      }
+    } catch (error) {
+      setIsErrorAuth(true);
+      console.log(error);
     }
   };
 
@@ -305,29 +340,41 @@ export const AuthProvider: FC<AuthProviderProps> = ({ children }) => {
   const getUsersFavorites = async (userMail: string) => {
     const prepairEmail = userMail.replace(/\W/g, "").toLowerCase();
     const endpoint = `https://${process.env.REACT_APP_FIREBASE_PROJECT_ID}-default-rtdb.europe-west1.firebasedatabase.app/users/${prepairEmail}.json`;
-    const response = await fetch(endpoint, {
-      method: "GET",
-    });
-    const jsonResponse = await response.json();
-    if (jsonResponse) {
-      setCurrentFavorites(jsonResponse.favorites);
-    } else {
-      setCurrentFavorites([]);
+    try {
+      setIsErrorAuth(false);
+      const response = await fetch(endpoint, {
+        method: "GET",
+      });
+      const jsonResponse = await response.json();
+      if (jsonResponse) {
+        setCurrentFavorites(jsonResponse.favorites);
+      } else {
+        setCurrentFavorites([]);
+      }
+    } catch (error) {
+      setIsErrorAuth(true);
+      console.log(error);
     }
   };
 
   const addNextFavorite = async (userMail: string, recipeUrl: string) => {
     const prepairEmail = userMail.replace(/\W/g, "").toLowerCase();
-    const endpoint = `https://${process.env.REACT_APP_FIREBASE_PROJECT_ID}-default-rtdb.europe-west1.firebasedatabase.app/users/${prepairEmail}.json`;
+    const endpoint = `https://${process.env.REACT_APP_FIREBASE_PROJECT_ID}-default-rtdb.europe-west1.firebasedatabase.app/users/${prepairEmail}.json?auth=${token}`;
     const body = {
       favorites: [...currentFavorites, recipeUrl],
     };
-    const response = await fetch(endpoint, {
-      method: "PATCH",
-      body: JSON.stringify(body),
-    });
-    const jsonResponse = await response.json();
-    setCurrentFavorites(jsonResponse.favorites);
+    try {
+      setIsErrorAuth(false);
+      const response = await fetch(endpoint, {
+        method: "PATCH",
+        body: JSON.stringify(body),
+      });
+      const jsonResponse = await response.json();
+      setCurrentFavorites(jsonResponse.favorites);
+    } catch (error) {
+      setIsErrorAuth(true);
+      console.log(error);
+    }
   };
 
   const addUserAndFirstFavorite = async (
@@ -335,63 +382,81 @@ export const AuthProvider: FC<AuthProviderProps> = ({ children }) => {
     recipeUrl: string
   ) => {
     const prepairEmail = userMail.replace(/\W/g, "").toLowerCase();
-    const endpoint = `https://${process.env.REACT_APP_FIREBASE_PROJECT_ID}-default-rtdb.europe-west1.firebasedatabase.app/users/${prepairEmail}.json`;
+    const endpoint = `https://${process.env.REACT_APP_FIREBASE_PROJECT_ID}-default-rtdb.europe-west1.firebasedatabase.app/users/${prepairEmail}.json?auth=${token}`;
     const body = {
       favorites: [recipeUrl],
     };
-    const response = await fetch(endpoint, {
-      method: "PUT",
-      body: JSON.stringify(body),
-    });
-    const jsonResponse = await response.json();
-    setCurrentFavorites(jsonResponse.favorites);
-    setUserExists(true);
+    try {
+      setIsErrorAuth(false);
+      const response = await fetch(endpoint, {
+        method: "PUT",
+        body: JSON.stringify(body),
+      });
+      const jsonResponse = await response.json();
+      setCurrentFavorites(jsonResponse.favorites);
+      setUserExists(true);
+    } catch (error) {
+      setIsErrorAuth(true);
+      console.log(error);
+    }
   };
 
   const removeFromFavorites = async (userMail: string, recipeUrl: string) => {
     const prepairEmail = userMail.replace(/\W/g, "").toLowerCase();
-    const endpoint = `https://${process.env.REACT_APP_FIREBASE_PROJECT_ID}-default-rtdb.europe-west1.firebasedatabase.app/users/${prepairEmail}.json`;
+    const endpoint = `https://${process.env.REACT_APP_FIREBASE_PROJECT_ID}-default-rtdb.europe-west1.firebasedatabase.app/users/${prepairEmail}.json?auth=${token}`;
     const newFavorites = currentFavorites.filter((item) => item !== recipeUrl);
     const body = {
       favorites: newFavorites,
     };
-    const response = await fetch(endpoint, {
-      method: "PATCH",
-      body: JSON.stringify(body),
-    });
-    const jsonResponse = await response.json();
-    if (jsonResponse.favorites) {
-      setCurrentFavorites(jsonResponse.favorites);
-    } else {
-      setCurrentFavorites([]);
+    try {
+      setIsErrorAuth(false);
+      const response = await fetch(endpoint, {
+        method: "PATCH",
+        body: JSON.stringify(body),
+      });
+      const jsonResponse = await response.json();
+      if (jsonResponse.favorites) {
+        setCurrentFavorites(jsonResponse.favorites);
+      } else {
+        setCurrentFavorites([]);
+      }
+      getUsersInfo(userMail);
+    } catch (error) {
+      setIsErrorAuth(true);
+      console.log(error);
     }
-    getUsersInfo(userMail);
   };
 
   const getUsersInfo = async (userMail: string) => {
     const prepairEmail = userMail.replace(/\W/g, "").toLowerCase();
     const endpoint = `https://${process.env.REACT_APP_FIREBASE_PROJECT_ID}-default-rtdb.europe-west1.firebasedatabase.app/users.json`;
-    const response = await fetch(endpoint, {
-      method: "GET",
-    });
-    const jsonResponse = await response.json();
-    if (jsonResponse[prepairEmail]) {
-      setUserExists(true);
-      if (jsonResponse[prepairEmail].favorites) {
-        setCurrentFavorites(jsonResponse[prepairEmail].favorites);
-        setUserHasFavorites(true);
+    try {
+      setIsErrorAuth(false);
+      const response = await fetch(endpoint, {
+        method: "GET",
+      });
+      const jsonResponse = await response.json();
+      if (jsonResponse[prepairEmail]) {
+        setUserExists(true);
+        if (jsonResponse[prepairEmail].favorites) {
+          setCurrentFavorites(jsonResponse[prepairEmail].favorites);
+          setUserHasFavorites(true);
+        } else {
+          setUserHasFavorites(false);
+        }
+        if (jsonResponse[prepairEmail].rated) {
+          setUserHasRated(true);
+        } else {
+          setUserHasRated(false);
+        }
       } else {
+        setUserExists(false);
         setUserHasFavorites(false);
-      }
-      if (jsonResponse[prepairEmail].rated) {
-        setUserHasRated(true);
-      } else {
         setUserHasRated(false);
       }
-    } else {
-      setUserExists(false);
-      setUserHasFavorites(false);
-      setUserHasRated(false);
+    } catch (error) {
+      setIsErrorAuth(true);
+      console.log(error);
     }
   };
 
