@@ -7,6 +7,7 @@ import React, {
   useEffect,
 } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
+import { Dish } from "../../models/dish";
 
 const initialAuthContext = {
   token: null,
@@ -56,6 +57,12 @@ interface User {
   email: string;
   name?: string;
 }
+
+interface KeysPathsRates {
+  key: string;
+  path: string;
+  rate: number[];
+}
 export const useAuthContext = () => {
   return useContext(AuthContext);
 };
@@ -76,6 +83,9 @@ export const AuthProvider: FC<AuthProviderProps> = ({ children }) => {
   const [userHasFavorites, setUserHasFavorites] = useState<boolean>(false);
   const [currentFavorites, setCurrentFavorites] = useState<string[]>([]);
   const [userHasRated, setUserHasRated] = useState<boolean>(false);
+  const [recipesKeysPaths, setRecipesKeysPaths] = useState<KeysPathsRates[]>(
+    []
+  );
 
   const location = useLocation();
   const navigate = useNavigate();
@@ -95,6 +105,7 @@ export const AuthProvider: FC<AuthProviderProps> = ({ children }) => {
   useEffect(() => {
     if (user) {
       getUsersInfo(user?.email);
+      getRecipesKeysPaths();
     }
   }, [user]);
 
@@ -426,6 +437,50 @@ export const AuthProvider: FC<AuthProviderProps> = ({ children }) => {
       console.log(error);
     }
   };
+
+  ///////////////////////////
+  ////// rating section
+
+  const getRecipesKeysPaths = async () => {
+    const endpoint =
+      "https://pastabook-e1b8c-default-rtdb.europe-west1.firebasedatabase.app/recipes.json";
+    const response = await fetch(endpoint, {
+      method: "GET",
+    });
+    const jsonResponse = await response.json();
+    const downloadedKeys: [string, Dish][] = Object.entries(jsonResponse);
+    console.log(downloadedKeys);
+    const temporaryKeysPaths: KeysPathsRates[] = [];
+    downloadedKeys.forEach((item) => {
+      const data = {
+        key: item[0],
+        path: item[1].dishName.toLowerCase().replace(/\s+/g, ""),
+        rate: item[1].rate,
+      };
+      temporaryKeysPaths.push(data);
+    });
+    setRecipesKeysPaths(temporaryKeysPaths);
+  };
+
+  const addRate = async (newRate: number, recipeUrl: string) => {
+    const recipeForUpdate = recipesKeysPaths.filter(
+      (recipe) => recipe.path === recipeUrl
+    );
+    const keyToUpdate = recipeForUpdate[0].key;
+    const endpoint = `https://pastabook-e1b8c-default-rtdb.europe-west1.firebasedatabase.app/recipes/${keyToUpdate}.json?auth=${token}`;
+    const body = {
+      rate: [...recipeForUpdate[0].rate, newRate],
+    };
+    const response = await fetch(endpoint, {
+      method: "PATCH",
+      body: JSON.stringify(body),
+    });
+    console.log(response);
+  };
+
+  useEffect(() => {
+    addRate(3, "fortests");
+  }, [user]);
 
   const getUsersInfo = async (userMail: string) => {
     const prepairEmail = userMail.replace(/\W/g, "").toLowerCase();
