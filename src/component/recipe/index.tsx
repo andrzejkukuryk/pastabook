@@ -7,6 +7,7 @@ import { Button, Col, Container, Image, Row } from "react-bootstrap";
 
 export function Recipe() {
   const [isFavorite, setIsFavorite] = useState<boolean>(false);
+  const [isRated, setIsRated] = useState<boolean>(false);
   const { recipePath } = useParams();
   const { recipes } = useRecipeContext();
 
@@ -14,8 +15,15 @@ export function Recipe() {
     (rcp) => rcp.path === recipePath
   );
 
-  const { token, user, addToFavorites, removeFromFavorites, currentFavorites } =
-    useAuthContext();
+  const {
+    token,
+    user,
+    addToFavorites,
+    removeFromFavorites,
+    rateRecipe,
+    currentFavorites,
+    currentRated,
+  } = useAuthContext();
 
   const checkFavorites = () => {
     if (recipe && currentFavorites.length > 0) {
@@ -25,6 +33,18 @@ export function Recipe() {
     }
   };
   useEffect(() => checkFavorites(), [currentFavorites]);
+
+  const checkRated = () => {
+    if (recipe && currentRated.length > 0) {
+      setIsRated(currentRated.includes(recipe?.path));
+    } else {
+      setIsRated(false);
+    }
+  };
+
+  useEffect(() => {
+    checkRated();
+  }, [currentRated]);
   return (
     <>
       {recipe && (
@@ -48,6 +68,15 @@ export function Recipe() {
               </h2>
             </Col>
             <Col>
+              {token && user && !isRated && (
+                <Button
+                  variant="outline-primary"
+                  className="float-end"
+                  onClick={() => rateRecipe(user.email, 1, recipe.path)}
+                >
+                  rate: 1
+                </Button>
+              )}
               {token && user && !isFavorite && (
                 <Button
                   variant="outline-primary"

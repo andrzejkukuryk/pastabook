@@ -21,7 +21,9 @@ const initialAuthContext = {
   submitRegisterPressed: () => {},
   addToFavorites: () => {},
   removeFromFavorites: () => {},
+  rateRecipe: () => {},
   currentFavorites: [],
+  currentRated: [],
 } as unknown as ValueProp; // nie ma dostępu do właściwych funcji, ale wartosci zostaną nadpisane przy pierwszym renderze
 
 export const AuthContext = createContext<ValueProp>(initialAuthContext);
@@ -46,7 +48,13 @@ interface ValueProp {
   }) => Promise<void>;
   addToFavorites: (userMail: string, recipeUrl: string) => Promise<void>;
   removeFromFavorites: (userMail: string, recipeUrl: string) => Promise<void>;
+  rateRecipe: (
+    userMail: string,
+    newRate: number,
+    recipeUrl: string
+  ) => Promise<void>;
   currentFavorites: string[];
+  currentRated: string[];
 }
 
 interface AuthProviderProps {
@@ -83,6 +91,7 @@ export const AuthProvider: FC<AuthProviderProps> = ({ children }) => {
   const [userHasFavorites, setUserHasFavorites] = useState<boolean>(false);
   const [currentFavorites, setCurrentFavorites] = useState<string[]>([]);
   const [userHasRated, setUserHasRated] = useState<boolean>(false);
+  const [currentRated, setCurrentRated] = useState<string[]>([]);
   const [recipesKeysPaths, setRecipesKeysPaths] = useState<KeysPathsRates[]>(
     []
   );
@@ -357,7 +366,8 @@ export const AuthProvider: FC<AuthProviderProps> = ({ children }) => {
         method: "GET",
       });
       const jsonResponse = await response.json();
-      if (jsonResponse) {
+      if (jsonResponse.favorites) {
+        console.log("get users favorites");
         setCurrentFavorites(jsonResponse.favorites);
       } else {
         setCurrentFavorites([]);
@@ -381,6 +391,7 @@ export const AuthProvider: FC<AuthProviderProps> = ({ children }) => {
         body: JSON.stringify(body),
       });
       const jsonResponse = await response.json();
+      console.log("add next favorite");
       setCurrentFavorites(jsonResponse.favorites);
     } catch (error) {
       setIsErrorAuth(true);
@@ -404,6 +415,7 @@ export const AuthProvider: FC<AuthProviderProps> = ({ children }) => {
         body: JSON.stringify(body),
       });
       const jsonResponse = await response.json();
+      console.log("add user and first favorite");
       setCurrentFavorites(jsonResponse.favorites);
       setUserExists(true);
     } catch (error) {
@@ -427,6 +439,7 @@ export const AuthProvider: FC<AuthProviderProps> = ({ children }) => {
       });
       const jsonResponse = await response.json();
       if (jsonResponse.favorites) {
+        console.log("remove from favorites");
         setCurrentFavorites(jsonResponse.favorites);
       } else {
         setCurrentFavorites([]);
@@ -449,7 +462,6 @@ export const AuthProvider: FC<AuthProviderProps> = ({ children }) => {
     });
     const jsonResponse = await response.json();
     const downloadedKeys: [string, Dish][] = Object.entries(jsonResponse);
-    console.log(downloadedKeys);
     const temporaryKeysPaths: KeysPathsRates[] = [];
     downloadedKeys.forEach((item) => {
       const data = {
@@ -475,12 +487,69 @@ export const AuthProvider: FC<AuthProviderProps> = ({ children }) => {
       method: "PATCH",
       body: JSON.stringify(body),
     });
-    console.log(response);
+    return response;
   };
 
-  useEffect(() => {
-    addRate(3, "fortests");
-  }, [user]);
+  const rateRecipe = async (
+    userMail: string,
+    newRate: number,
+    recipeUrl: string
+  ) => {
+    const response = await addRate(newRate, recipeUrl);
+    console.log("userExists ", userExists);
+    if (response.ok) {
+      if (userExists) {
+        addNextRated(userMail, recipeUrl);
+      } else {
+        addUserAndFirstRated(userMail, recipeUrl);
+      }
+    }
+    getUsersInfo(userMail);
+  };
+
+  // useEffect(() => {
+  //   rateRecipe("tata@domek.pl", 1, "fortests");
+  // }, []);
+  // console.log("current rated: ", currentRated);
+  // console.log("currentFavorites ", currentFavorites);
+
+  const addUserAndFirstRated = async (userMail: string, recipeUrl: string) => {
+    const prepairEmail = userMail.replace(/\W/g, "").toLowerCase();
+    const endpoint = `https://${process.env.REACT_APP_FIREBASE_PROJECT_ID}-default-rtdb.europe-west1.firebasedatabase.app/users/${prepairEmail}.json?auth=${token}`;
+    const body = {
+      rated: [recipeUrl],
+    };
+    try {
+      setIsErrorAuth(false);
+      const response = await fetch(endpoint, {
+        method: "PUT",
+        body: JSON.stringify(body),
+      });
+      const jsonResponse = await response.json();
+      setCurrentRated(jsonResponse.rated);
+      setUserExists(true);
+    } catch (error) {
+      setIsErrorAuth(true);
+      console.log(error);
+    }
+  };
+
+  const addNextRated = async (userMail: string, recipeUrl: string) => {
+    const prepairEmail = userMail.replace(/\W/g, "").toLowerCase();
+    const endpoint = `https://${process.env.REACT_APP_FIREBASE_PROJECT_ID}-default-rtdb.europe-west1.firebasedatabase.app/users/${prepairEmail}.json?auth=${token}`;
+    const body = {
+      rated: [...currentRated, recipeUrl],
+    };
+    const response = await fetch(endpoint, {
+      method: "PATCH",
+      body: JSON.stringify(body),
+    });
+    const jsonResponse = await response.json();
+    setCurrentRated(jsonResponse.rated);
+  };
+  // useEffect(() => {
+  //   addRate(3, "fortests");
+  // }, [user]);
 
   const getUsersInfo = async (userMail: string) => {
     const prepairEmail = userMail.replace(/\W/g, "").toLowerCase();
@@ -494,14 +563,21 @@ export const AuthProvider: FC<AuthProviderProps> = ({ children }) => {
       if (jsonResponse[prepairEmail]) {
         setUserExists(true);
         if (jsonResponse[prepairEmail].favorites) {
+          console.log(
+            "jsonResponse[prepairEmail].favorites",
+            jsonResponse[prepairEmail].favorites
+          );
           setCurrentFavorites(jsonResponse[prepairEmail].favorites);
           setUserHasFavorites(true);
         } else {
+          setCurrentFavorites([]);
           setUserHasFavorites(false);
         }
         if (jsonResponse[prepairEmail].rated) {
+          setCurrentRated(jsonResponse[prepairEmail].rated);
           setUserHasRated(true);
         } else {
+          setCurrentRated([]);
           setUserHasRated(false);
         }
       } else {
@@ -527,7 +603,9 @@ export const AuthProvider: FC<AuthProviderProps> = ({ children }) => {
     submitRegisterPressed: submitRegisterPressed,
     addToFavorites: addToFavorites,
     removeFromFavorites: removeFromFavorites,
+    rateRecipe: rateRecipe,
     currentFavorites: currentFavorites,
+    currentRated: currentRated,
   };
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };
