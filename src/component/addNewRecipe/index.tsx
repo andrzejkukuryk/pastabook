@@ -211,7 +211,7 @@ export function AddNewRecipe() {
       method: newMethodHtml,
       imageSource:
         "https://www.insidetherustickitchen.com/wp-content/uploads/2017/11/Italian-Beef-Ragu-740px-Inside-the-Rustic-Kitchen-26.jpg",
-      rate: 2.1,
+      rate: [0],
     };
 
     return recipe;

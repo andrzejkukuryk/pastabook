@@ -52,6 +52,7 @@ const endpoint =
 
 export const RecipeProvider: FC<RecipeProviderProps> = ({ children }) => {
   const [recipes, setRecipes] = useState<Dish[]>([]);
+  const [responseKeys, setResponseKeys] = useState<string[]>([]);
   const [filteredRecipes, setFilteredRecipes] = useState<Dish[]>([]);
   const [filteredByName, setFilteredByName] = useState<Dish[]>([]);
   const [filteredByType, setFilteredByType] = useState<Dish[]>([]);
@@ -99,8 +100,11 @@ export const RecipeProvider: FC<RecipeProviderProps> = ({ children }) => {
           recipe.rate
         );
         temporaryRecipes.push(dish);
-        console.log(downloadedRecipes);
+        // console.log(Object.keys(response));
+        // console.log(response["-NMkHAmGHdNLRUfy-slL"]);
       });
+      const downloadedKeys = Object.keys(response);
+      setResponseKeys(downloadedKeys);
       setRecipes(temporaryRecipes);
       setMergedFilteredRecipes(temporaryRecipes);
       setFilteredByName(temporaryRecipes);
@@ -110,7 +114,7 @@ export const RecipeProvider: FC<RecipeProviderProps> = ({ children }) => {
     }
   };
 
-  console.log("recipes: ", recipes);
+  // console.log("recipes: ", recipes);
 
   const sendNewRecipe = async (newRecipe: Recipe) => {
     const endpoint = `https://pastabook-e1b8c-default-rtdb.europe-west1.firebasedatabase.app/recipes.json?auth=${token}`;

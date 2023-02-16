@@ -6,6 +6,6 @@ export interface Recipe {
   method: string;
   // fullName: string;
   imageSource: string;
-  rate: number;
+  rate: number[];
   // path: string;
 }

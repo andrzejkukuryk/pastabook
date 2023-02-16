@@ -5,7 +5,7 @@ export class Dish {
   otherIngredients: string[];
   method: string;
   imageSource: string;
-  rate: number;
+  rate: number[];
 
   constructor(
     dishName: string,
@@ -14,7 +14,7 @@ export class Dish {
     otherIngredients: string[],
     method: string,
     imageSource: string,
-    rate: number
+    rate: number[]
   ) {
     this.dishName = dishName;
     this.pastaType = pastaType;

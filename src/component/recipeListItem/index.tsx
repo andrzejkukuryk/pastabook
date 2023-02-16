@@ -6,7 +6,7 @@ import { Card } from "react-bootstrap";
 interface RecipeListItemProps {
   imageSource: string;
   dishName: string;
-  rate: number;
+  rate: number[];
 }
 
 export function RecipeListItem({

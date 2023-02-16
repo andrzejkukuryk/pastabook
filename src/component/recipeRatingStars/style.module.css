@@ -11,6 +11,13 @@
     text-align: right;
 }
 
+.notRated {
+    font-size: 0.8rem;
+    margin-top: 10px;
+    margin-bottom: 0;
+    text-align: right;
+}
+
 .starContainer {
     display: inline-block;
 }
