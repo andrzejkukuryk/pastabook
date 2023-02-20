@@ -1,15 +1,47 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Button, Col, Container, Form, InputGroup, Row } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import { useRecipeContext } from "../../data/recipeProvider";
 import { SearchFiltersMain } from "../searchFiltersMain";
+import { SearchFiltersMainChips } from "../searchFiltersMainChips";
 import { SearchFiltersType } from "../searchFiltersType";
+import { SearchFiltersTypeChips } from "../searchFiltersTypeChips";
 
 export function Search() {
   const [searchPhrase, setSearchPhrase] = useState<string>("");
+  const [filtersType, setFiltersType] = useState<string[]>([]);
+  const [filtersMain, setFiltersMain] = useState<string[]>([]);
   const { filterByName } = useRecipeContext();
 
   const navigate = useNavigate();
+
+  const addFilterType = (type: string) => {
+    let temporaryFilters = [...filtersType];
+    if (temporaryFilters.includes(type)) {
+      temporaryFilters = [...temporaryFilters].filter((item) => item !== type);
+    } else {
+      temporaryFilters.push(type);
+    }
+    setFiltersType(temporaryFilters);
+  };
+
+  const addFilterMain = (type: string) => {
+    let temporaryFilters = [...filtersMain];
+    if (temporaryFilters.includes(type)) {
+      temporaryFilters = [...temporaryFilters].filter((item) => item !== type);
+    } else {
+      temporaryFilters.push(type);
+    }
+    setFiltersMain(temporaryFilters);
+  };
+
+  const clearFiltersType = () => {
+    setFiltersType([]);
+  };
+
+  const clearFiltersMain = () => {
+    setFiltersMain([]);
+  };
 
   const handleSubmit = (e: any) => {
     e.preventDefault();
@@ -19,7 +51,7 @@ export function Search() {
 
   return (
     <Container className="my-4">
-      <Row>
+      <Row className="mb-3">
         <Col xs={false} lg={2} />
         <Col xs={8} lg={6}>
           <Form>
@@ -78,16 +110,48 @@ export function Search() {
       </Row>
       <div className="collapse" id="collapseFilters">
         <Row>
-          <Col xs={false} lg={2} />
-          <Col xs={12} lg={10}>
-            <SearchFiltersType />
+          <Col lg={2}></Col>
+          <Col lg={8}>
+            <SearchFiltersMainChips
+              filters={filtersMain}
+              addFilter={addFilterMain}
+              clearFilters={clearFiltersMain}
+            />
           </Col>
         </Row>
         <Row>
-          <Col xs={false} lg={2} />
-          <Col xs={12} lg={10}>
-            <SearchFiltersMain />
+          <Col lg={2}></Col>
+          <Col lg={8}>
+            <SearchFiltersTypeChips
+              filters={filtersType}
+              addFilter={addFilterType}
+              clearFilters={clearFiltersType}
+            />
           </Col>
+        </Row>
+        <Row>
+          <Col lg={2}></Col>
+          <Col xs={12} lg={2}>
+            <SearchFiltersType
+              filters={filtersType}
+              addFilter={addFilterType}
+            />
+          </Col>
+          <Col xs={12} lg={6}>
+            <SearchFiltersMain
+              filters={filtersMain}
+              addFilter={addFilterMain}
+            />
+          </Col>
+          <Col></Col>
+        </Row>
+        <Row>
+          {/* <Col xs={12} lg={10}>
+            <SearchFiltersMain
+              filters={filtersMain}
+              addFilter={addFilterMain}
+            />
+          </Col> */}
         </Row>
       </div>
     </Container>
