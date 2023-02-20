@@ -17,6 +17,7 @@ const initialRecipeContext = {
   allPastaTypes: [],
   allMainIngredients: [],
   isErrorRecipe: false,
+  isLoadingRecipe: false,
   sendNewRecipe: () => {},
   filterByName: () => {},
   filterByType: () => {},
@@ -32,6 +33,7 @@ interface ValueProp {
   allPastaTypes: string[];
   allMainIngredients: string[];
   isErrorRecipe: boolean;
+  isLoadingRecipe: boolean;
   sendNewRecipe: (newRecipe: Recipe) => Promise<void>;
   filterByName: (name: string) => void;
   filterByType: (types: string[]) => void;
@@ -62,6 +64,7 @@ export const RecipeProvider: FC<RecipeProviderProps> = ({ children }) => {
   const [allPastaTypes, setAllPastaTypes] = useState<string[]>([]);
   const [allMainIngredients, setAllMainIngredients] = useState<string[]>([]);
   const [isErrorRecipe, setIsErrorRecipe] = useState<boolean>(false);
+  const [isLoadingRecipe, setIsLoadingRecipe] = useState<boolean>(false);
 
   const { token } = useAuthContext();
 
@@ -76,6 +79,7 @@ export const RecipeProvider: FC<RecipeProviderProps> = ({ children }) => {
 
   const getRecipes = async () => {
     try {
+      setIsLoadingRecipe(true);
       setIsErrorRecipe(false);
       const temporaryRecipes: Dish[] = [];
       const jsonResponse = await fetch(endpoint, {
@@ -99,29 +103,40 @@ export const RecipeProvider: FC<RecipeProviderProps> = ({ children }) => {
           recipe.rate
         );
         temporaryRecipes.push(dish);
+        if (response.error) {
+          throw new Error(response.error);
+        }
       });
       setRecipes(temporaryRecipes);
       setMergedFilteredRecipes(temporaryRecipes);
       setFilteredByName(temporaryRecipes);
+      setIsLoadingRecipe(false);
     } catch (error) {
       setIsErrorRecipe(true);
       console.log("getRecipes: ", error, "isErrorRecipe: ", isErrorRecipe);
+      setIsLoadingRecipe(false);
     }
   };
-
 
   const sendNewRecipe = async (newRecipe: Recipe) => {
     const endpoint = `https://pastabook-e1b8c-default-rtdb.europe-west1.firebasedatabase.app/recipes.json?auth=${token}`;
     const body = newRecipe;
     try {
+      setIsLoadingRecipe(true);
       setIsErrorRecipe(false);
       const response = await fetch(endpoint, {
         method: "POST",
         body: JSON.stringify(body),
       });
+      const jsonResponse = await response.json();
+      if (jsonResponse.error) {
+        throw new Error(jsonResponse.error);
+      }
+      setIsLoadingRecipe(false);
     } catch (error) {
       setIsErrorRecipe(true);
       console.log(error);
+      setIsLoadingRecipe(false);
     }
   };
 
@@ -133,6 +148,9 @@ export const RecipeProvider: FC<RecipeProviderProps> = ({ children }) => {
         method: "GET",
       });
       const response = await jsonResponse.json();
+      if (response.error) {
+        throw new Error(response.error);
+      }
       const downloadedRecipes = Object.values(response) as Recipe[];
       downloadedRecipes.forEach((recipe) => {
         const newPastaType = recipe.pastaType.toLowerCase();
@@ -157,6 +175,9 @@ export const RecipeProvider: FC<RecipeProviderProps> = ({ children }) => {
         method: "GET",
       });
       const response = await jsonResponse.json();
+      if (response.error) {
+        throw new Error(response.error);
+      }
       const downloadedRecipes = Object.values(response) as Recipe[];
       downloadedRecipes.forEach((recipe) => {
         recipe.mainIngredients.forEach((ingredient: string) => {
@@ -260,6 +281,7 @@ export const RecipeProvider: FC<RecipeProviderProps> = ({ children }) => {
     allPastaTypes: allPastaTypes,
     allMainIngredients: allMainIngredients,
     isErrorRecipe: isErrorRecipe,
+    isLoadingRecipe: isLoadingRecipe,
     sendNewRecipe: sendNewRecipe,
     filterByName: filterByName,
     filterByType: filterByType,

@@ -99,6 +99,12 @@ export const AuthProvider: FC<AuthProviderProps> = ({ children }) => {
   const location = useLocation();
   const navigate = useNavigate();
 
+  const usedErrorMessages = [
+    "EMAIL_NOT_FOUND",
+    "INVALID_PASSWORD",
+    "EMAIL_EXISTS",
+  ];
+
   const tryRefreshLogin = async () => {
     if (refreshToken) {
       const refreshedIdToken = await refreshIdToken(refreshToken);
@@ -133,6 +139,9 @@ export const AuthProvider: FC<AuthProviderProps> = ({ children }) => {
       });
       const jsonResponse = await response.json();
       if (jsonResponse.error) {
+        if (!usedErrorMessages.includes(jsonResponse.error.message)) {
+          throw new Error(jsonResponse.error);
+        }
         setErrorMessage(jsonResponse.error.message);
         return;
       }
@@ -171,6 +180,9 @@ export const AuthProvider: FC<AuthProviderProps> = ({ children }) => {
         body: JSON.stringify(data),
       });
       const jsonResponse = await response.json();
+      if (jsonResponse.error) {
+        throw new Error(jsonResponse.error);
+      }
       const userMail = jsonResponse.email;
       const userName = jsonResponse.displayName;
       const registeredUser: User = {
@@ -224,7 +236,9 @@ export const AuthProvider: FC<AuthProviderProps> = ({ children }) => {
       });
       const jsonResponse = await response.json();
       if (jsonResponse.error) {
-        console.log(jsonResponse.error.message);
+        if (!usedErrorMessages.includes(jsonResponse.error.message)) {
+          throw new Error(jsonResponse.error);
+        }
         setErrorMessage(jsonResponse.error.message);
         return;
       }
@@ -253,6 +267,7 @@ export const AuthProvider: FC<AuthProviderProps> = ({ children }) => {
     localStorage.removeItem("pastabookToken");
     localStorage.removeItem("refreshToken");
     setCurrentFavorites([]);
+    setCurrentRated([]);
     setUserExists(false);
     setUserHasFavorites(false);
     setUserHasRated(false);
@@ -279,6 +294,9 @@ export const AuthProvider: FC<AuthProviderProps> = ({ children }) => {
       });
 
       const jsonResponse = await response.json();
+      if (jsonResponse.error) {
+        throw new Error(jsonResponse.error);
+      }
       const refreshedIdToken = jsonResponse.id_token;
       setToken(refreshedIdToken);
       putDataIntoLocalStorage(
@@ -307,6 +325,9 @@ export const AuthProvider: FC<AuthProviderProps> = ({ children }) => {
       });
 
       const jsonResponse = await response.json();
+      if (jsonResponse.error) {
+        throw new Error(jsonResponse.error);
+      }
       const refreshedUser: User = {
         email: jsonResponse.users[0].email,
         name: jsonResponse.users[0].displayName,
@@ -333,7 +354,10 @@ export const AuthProvider: FC<AuthProviderProps> = ({ children }) => {
         method: "POST",
         body: JSON.stringify(data),
       });
-      const jsonResponse = response.json();
+      const jsonResponse = await response.json();
+      if (jsonResponse.error) {
+        throw new Error(jsonResponse.error);
+      }
       if (typeof token === "string") {
         getUserData(token);
       }
@@ -347,7 +371,6 @@ export const AuthProvider: FC<AuthProviderProps> = ({ children }) => {
   ///// favorites section
 
   const addToFavorites = async (userMail: string, recipeUrl: string) => {
-    console.log("userExists: ", userExists);
     if (userExists) {
       addNextFavorite(userMail, recipeUrl);
     } else {
@@ -367,10 +390,12 @@ export const AuthProvider: FC<AuthProviderProps> = ({ children }) => {
       });
       const jsonResponse = await response.json();
       if (jsonResponse.favorites) {
-        console.log("get users favorites");
         setCurrentFavorites(jsonResponse.favorites);
       } else {
         setCurrentFavorites([]);
+      }
+      if (jsonResponse.error) {
+        throw new Error(jsonResponse.error);
       }
     } catch (error) {
       setIsErrorAuth(true);
@@ -391,7 +416,9 @@ export const AuthProvider: FC<AuthProviderProps> = ({ children }) => {
         body: JSON.stringify(body),
       });
       const jsonResponse = await response.json();
-      console.log("add next favorite");
+      if (jsonResponse.error) {
+        throw new Error(jsonResponse.error);
+      }
       setCurrentFavorites(jsonResponse.favorites);
     } catch (error) {
       setIsErrorAuth(true);
@@ -415,7 +442,9 @@ export const AuthProvider: FC<AuthProviderProps> = ({ children }) => {
         body: JSON.stringify(body),
       });
       const jsonResponse = await response.json();
-      console.log("add user and first favorite");
+      if (jsonResponse.error) {
+        throw new Error(jsonResponse.error);
+      }
       setCurrentFavorites(jsonResponse.favorites);
       setUserExists(true);
     } catch (error) {
@@ -438,8 +467,10 @@ export const AuthProvider: FC<AuthProviderProps> = ({ children }) => {
         body: JSON.stringify(body),
       });
       const jsonResponse = await response.json();
+      if (jsonResponse.error) {
+        throw new Error(jsonResponse.error);
+      }
       if (jsonResponse.favorites) {
-        console.log("remove from favorites");
         setCurrentFavorites(jsonResponse.favorites);
       } else {
         setCurrentFavorites([]);
@@ -457,21 +488,30 @@ export const AuthProvider: FC<AuthProviderProps> = ({ children }) => {
   const getRecipesKeysPaths = async () => {
     const endpoint =
       "https://pastabook-e1b8c-default-rtdb.europe-west1.firebasedatabase.app/recipes.json";
-    const response = await fetch(endpoint, {
-      method: "GET",
-    });
-    const jsonResponse = await response.json();
-    const downloadedKeys: [string, Dish][] = Object.entries(jsonResponse);
-    const temporaryKeysPaths: KeysPathsRates[] = [];
-    downloadedKeys.forEach((item) => {
-      const data = {
-        key: item[0],
-        path: item[1].dishName.toLowerCase().replace(/\s+/g, ""),
-        rate: item[1].rate,
-      };
-      temporaryKeysPaths.push(data);
-    });
-    setRecipesKeysPaths(temporaryKeysPaths);
+    try {
+      setIsErrorAuth(false);
+      const response = await fetch(endpoint, {
+        method: "GET",
+      });
+      const jsonResponse = await response.json();
+      if (jsonResponse.error) {
+        throw new Error(jsonResponse.error);
+      }
+      const downloadedKeys: [string, Dish][] = Object.entries(jsonResponse);
+      const temporaryKeysPaths: KeysPathsRates[] = [];
+      downloadedKeys.forEach((item) => {
+        const data = {
+          key: item[0],
+          path: item[1].dishName.toLowerCase().replace(/\s+/g, ""),
+          rate: item[1].rate,
+        };
+        temporaryKeysPaths.push(data);
+      });
+      setRecipesKeysPaths(temporaryKeysPaths);
+    } catch (error) {
+      setIsErrorAuth(true);
+      console.log(error);
+    }
   };
 
   const addRate = async (newRate: number, recipeUrl: string) => {
@@ -483,6 +523,7 @@ export const AuthProvider: FC<AuthProviderProps> = ({ children }) => {
     const body = {
       rate: [...recipeForUpdate[0].rate, newRate],
     };
+
     const response = await fetch(endpoint, {
       method: "PATCH",
       body: JSON.stringify(body),
@@ -496,7 +537,6 @@ export const AuthProvider: FC<AuthProviderProps> = ({ children }) => {
     recipeUrl: string
   ) => {
     const response = await addRate(newRate, recipeUrl);
-    console.log("userExists ", userExists);
     if (response.ok) {
       if (userExists) {
         addNextRated(userMail, recipeUrl);
@@ -506,12 +546,6 @@ export const AuthProvider: FC<AuthProviderProps> = ({ children }) => {
     }
     getUsersInfo(userMail);
   };
-
-  // useEffect(() => {
-  //   rateRecipe("tata@domek.pl", 1, "fortests");
-  // }, []);
-  // console.log("current rated: ", currentRated);
-  // console.log("currentFavorites ", currentFavorites);
 
   const addUserAndFirstRated = async (userMail: string, recipeUrl: string) => {
     const prepairEmail = userMail.replace(/\W/g, "").toLowerCase();
@@ -526,6 +560,9 @@ export const AuthProvider: FC<AuthProviderProps> = ({ children }) => {
         body: JSON.stringify(body),
       });
       const jsonResponse = await response.json();
+      if (jsonResponse.error) {
+        throw new Error(jsonResponse.error);
+      }
       setCurrentRated(jsonResponse.rated);
       setUserExists(true);
     } catch (error) {
@@ -540,12 +577,18 @@ export const AuthProvider: FC<AuthProviderProps> = ({ children }) => {
     const body = {
       rated: [...currentRated, recipeUrl],
     };
-    const response = await fetch(endpoint, {
-      method: "PATCH",
-      body: JSON.stringify(body),
-    });
-    const jsonResponse = await response.json();
-    setCurrentRated(jsonResponse.rated);
+    try {
+      setIsErrorAuth(false);
+      const response = await fetch(endpoint, {
+        method: "PATCH",
+        body: JSON.stringify(body),
+      });
+      const jsonResponse = await response.json();
+      setCurrentRated(jsonResponse.rated);
+    } catch (error) {
+      setIsErrorAuth(true);
+      console.log(error);
+    }
   };
   // useEffect(() => {
   //   addRate(3, "fortests");
@@ -560,13 +603,12 @@ export const AuthProvider: FC<AuthProviderProps> = ({ children }) => {
         method: "GET",
       });
       const jsonResponse = await response.json();
+      if (jsonResponse.error) {
+        throw new Error(jsonResponse.error);
+      }
       if (jsonResponse[prepairEmail]) {
         setUserExists(true);
         if (jsonResponse[prepairEmail].favorites) {
-          console.log(
-            "jsonResponse[prepairEmail].favorites",
-            jsonResponse[prepairEmail].favorites
-          );
           setCurrentFavorites(jsonResponse[prepairEmail].favorites);
           setUserHasFavorites(true);
         } else {
@@ -591,6 +633,22 @@ export const AuthProvider: FC<AuthProviderProps> = ({ children }) => {
     }
   };
 
+  /////////////////////
+  /// test storage
+
+  const getFromStorage = async () => {
+    const endpoint = `https://firebasestorage.googleapis.com/v1beta/pastabook-e1b8c/`;
+    const response = await fetch(endpoint, {
+      method: "GET",
+      mode: "no-cors",
+    });
+    console.log(response);
+  };
+  // useEffect(() => {
+  //   getFromStorage();
+  // }, []);
+  ////
+  /////////////////////
   const value: ValueProp = {
     token,
     user,

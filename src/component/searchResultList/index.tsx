@@ -8,7 +8,7 @@ import { RecipeListPagination } from "../recipeListPagination";
 import Breakpoints from "breakpoints-js";
 
 export function SearchResultList() {
-  const { filteredRecipes } = useRecipeContext();
+  const { filteredRecipes, isErrorRecipe } = useRecipeContext();
   const navigate = useNavigate();
 
   const [currentPage, setCurrentPage] = useState<number>(1);
@@ -55,6 +55,15 @@ export function SearchResultList() {
           </Button>
         </Col>
       </Row>
+      {isErrorRecipe && (
+        <Row>
+          <Col>
+            <p className="h4 my-5 text-primary text-center">
+              Vaffanapoli! Something went wrong!
+            </p>
+          </Col>
+        </Row>
+      )}
       <Row className="g-4 mt-1 d-flex justify-content-between">
         {filteredRecipes
           .slice(indexOfFirstItem, indexOfLastItem)

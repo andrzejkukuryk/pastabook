@@ -6,6 +6,13 @@ import { AddRecipeMethod } from "../addRecipeMethod";
 import { AddRecipePhoto } from "../addRecipePhoto";
 import { useRecipeContext } from "../../data/recipeProvider";
 import { Link, useNavigate } from "react-router-dom";
+import { storage } from "../../firebase";
+import {
+  ref,
+  getDownloadURL,
+  uploadBytesResumable,
+  deleteObject,
+} from "firebase/storage";
 import "./style.css";
 
 export function AddNewRecipe() {
@@ -22,11 +29,14 @@ export function AddNewRecipe() {
     useState<boolean>(false);
   const [newMethod, setNewMethod] = useState<any>({});
   const [methodHasText, setMethodHasText] = useState<boolean>(false);
+  const [newRecipePhoto, setNewRecipePhoto] = useState(null);
+  const [newPhotoUrl, setNewPhotoUrl] = useState<string>("");
   const [validated, setValidated] = useState<boolean>(false);
   const [submited, setSubmited] = useState<boolean>(false);
   const [showWarning, setShowWarning] = useState<boolean>(false);
 
   const navigate = useNavigate();
+  console.log(newRecipePhoto);
 
   // pastaTypes section ///////////
 
@@ -185,6 +195,50 @@ export function AddNewRecipe() {
     countIngredients();
   }, [newIngredients]);
 
+  // photo section //////////////////////////////
+
+  const uploadPhoto = async () => {
+    const file = newRecipePhoto;
+
+    if (!file) {
+      return;
+    } else {
+      //@ts-ignore
+      const storageRef = ref(storage, `images/${file.name}`);
+      const uploadTask = uploadBytesResumable(storageRef, file);
+
+      uploadTask.on(
+        "state_changed",
+        (progress) => {
+          console.log("upload progress:", progress);
+        },
+        (error) => {
+          console.log("upload error: ", error);
+        },
+        () => {
+          getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+            console.log("pobieram url");
+            setNewPhotoUrl(downloadURL);
+          });
+        }
+      );
+    }
+  };
+
+  const deletePhoto = () => {
+    const file = newRecipePhoto;
+
+    //@ts-ignore
+    const photoRef = ref(storage, `images/${file.name}`);
+    deleteObject(photoRef);
+  };
+
+  useEffect(() => {
+    uploadPhoto();
+    console.log("newPhotoUrl: ", newPhotoUrl);
+  }, [newRecipePhoto]);
+
+  console.log("newPhotoUrl: ", newPhotoUrl);
   //  create recipe section /////////////////////
 
   const newMethodHtml = draftToHtml(newMethod);
@@ -209,8 +263,9 @@ export function AddNewRecipe() {
       mainIngredients: newMainIngredients,
       ingredients: newOtherIngredients,
       method: newMethodHtml,
-      imageSource:
-        "https://www.insidetherustickitchen.com/wp-content/uploads/2017/11/Italian-Beef-Ragu-740px-Inside-the-Rustic-Kitchen-26.jpg",
+      imageSource: newPhotoUrl
+        ? newPhotoUrl
+        : "https://firebasestorage.googleapis.com/v0/b/pastabook-e1b8c.appspot.com/o/images%2FdefaultRecipePhoto.jpg?alt=media&token=949734d1-367f-4f44-9c6b-583110baec68",
       rate: [0],
     };
 
@@ -460,7 +515,11 @@ export function AddNewRecipe() {
             <Form.Text className="d-block">
               Please add a photo of a dish in .JPG .PNG or .GIF format
             </Form.Text>
-            <AddRecipePhoto />
+            <AddRecipePhoto
+              setNewRecipePhoto={setNewRecipePhoto}
+              newPhotoUrl={newPhotoUrl}
+              deletePhoto={deletePhoto}
+            />
             <Button
               type="submit"
               variant="primary"

@@ -9,7 +9,7 @@ export function Recipe() {
   const [isFavorite, setIsFavorite] = useState<boolean>(false);
   const [isRated, setIsRated] = useState<boolean>(false);
   const { recipePath } = useParams();
-  const { recipes } = useRecipeContext();
+  const { recipes, isErrorRecipe } = useRecipeContext();
 
   const recipe: Dish | undefined = recipes.find(
     (rcp) => rcp.path === recipePath
@@ -139,12 +139,23 @@ export function Recipe() {
           </Row>
         </Container>
       )}
-      {!recipe && (
+      {!recipe && !isErrorRecipe && (
         <Container className="mt-5">
           <p>There's no such dish here</p>
           <Link to="/" style={{ textDecoration: "none" }}>
             Back to home page
           </Link>
+        </Container>
+      )}
+      {isErrorRecipe && (
+        <Container>
+          <Row>
+            <Col>
+              <p className="h4 my-5 text-primary text-center">
+                Vaffanapoli! Something went wrong!
+              </p>
+            </Col>
+          </Row>
         </Container>
       )}
     </>

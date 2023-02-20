@@ -4,9 +4,10 @@ import { RecipeListItem } from "../recipeListItem";
 import { useRecipeContext } from "../../data/recipeProvider";
 import { Button, Col, Container, Row } from "react-bootstrap";
 import { RecipeListPagination } from "../recipeListPagination";
+import { LoadingSpinner } from "../loadingSpinner";
 
 export function RecipeList() {
-  const { recipes } = useRecipeContext();
+  const { recipes, isErrorRecipe } = useRecipeContext();
   const navigate = useNavigate();
 
   const [currentPage, setCurrentPage] = useState<number>(1);
@@ -53,6 +54,15 @@ export function RecipeList() {
           </Button>
         </Col>
       </Row>
+      {isErrorRecipe && (
+        <Row>
+          <Col>
+            <p className="h4 my-5 text-primary text-center">
+              Vaffanapoli! Something went wrong!
+            </p>
+          </Col>
+        </Row>
+      )}
       <Row className="g-4 mt-1 d-flex justify-content-between">
         {recipes
           .slice(indexOfFirstItem, indexOfLastItem)

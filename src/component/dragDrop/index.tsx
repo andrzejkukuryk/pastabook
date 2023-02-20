@@ -6,11 +6,22 @@ import "./style.css";
 
 const fileTypes = ["JPG", "PNG", "GIF"];
 
-export function DragDrop() {
+interface DragDropProps {
+  setNewRecipePhoto: React.Dispatch<React.SetStateAction<null>>;
+  newPhotoUrl: string;
+  deletePhoto: () => void;
+}
+
+export function DragDrop({
+  setNewRecipePhoto,
+  newPhotoUrl,
+  deletePhoto,
+}: DragDropProps) {
   const [file, setFile] = useState(null);
   const [previewSrc, setPreviewSrc] = useState<any>("");
   const handleChange = (file: any) => {
     setFile(file);
+    setNewRecipePhoto(file);
   };
 
   function previewFile() {
@@ -110,12 +121,18 @@ export function DragDrop() {
         <div className={styles.photoPreviewDiv}>
           <img
             className={styles.photoPreview}
-            src={previewSrc}
+            src={newPhotoUrl}
             id="uploadedPhotoPreview"
             alt="Recipe photo preview"
           />
 
-          <Button variant="white" onClick={() => setFile(null)}>
+          <Button
+            variant="white"
+            onClick={() => {
+              deletePhoto();
+              setFile(null);
+            }}
+          >
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="24"
