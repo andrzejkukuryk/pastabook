@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Button, Col, Container, Form, InputGroup, Row } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
+import { BlockLike } from "typescript";
 import { useRecipeContext } from "../../data/recipeProvider";
 import { SearchFiltersMain } from "../searchFiltersMain";
 import { SearchFiltersMainChips } from "../searchFiltersMainChips";
@@ -11,6 +12,7 @@ export function Search() {
   const [searchPhrase, setSearchPhrase] = useState<string>("");
   const [filtersType, setFiltersType] = useState<string[]>([]);
   const [filtersMain, setFiltersMain] = useState<string[]>([]);
+  const [filtersShown, setFiltersShown] = useState<boolean>(false);
   const { filterByName } = useRecipeContext();
 
   const navigate = useNavigate();
@@ -84,27 +86,54 @@ export function Search() {
           </Form>
         </Col>
         <Col xs={4} lg={2}>
-          <Button
-            variant="outline-primary"
-            className="border-0"
-            type="button"
-            data-bs-toggle="collapse"
-            data-bs-target="#collapseFilters"
-            aria-expanded="false"
-            aria-controls="collapseFilters"
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="20"
-              height="20"
-              fill="currentColor"
-              className="bi bi-funnel me-1"
-              viewBox="0 2 20 16"
+          {!filtersShown && (
+            <Button
+              variant="outline-primary"
+              className="border-0"
+              type="button"
+              data-bs-toggle="collapse"
+              data-bs-target="#collapseFilters"
+              aria-expanded="false"
+              aria-controls="collapseFilters"
+              onClick={() => setFiltersShown(true)}
             >
-              <path d="M1.5 1.5A.5.5 0 0 1 2 1h12a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-.128.334L10 8.692V13.5a.5.5 0 0 1-.342.474l-3 1A.5.5 0 0 1 6 14.5V8.692L1.628 3.834A.5.5 0 0 1 1.5 3.5v-2zm1 .5v1.308l4.372 4.858A.5.5 0 0 1 7 8.5v5.306l2-.666V8.5a.5.5 0 0 1 .128-.334L13.5 3.308V2h-11z" />
-            </svg>
-            Show filters
-          </Button>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="20"
+                height="20"
+                fill="currentColor"
+                className="bi bi-funnel me-1"
+                viewBox="0 2 20 16"
+              >
+                <path d="M1.5 1.5A.5.5 0 0 1 2 1h12a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-.128.334L10 8.692V13.5a.5.5 0 0 1-.342.474l-3 1A.5.5 0 0 1 6 14.5V8.692L1.628 3.834A.5.5 0 0 1 1.5 3.5v-2zm1 .5v1.308l4.372 4.858A.5.5 0 0 1 7 8.5v5.306l2-.666V8.5a.5.5 0 0 1 .128-.334L13.5 3.308V2h-11z" />
+              </svg>
+              Show filters
+            </Button>
+          )}
+          {filtersShown && (
+            <Button
+              variant="outline-primary"
+              className="border-0"
+              type="button"
+              data-bs-toggle="collapse"
+              data-bs-target="#collapseFilters"
+              aria-expanded="false"
+              aria-controls="collapseFilters"
+              onClick={() => setFiltersShown(false)}
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="20"
+                height="20"
+                fill="currentColor"
+                className="bi bi-funnel-fill me-1"
+                viewBox="0 2 20 16"
+              >
+                <path d="M1.5 1.5A.5.5 0 0 1 2 1h12a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-.128.334L10 8.692V13.5a.5.5 0 0 1-.342.474l-3 1A.5.5 0 0 1 6 14.5V8.692L1.628 3.834A.5.5 0 0 1 1.5 3.5v-2z" />
+              </svg>
+              Hide filters
+            </Button>
+          )}
         </Col>
         <Col xs={false} lg={2} />
       </Row>

@@ -4,6 +4,7 @@ import { useAuthContext } from "../../data/authProvider";
 import { Dish } from "../../models/dish";
 import { useRecipeContext } from "../../data/recipeProvider";
 import { Button, Col, Container, Image, Row } from "react-bootstrap";
+import { RecipeRate } from "../recipeRate";
 
 export function Recipe() {
   const [isFavorite, setIsFavorite] = useState<boolean>(false);
@@ -68,15 +69,6 @@ export function Recipe() {
               </h2>
             </Col>
             <Col>
-              {token && user && !isRated && (
-                <Button
-                  variant="outline-primary"
-                  className="float-end"
-                  onClick={() => rateRecipe(user.email, 1, recipe.path)}
-                >
-                  rate: 1
-                </Button>
-              )}
               {token && user && !isFavorite && (
                 <Button
                   variant="outline-primary"
@@ -107,6 +99,13 @@ export function Recipe() {
               )}
             </Col>
           </Row>
+          {token && user && !isRated && (
+            <Row className="mt-1">
+              <Col xs={12}>
+                <RecipeRate recipeUrl={recipe.path} />
+              </Col>
+            </Row>
+          )}
           <Row className="my-5">
             <Col>
               <Image
