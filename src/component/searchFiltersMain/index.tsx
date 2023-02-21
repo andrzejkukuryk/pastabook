@@ -35,11 +35,10 @@ export function SearchFiltersMain({
   });
 
   const createIngredientsFilters = () => {
-    return allMainIngredients.map((type) => (
-      <Col lg={4}>
+    return allMainIngredients.map((type, index) => (
+      <Col sm={6} md={4} key={`main${index}`}>
         <Form.Check
           type="checkbox"
-          key={`type${type}`}
           id={type}
           checked={stateIncludesType(type)}
           label={type}

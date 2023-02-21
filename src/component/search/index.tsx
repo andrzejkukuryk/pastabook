@@ -131,27 +131,19 @@ export function Search() {
         </Row>
         <Row>
           <Col lg={2}></Col>
-          <Col xs={12} lg={2}>
+          <Col xs={12} sm={4} md={3} lg={2}>
             <SearchFiltersType
               filters={filtersType}
               addFilter={addFilterType}
             />
           </Col>
-          <Col xs={12} lg={6}>
+          <Col xs={12} sm={8} md={9} lg={6}>
             <SearchFiltersMain
               filters={filtersMain}
               addFilter={addFilterMain}
             />
           </Col>
           <Col></Col>
-        </Row>
-        <Row>
-          {/* <Col xs={12} lg={10}>
-            <SearchFiltersMain
-              filters={filtersMain}
-              addFilter={addFilterMain}
-            />
-          </Col> */}
         </Row>
       </div>
     </Container>
