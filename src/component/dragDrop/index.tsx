@@ -8,12 +8,14 @@ const fileTypes = ["JPG", "PNG", "GIF"];
 
 interface DragDropProps {
   setNewRecipePhoto: React.Dispatch<React.SetStateAction<null>>;
+  photoUploadProgress: number;
   newPhotoUrl: string;
   deletePhoto: () => void;
 }
 
 export function DragDrop({
   setNewRecipePhoto,
+  photoUploadProgress,
   newPhotoUrl,
   deletePhoto,
 }: DragDropProps) {
@@ -117,7 +119,8 @@ export function DragDrop({
             `File name: ${file.name}`
           : "no file uploaded yet"}
       </p>
-      {file && (
+      {!newPhotoUrl && file && <div>uploaded {photoUploadProgress}%</div>}
+      {newPhotoUrl && file && (
         <div className={styles.photoPreviewDiv}>
           <img
             className={styles.photoPreview}

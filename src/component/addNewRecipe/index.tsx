@@ -30,13 +30,14 @@ export function AddNewRecipe() {
   const [newMethod, setNewMethod] = useState<any>({});
   const [methodHasText, setMethodHasText] = useState<boolean>(false);
   const [newRecipePhoto, setNewRecipePhoto] = useState(null);
+  const [photoUploadProgress, setPhotoUploadProgress] = useState<number>(0);
+  const [photoUploadedName, setPhotoUploadedName] = useState<string>("");
   const [newPhotoUrl, setNewPhotoUrl] = useState<string>("");
   const [validated, setValidated] = useState<boolean>(false);
   const [submited, setSubmited] = useState<boolean>(false);
   const [showWarning, setShowWarning] = useState<boolean>(false);
 
   const navigate = useNavigate();
-  console.log(newRecipePhoto);
 
   // pastaTypes section ///////////
 
@@ -198,6 +199,9 @@ export function AddNewRecipe() {
   // photo section //////////////////////////////
 
   const uploadPhoto = async () => {
+    if (photoUploadedName) {
+      deletePhoto();
+    }
     const file = newRecipePhoto;
 
     if (!file) {
@@ -206,11 +210,17 @@ export function AddNewRecipe() {
       //@ts-ignore
       const storageRef = ref(storage, `images/${file.name}`);
       const uploadTask = uploadBytesResumable(storageRef, file);
+      //@ts-ignore
+      const fileName = file.name;
 
       uploadTask.on(
         "state_changed",
-        (progress) => {
-          console.log("upload progress:", progress);
+        (snapshot) => {
+          const progress = Math.round(
+            (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+          );
+          setPhotoUploadProgress(progress);
+          console.log("upload progress:", photoUploadProgress);
         },
         (error) => {
           console.log("upload error: ", error);
@@ -219,6 +229,8 @@ export function AddNewRecipe() {
           getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
             console.log("pobieram url");
             setNewPhotoUrl(downloadURL);
+            // setPhotoUploaded(true);
+            setPhotoUploadedName(fileName);
           });
         }
       );
@@ -229,16 +241,16 @@ export function AddNewRecipe() {
     const file = newRecipePhoto;
 
     //@ts-ignore
-    const photoRef = ref(storage, `images/${file.name}`);
+    const photoRef = ref(storage, `images/${photoUploadedName}`);
     deleteObject(photoRef);
+    setNewPhotoUrl("");
+    setPhotoUploadedName("");
   };
 
   useEffect(() => {
     uploadPhoto();
-    console.log("newPhotoUrl: ", newPhotoUrl);
   }, [newRecipePhoto]);
 
-  console.log("newPhotoUrl: ", newPhotoUrl);
   //  create recipe section /////////////////////
 
   const newMethodHtml = draftToHtml(newMethod);
@@ -517,6 +529,7 @@ export function AddNewRecipe() {
             </Form.Text>
             <AddRecipePhoto
               setNewRecipePhoto={setNewRecipePhoto}
+              photoUploadProgress={photoUploadProgress}
               newPhotoUrl={newPhotoUrl}
               deletePhoto={deletePhoto}
             />
