@@ -5,6 +5,7 @@ import { Dish } from "../../models/dish";
 import { useRecipeContext } from "../../data/recipeProvider";
 import { Button, Col, Container, Image, Row } from "react-bootstrap";
 import { RecipeRate } from "../recipeRate";
+import { RecipeOveralRating } from "../recipeOveralRating";
 
 export function Recipe() {
   const [isFavorite, setIsFavorite] = useState<boolean>(false);
@@ -21,7 +22,7 @@ export function Recipe() {
     user,
     addToFavorites,
     removeFromFavorites,
-    rateRecipe,
+    // rateRecipe,
     currentFavorites,
     currentRated,
   } = useAuthContext();
@@ -51,7 +52,7 @@ export function Recipe() {
       {recipe && (
         <Container>
           <Row className="mt-3">
-            <Col>
+            <Col md={5}>
               <h2>
                 {recipe?.fullName}{" "}
                 {isFavorite && (
@@ -68,7 +69,10 @@ export function Recipe() {
                 )}
               </h2>
             </Col>
-            <Col>
+            <Col md={3}>
+              <RecipeOveralRating rates={recipe.rate} />
+            </Col>
+            <Col md={4}>
               {token && user && !isFavorite && (
                 <Button
                   variant="outline-primary"

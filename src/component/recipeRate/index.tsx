@@ -61,6 +61,7 @@ export function RecipeRate({ recipeUrl }: RecipeRateProps) {
               alt=""
               onMouseOver={() => setRate(1)}
               onMouseLeave={() => setRate(0)}
+              onTouchStart={() => setRate(1)}
             />
           </div>
           <div className={firstStarFullClass}>
@@ -79,6 +80,7 @@ export function RecipeRate({ recipeUrl }: RecipeRateProps) {
               alt=""
               onMouseOver={() => setRate(2)}
               onMouseLeave={() => setRate(0)}
+              onTouchStart={() => setRate(2)}
             />
           </div>
           <div className={secondStarFullClass}>
@@ -96,6 +98,7 @@ export function RecipeRate({ recipeUrl }: RecipeRateProps) {
               alt=""
               onMouseOver={() => setRate(3)}
               onMouseLeave={() => setRate(0)}
+              onTouchStart={() => setRate(3)}
             />
           </div>
           <div className={thirdStarFullClass}>

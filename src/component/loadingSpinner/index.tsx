@@ -1,5 +1,5 @@
 import React from "react";
-import { Container, Row, Spinner } from "react-bootstrap";
+import { Col, Container, Row, Spinner } from "react-bootstrap";
 import "./style.css";
 
 export function LoadingSpinner() {
@@ -7,10 +7,12 @@ export function LoadingSpinner() {
     <div className="loadingDivContainer">
       <Container>
         <Row>
-          <Spinner />
+          <Col xs={12} className="text-center">
+            <Spinner variant="primary" />
+          </Col>
         </Row>
         <Row>
-          <p>Loading...</p>
+          <p className="h4 text-center">Loading...</p>
         </Row>
       </Container>
     </div>
