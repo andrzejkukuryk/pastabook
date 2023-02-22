@@ -83,6 +83,7 @@ export function RecipeList() {
                   dishName={recipe.fullName}
                   imageSource={recipe.imageSource}
                   rate={recipe.rate}
+                  path={recipe.path}
                 />
               </Link>
             </Col>

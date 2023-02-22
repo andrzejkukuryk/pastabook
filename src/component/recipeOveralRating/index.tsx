@@ -37,10 +37,10 @@ export function RecipeOveralRating({ rates }: RecipeOveralRatingProps) {
   const averageRate = countAverageRate();
 
   return (
-    <Container>
+    <Container className="p-0">
       {recipeHasRates && (
         <Row>
-          <Col xs={12} className="starContainer  d-flex align-items-center">
+          <Col xs={12} className="starContainer  d-flex">
             <p className="h6 my-0">
               Rated: <span className="h5 m-0">{averageRate}</span> / 3
               <img src={starFull} alt="rating star" className="mb-2" /> (
