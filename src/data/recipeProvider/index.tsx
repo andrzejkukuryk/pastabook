@@ -137,6 +137,8 @@ export const RecipeProvider: FC<RecipeProviderProps> = ({ children }) => {
       setIsErrorRecipe(true);
       console.log(error);
       setIsLoadingRecipe(false);
+    } finally {
+      getRecipes();
     }
   };
 

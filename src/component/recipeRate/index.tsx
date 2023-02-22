@@ -5,6 +5,8 @@ import starEmpty from "./graph/star_empty.png";
 import starFull from "./graph/star_full.png";
 import classNames from "classnames";
 import { useAuthContext } from "../../data/authProvider";
+import { useRecipeContext } from "../../data/recipeProvider";
+import { get } from "react-hook-form";
 
 interface RecipeRateProps {
   recipeUrl: string;
@@ -13,10 +15,12 @@ interface RecipeRateProps {
 export function RecipeRate({ recipeUrl }: RecipeRateProps) {
   const [rate, setRate] = useState<number>(0);
   const { user, rateRecipe } = useAuthContext();
+  const { getRecipes } = useRecipeContext();
 
-  const handleClick = () => {
+  const handleSubmit = async () => {
     if (user) {
-      rateRecipe(user?.email, rate, recipeUrl);
+      await rateRecipe(user?.email, rate, recipeUrl);
+      getRecipes();
     }
   };
 
@@ -51,9 +55,9 @@ export function RecipeRate({ recipeUrl }: RecipeRateProps) {
   });
 
   return (
-    <Container>
+    <Container className="p-0">
       <Row>
-        <Col className="starContainer d-flex flex-row align-items-end">
+        <Col className="starsContainer d-flex flex-row align-items-end">
           <p className="h6 me-2 my-0">Rate this recipe: </p>
           <div className={firstStarEmptyClass}>
             <img
@@ -71,7 +75,8 @@ export function RecipeRate({ recipeUrl }: RecipeRateProps) {
               alt=""
               onMouseOver={() => setRate(1)}
               onMouseLeave={() => setRate(0)}
-              onClick={handleClick}
+              onMouseDown={handleSubmit}
+              onTouchEnd={handleSubmit}
             />
           </div>
           <div className={secondStarEmptyClass}>
@@ -89,7 +94,8 @@ export function RecipeRate({ recipeUrl }: RecipeRateProps) {
               alt=""
               onMouseOver={() => setRate(2)}
               onMouseLeave={() => setRate(0)}
-              onClick={handleClick}
+              onMouseDown={handleSubmit}
+              onTouchEnd={handleSubmit}
             />
           </div>
           <div className={thirdStarEmptyClass}>
@@ -107,7 +113,8 @@ export function RecipeRate({ recipeUrl }: RecipeRateProps) {
               alt=""
               onMouseOver={() => setRate(3)}
               onMouseLeave={() => setRate(0)}
-              onClick={handleClick}
+              onMouseDown={handleSubmit}
+              onTouchEnd={handleSubmit}
             />
           </div>
         </Col>

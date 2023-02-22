@@ -6,6 +6,7 @@ import { useRecipeContext } from "../../data/recipeProvider";
 import { Button, Col, Container, Image, Row } from "react-bootstrap";
 import { RecipeRate } from "../recipeRate";
 import { RecipeOveralRating } from "../recipeOveralRating";
+import { RecipeUsersRate } from "../recipeUsersRate";
 
 export function Recipe() {
   const [isFavorite, setIsFavorite] = useState<boolean>(false);
@@ -22,7 +23,6 @@ export function Recipe() {
     user,
     addToFavorites,
     removeFromFavorites,
-    // rateRecipe,
     currentFavorites,
     currentRated,
   } = useAuthContext();
@@ -50,7 +50,7 @@ export function Recipe() {
   return (
     <>
       {recipe && (
-        <Container>
+        <Container className="mb-5">
           <Row className="mt-3">
             <Col md={5}>
               <h2>
@@ -107,6 +107,7 @@ export function Recipe() {
             <Row className="mt-1">
               <Col xs={12}>
                 <RecipeRate recipeUrl={recipe.path} />
+                <RecipeUsersRate rate={2} />
               </Col>
             </Row>
           )}
@@ -136,7 +137,16 @@ export function Recipe() {
             <Col sm={12} md={8}>
               <>
                 <h3 className="h5">Method</h3>
-                <div dangerouslySetInnerHTML={{ __html: recipe.method }}></div>
+                <div
+                  dangerouslySetInnerHTML={{ __html: recipe.method }}
+                  className="mb-5"
+                ></div>
+                <hr />
+                <div className="mt-5">
+                  <p className="h6">How did you like that recipe?</p>
+                  <RecipeRate recipeUrl={recipe.path} />
+                  <RecipeUsersRate rate={2} />
+                </div>
               </>
             </Col>
           </Row>

@@ -227,9 +227,7 @@ export function AddNewRecipe() {
         },
         () => {
           getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
-            console.log("pobieram url");
             setNewPhotoUrl(downloadURL);
-            // setPhotoUploaded(true);
             setPhotoUploadedName(fileName);
           });
         }
@@ -238,8 +236,6 @@ export function AddNewRecipe() {
   };
 
   const deletePhoto = () => {
-    const file = newRecipePhoto;
-
     //@ts-ignore
     const photoRef = ref(storage, `images/${photoUploadedName}`);
     deleteObject(photoRef);
