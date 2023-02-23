@@ -11,6 +11,7 @@ import { RecipeUsersRate } from "../recipeUsersRate";
 export function Recipe() {
   const [isFavorite, setIsFavorite] = useState<boolean>(false);
   const [isRated, setIsRated] = useState<boolean>(false);
+  const [usersRate, setUsersRate] = useState<number>(0);
   const { recipePath } = useParams();
   const { recipes, isErrorRecipe } = useRecipeContext();
 
@@ -25,6 +26,7 @@ export function Recipe() {
     removeFromFavorites,
     currentFavorites,
     currentRated,
+    currentRatings,
   } = useAuthContext();
 
   const checkFavorites = () => {
@@ -47,6 +49,20 @@ export function Recipe() {
   useEffect(() => {
     checkRated();
   }, [currentRated]);
+
+  const checkUsersRate = () => {
+    if (recipe && isRated) {
+      const thisRating = currentRatings.filter(
+        (rating) => rating.name === recipe?.path
+      );
+      setUsersRate(thisRating[0].value);
+    }
+  };
+
+  useEffect(() => {
+    checkUsersRate();
+  }, [currentRatings]);
+
   return (
     <>
       {recipe && (
@@ -103,11 +119,11 @@ export function Recipe() {
               )}
             </Col>
           </Row>
-          {token && user && !isRated && (
+          {token && user && (
             <Row className="mt-1">
               <Col xs={12}>
-                <RecipeRate recipeUrl={recipe.path} />
-                <RecipeUsersRate rate={2} />
+                {!isRated && <RecipeRate recipeUrl={recipe.path} />}
+                {isRated && <RecipeUsersRate rate={usersRate} />}
               </Col>
             </Row>
           )}
@@ -143,9 +159,18 @@ export function Recipe() {
                 ></div>
                 <hr />
                 <div className="mt-5">
-                  <p className="h6">How did you like that recipe?</p>
-                  <RecipeRate recipeUrl={recipe.path} />
-                  <RecipeUsersRate rate={2} />
+                  {!isRated && (
+                    <div>
+                      <p className="h6">How did you like that recipe?</p>
+                      <RecipeRate recipeUrl={recipe.path} />
+                    </div>
+                  )}
+                  {isRated && (
+                    <div>
+                      <p className="h6">Thank you for rating the recipe!</p>
+                      <RecipeUsersRate rate={usersRate} />
+                    </div>
+                  )}
                 </div>
               </>
             </Col>

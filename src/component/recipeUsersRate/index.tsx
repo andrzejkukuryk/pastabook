@@ -40,10 +40,10 @@ export function RecipeUsersRate({ rate }: RecipeUsersRateProps) {
     starEnabled: rate > 2,
   });
   return (
-    <Container>
+    <Container className="p-0">
       <Row>
         <Col className="starsContainer d-flex flex-row align-items-end">
-          <p className="h6">Your rating: </p>
+          <p className="h6 my-0 pe-4 me-3">Your rating:</p>
           <div className={firstStarEmptyClass}>
             <img src={starEmpty} alt="" />
           </div>

@@ -24,6 +24,7 @@ const initialAuthContext = {
   rateRecipe: () => {},
   currentFavorites: [],
   currentRated: [],
+  currentRatings: [],
 } as unknown as ValueProp; // nie ma dostępu do właściwych funcji, ale wartosci zostaną nadpisane przy pierwszym renderze
 
 export const AuthContext = createContext<ValueProp>(initialAuthContext);
@@ -55,6 +56,7 @@ interface ValueProp {
   ) => Promise<void>;
   currentFavorites: string[];
   currentRated: string[];
+  currentRatings: RatingItem[];
 }
 
 interface AuthProviderProps {
@@ -71,6 +73,12 @@ interface KeysPathsRates {
   path: string;
   rate: number[];
 }
+
+interface RatingItem {
+  name: string;
+  value: number;
+}
+
 export const useAuthContext = () => {
   return useContext(AuthContext);
 };
@@ -88,10 +96,11 @@ export const AuthProvider: FC<AuthProviderProps> = ({ children }) => {
   const [isErrorAuth, setIsErrorAuth] = useState<boolean>(false);
   const [errorMessage, setErrorMessage] = useState("");
   const [userExists, setUserExists] = useState<boolean>(false);
-  const [userHasFavorites, setUserHasFavorites] = useState<boolean>(false);
+  // const [userHasFavorites, setUserHasFavorites] = useState<boolean>(false);
   const [currentFavorites, setCurrentFavorites] = useState<string[]>([]);
-  const [userHasRated, setUserHasRated] = useState<boolean>(false);
+  // const [userHasRated, setUserHasRated] = useState<boolean>(false);
   const [currentRated, setCurrentRated] = useState<string[]>([]);
+  const [currentRatings, setCurrentRatings] = useState<RatingItem[]>([]);
   const [recipesKeysPaths, setRecipesKeysPaths] = useState<KeysPathsRates[]>(
     []
   );
@@ -268,9 +277,8 @@ export const AuthProvider: FC<AuthProviderProps> = ({ children }) => {
     localStorage.removeItem("refreshToken");
     setCurrentFavorites([]);
     setCurrentRated([]);
+    setCurrentRatings([]);
     setUserExists(false);
-    setUserHasFavorites(false);
-    setUserHasRated(false);
     setIsLoading(false);
   };
 
@@ -539,19 +547,29 @@ export const AuthProvider: FC<AuthProviderProps> = ({ children }) => {
     const response = await addRate(newRate, recipeUrl);
     if (response.ok) {
       if (userExists) {
-        addNextRated(userMail, recipeUrl);
+        addNextRated(userMail, recipeUrl, newRate);
       } else {
-        addUserAndFirstRated(userMail, recipeUrl);
+        addUserAndFirstRated(userMail, recipeUrl, newRate);
       }
     }
     getUsersInfo(userMail);
   };
 
-  const addUserAndFirstRated = async (userMail: string, recipeUrl: string) => {
+  const addUserAndFirstRated = async (
+    userMail: string,
+    recipeUrl: string,
+    newRate: number
+  ) => {
     const prepairEmail = userMail.replace(/\W/g, "").toLowerCase();
     const endpoint = `https://${process.env.REACT_APP_FIREBASE_PROJECT_ID}-default-rtdb.europe-west1.firebasedatabase.app/users/${prepairEmail}.json?auth=${token}`;
     const body = {
       rated: [recipeUrl],
+      ratings: [
+        {
+          name: recipeUrl,
+          value: newRate,
+        },
+      ],
     };
     try {
       setIsErrorAuth(false);
@@ -564,6 +582,7 @@ export const AuthProvider: FC<AuthProviderProps> = ({ children }) => {
         throw new Error(jsonResponse.error);
       }
       setCurrentRated(jsonResponse.rated);
+      setCurrentRatings(jsonResponse.ratings);
       setUserExists(true);
     } catch (error) {
       setIsErrorAuth(true);
@@ -571,11 +590,22 @@ export const AuthProvider: FC<AuthProviderProps> = ({ children }) => {
     }
   };
 
-  const addNextRated = async (userMail: string, recipeUrl: string) => {
+  const addNextRated = async (
+    userMail: string,
+    recipeUrl: string,
+    newRate: number
+  ) => {
     const prepairEmail = userMail.replace(/\W/g, "").toLowerCase();
     const endpoint = `https://${process.env.REACT_APP_FIREBASE_PROJECT_ID}-default-rtdb.europe-west1.firebasedatabase.app/users/${prepairEmail}.json?auth=${token}`;
     const body = {
       rated: [...currentRated, recipeUrl],
+      ratings: [
+        ...currentRatings,
+        {
+          name: recipeUrl,
+          value: newRate,
+        },
+      ],
     };
     try {
       setIsErrorAuth(false);
@@ -585,6 +615,7 @@ export const AuthProvider: FC<AuthProviderProps> = ({ children }) => {
       });
       const jsonResponse = await response.json();
       setCurrentRated(jsonResponse.rated);
+      setCurrentRatings(jsonResponse.ratings);
     } catch (error) {
       setIsErrorAuth(true);
       console.log(error);
@@ -610,22 +641,21 @@ export const AuthProvider: FC<AuthProviderProps> = ({ children }) => {
         setUserExists(true);
         if (jsonResponse[prepairEmail].favorites) {
           setCurrentFavorites(jsonResponse[prepairEmail].favorites);
-          setUserHasFavorites(true);
         } else {
           setCurrentFavorites([]);
-          setUserHasFavorites(false);
         }
         if (jsonResponse[prepairEmail].rated) {
           setCurrentRated(jsonResponse[prepairEmail].rated);
-          setUserHasRated(true);
         } else {
           setCurrentRated([]);
-          setUserHasRated(false);
+        }
+        if (jsonResponse[prepairEmail].ratings) {
+          setCurrentRatings(jsonResponse[prepairEmail].ratings);
+        } else {
+          setCurrentRatings([]);
         }
       } else {
         setUserExists(false);
-        setUserHasFavorites(false);
-        setUserHasRated(false);
       }
     } catch (error) {
       setIsErrorAuth(true);
@@ -633,22 +663,6 @@ export const AuthProvider: FC<AuthProviderProps> = ({ children }) => {
     }
   };
 
-  /////////////////////
-  /// test storage
-
-  const getFromStorage = async () => {
-    const endpoint = `https://firebasestorage.googleapis.com/v1beta/pastabook-e1b8c/`;
-    const response = await fetch(endpoint, {
-      method: "GET",
-      mode: "no-cors",
-    });
-    console.log(response);
-  };
-  // useEffect(() => {
-  //   getFromStorage();
-  // }, []);
-  ////
-  /////////////////////
   const value: ValueProp = {
     token,
     user,
@@ -664,6 +678,7 @@ export const AuthProvider: FC<AuthProviderProps> = ({ children }) => {
     rateRecipe: rateRecipe,
     currentFavorites: currentFavorites,
     currentRated: currentRated,
+    currentRatings: currentRatings,
   };
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };
