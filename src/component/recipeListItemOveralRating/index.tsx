@@ -1,13 +1,15 @@
 import React, { useEffect, useState } from "react";
 import starFull from "./graph/star_full.png";
-import "./style.css";
+// import "./style.css";
 import { Container, Row, Col } from "react-bootstrap";
 
-interface RecipeOveralRatingProps {
+interface RecipeListItemOveralRatingProps {
   rates: number[];
 }
 
-export function RecipeOveralRating({ rates }: RecipeOveralRatingProps) {
+export function RecipeListItemOveralRating({
+  rates,
+}: RecipeListItemOveralRatingProps) {
   const [recipeHasRates, setRecipeHasRates] = useState<boolean>(false);
 
   const checkRecipeHasRates = () => {
@@ -40,12 +42,9 @@ export function RecipeOveralRating({ rates }: RecipeOveralRatingProps) {
     <Container>
       {recipeHasRates && (
         <Row>
-          <Col
-            xs={12}
-            className="starContainer d-flex flex-sm-row-reverse flex-md-row-reverse flex-lg-row col-12"
-          >
-            <p className="h6 my-0">
-              Rated: <span className="h5 m-0">{averageRate}</span> / 3
+          <Col xs={12} className="starContainer d-flex p-0 col-12">
+            <p className="my-0" style={{ fontSize: 13 }}>
+              Rated: <span className="h6 m-0">{averageRate}</span> / 3
               <img src={starFull} alt="rating star" className="mb-2" /> (
               {rates.length - 1} {rates.length === 2 ? "vote" : "votes"})
             </p>

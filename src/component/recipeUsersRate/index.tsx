@@ -1,15 +1,31 @@
 import classNames from "classnames";
-import React from "react";
-import "./style.css";
+import React, { useState, useEffect } from "react";
+// import "./style.css";
 import { Col, Container, Row } from "react-bootstrap";
+import { useAuthContext } from "../../data/authProvider";
 import starEmpty from "./graph/star_empty.png";
 import starFull from "./graph/star_full.png";
 
 interface RecipeUsersRateProps {
-  rate: number;
+  recipeUrl: string;
 }
 
-export function RecipeUsersRate({ rate }: RecipeUsersRateProps) {
+export function RecipeUsersRate({ recipeUrl }: RecipeUsersRateProps) {
+  const [rate, setRate] = useState<number>(0);
+  const { currentRatings } = useAuthContext();
+
+  const checkUsersRate = () => {
+    const thisRating = currentRatings.filter(
+      (rating) => rating.name === recipeUrl
+    );
+
+    setRate(thisRating[0].value);
+  };
+
+  useEffect(() => {
+    checkUsersRate();
+  }, [currentRatings]);
+
   const firstStarEmptyClass = classNames({
     starDisabled: rate > 0,
     starEnabled: rate === 0,

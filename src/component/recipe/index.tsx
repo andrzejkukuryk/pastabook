@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link, Navigate, useLocation, useParams } from "react-router-dom";
 import { useAuthContext } from "../../data/authProvider";
 import { Dish } from "../../models/dish";
 import { useRecipeContext } from "../../data/recipeProvider";
@@ -7,6 +7,7 @@ import { Button, Col, Container, Image, Row } from "react-bootstrap";
 import { RecipeRate } from "../recipeRate";
 import { RecipeOveralRating } from "../recipeOveralRating";
 import { RecipeUsersRate } from "../recipeUsersRate";
+import { ProtectedRoute } from "../protectedRoute";
 
 export function Recipe() {
   const [isFavorite, setIsFavorite] = useState<boolean>(false);
@@ -50,26 +51,19 @@ export function Recipe() {
     checkRated();
   }, [currentRated]);
 
-  const checkUsersRate = () => {
-    if (recipe && isRated) {
-      const thisRating = currentRatings.filter(
-        (rating) => rating.name === recipe?.path
-      );
-      setUsersRate(thisRating[0].value);
-    }
-  };
-
-  useEffect(() => {
-    checkUsersRate();
-  }, [currentRatings]);
-
   return (
     <>
       {recipe && (
         <Container className="mb-5">
           <Row className="mt-3">
-            <Col md={5}>
-              <h2>
+            <Col
+              sm={{ span: 12 }}
+              md={{ span: "auto" }}
+              lg={{ span: "auto" }}
+              xl={{ span: "auto" }}
+              className="mb-sm-3 mb-md-0"
+            >
+              <h2 style={{ marginBottom: "3px" }}>
                 {recipe?.fullName}{" "}
                 {isFavorite && (
                   <svg
@@ -85,10 +79,32 @@ export function Recipe() {
                 )}
               </h2>
             </Col>
-            <Col md={3}>
+            <Col
+              xs={{ order: 4 }}
+              sm={{ order: 3 }}
+              md={{ order: 1 }}
+              lg={{ order: 4 }}
+              xl={{ order: 4 }}
+            >
+              hop
+            </Col>
+            <Col
+              xs={{ order: 1, span: 12 }}
+              sm={{ order: 2, span: 6 }}
+              md={{ order: 4, span: 5 }}
+              lg={{ order: 1, span: 3 }}
+              xl={{ order: 1, span: 3 }}
+              className="d-flex align-items-end mb-sm-3 mb-md-0"
+            >
               <RecipeOveralRating rates={recipe.rate} />
             </Col>
-            <Col md={4}>
+            <Col
+              xs={{ order: 2, span: 12 }}
+              sm={{ order: 4, span: "auto" }}
+              md={{ order: 2, span: 4 }}
+              lg={{ order: 2 }}
+              xl={{ order: 2 }}
+            >
               {token && user && !isFavorite && (
                 <Button
                   variant="outline-primary"
@@ -118,15 +134,28 @@ export function Recipe() {
                 </Button>
               )}
             </Col>
+            {token && user && (
+              <Col
+                xs={{ order: 3, span: 12 }}
+                sm={{ order: 1, span: 6 }}
+                md={{ order: 3, span: 7 }}
+                lg={{ order: 3, span: 12 }}
+                xl={{ order: 3, span: 12 }}
+                className="mt-md-3"
+              >
+                {!isRated && <RecipeRate recipeUrl={recipe.path} />}
+                {isRated && <RecipeUsersRate recipeUrl={recipe.path} />}
+              </Col>
+            )}
           </Row>
-          {token && user && (
+          {/* {token && user && (
             <Row className="mt-1">
               <Col xs={12}>
                 {!isRated && <RecipeRate recipeUrl={recipe.path} />}
-                {isRated && <RecipeUsersRate rate={usersRate} />}
+                {isRated && <RecipeUsersRate recipeUrl={recipe.path} />}
               </Col>
             </Row>
-          )}
+          )} */}
           <Row className="my-5">
             <Col>
               <Image
@@ -158,20 +187,36 @@ export function Recipe() {
                   className="mb-5"
                 ></div>
                 <hr />
-                <div className="mt-5">
-                  {!isRated && (
-                    <div>
-                      <p className="h6">How did you like that recipe?</p>
-                      <RecipeRate recipeUrl={recipe.path} />
-                    </div>
-                  )}
-                  {isRated && (
-                    <div>
-                      <p className="h6">Thank you for rating the recipe!</p>
-                      <RecipeUsersRate rate={usersRate} />
-                    </div>
-                  )}
-                </div>
+                {user && token && (
+                  <div className="mt-5">
+                    {!isRated && (
+                      <div>
+                        <p className="h6">How did you like that recipe?</p>
+                        <RecipeRate recipeUrl={recipe.path} />
+                      </div>
+                    )}
+                    {isRated && (
+                      <div>
+                        <p className="h6">Thank you for rating the recipe!</p>
+                        <RecipeUsersRate recipeUrl={recipe.path} />
+                      </div>
+                    )}
+                  </div>
+                )}
+                {!user && !token && (
+                  <div>
+                    <p className="h6">
+                      Would you like to rate this recipe?{" "}
+                      <Link
+                        to="/login"
+                        className="sign-up-link ms-2"
+                        style={{ textDecoration: "none" }}
+                      >
+                        Log in
+                      </Link>
+                    </p>
+                  </div>
+                )}
               </>
             </Col>
           </Row>

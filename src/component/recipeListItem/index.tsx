@@ -4,6 +4,7 @@ import "./style.css";
 import { Card } from "react-bootstrap";
 import { RecipeOveralRating } from "../recipeOveralRating";
 import { useAuthContext } from "../../data/authProvider";
+import { RecipeListItemOveralRating } from "../recipeListItemOveralRating";
 
 interface RecipeListItemProps {
   imageSource: string;
@@ -60,8 +61,7 @@ export function RecipeListItem({
               )}
             </div>
           </Card.Title>
-          <RecipeOveralRating rates={rate} />
-          {/* <RecipeRatingStars rate={rate} /> */}
+          <RecipeListItemOveralRating rates={rate} />
         </Card.Body>
       </Card>
     </>

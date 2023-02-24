@@ -96,9 +96,7 @@ export const AuthProvider: FC<AuthProviderProps> = ({ children }) => {
   const [isErrorAuth, setIsErrorAuth] = useState<boolean>(false);
   const [errorMessage, setErrorMessage] = useState("");
   const [userExists, setUserExists] = useState<boolean>(false);
-  // const [userHasFavorites, setUserHasFavorites] = useState<boolean>(false);
   const [currentFavorites, setCurrentFavorites] = useState<string[]>([]);
-  // const [userHasRated, setUserHasRated] = useState<boolean>(false);
   const [currentRated, setCurrentRated] = useState<string[]>([]);
   const [currentRatings, setCurrentRatings] = useState<RatingItem[]>([]);
   const [recipesKeysPaths, setRecipesKeysPaths] = useState<KeysPathsRates[]>(
@@ -249,6 +247,7 @@ export const AuthProvider: FC<AuthProviderProps> = ({ children }) => {
           throw new Error(jsonResponse.error);
         }
         setErrorMessage(jsonResponse.error.message);
+        setIsLoading(false);
         return;
       }
       const loggedinUser: User = {
