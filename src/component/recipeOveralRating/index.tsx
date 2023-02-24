@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import starFull from "./graph/star_full.png";
 import "./style.css";
 import { Container, Row, Col } from "react-bootstrap";
+import classNames from "classnames";
+import { useAuthContext } from "../../data/authProvider";
 
 interface RecipeOveralRatingProps {
   rates: number[];
@@ -9,6 +11,8 @@ interface RecipeOveralRatingProps {
 
 export function RecipeOveralRating({ rates }: RecipeOveralRatingProps) {
   const [recipeHasRates, setRecipeHasRates] = useState<boolean>(false);
+
+  const { user } = useAuthContext();
 
   const checkRecipeHasRates = () => {
     if (rates.length > 1) {
@@ -36,13 +40,20 @@ export function RecipeOveralRating({ rates }: RecipeOveralRatingProps) {
 
   const averageRate = countAverageRate();
 
+  const columnClass = classNames({
+    "starContainer d-flex flex-sm-row-reverse flex-lg-row col-12": user,
+    "starContainer d-flex flex-row col-12": !user,
+  });
+
   return (
     <Container>
       {recipeHasRates && (
         <Row>
           <Col
             xs={12}
-            className="starContainer d-flex flex-sm-row-reverse flex-md-row-reverse flex-lg-row col-12"
+            // className="starContainer d-flex flex-sm-row-reverse flex-md-row-reverse flex-lg-row col-12"
+            // className="starContainer d-flex flex-sm-row-reverse flex-lg-row col-12"
+            className={columnClass}
           >
             <p className="h6 my-0">
               Rated: <span className="h5 m-0">{averageRate}</span> / 3

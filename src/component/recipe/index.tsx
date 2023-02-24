@@ -85,16 +85,14 @@ export function Recipe() {
               md={{ order: 1 }}
               lg={{ order: 4 }}
               xl={{ order: 4 }}
-            >
-              hop
-            </Col>
+            ></Col>
             <Col
               xs={{ order: 1, span: 12 }}
               sm={{ order: 2, span: 6 }}
               md={{ order: 4, span: 5 }}
-              lg={{ order: 1, span: 3 }}
+              lg={{ order: 1, span: 4 }}
               xl={{ order: 1, span: 3 }}
-              className="d-flex align-items-end mb-sm-3 mb-md-0"
+              className="d-flex align-items-end mt-2 mt-sm-0 mb-3 mb-md-0"
             >
               <RecipeOveralRating rates={recipe.rate} />
             </Col>
@@ -102,8 +100,8 @@ export function Recipe() {
               xs={{ order: 2, span: 12 }}
               sm={{ order: 4, span: "auto" }}
               md={{ order: 2, span: 4 }}
-              lg={{ order: 2 }}
-              xl={{ order: 2 }}
+              lg={{ order: 2, span: 3 }}
+              xl={{ order: 2, span: 5 }}
             >
               {token && user && !isFavorite && (
                 <Button
@@ -127,7 +125,7 @@ export function Recipe() {
               {token && user && isFavorite && (
                 <Button
                   variant="outline-primary"
-                  className="float-end"
+                  className="float-xs-start float-sm-end"
                   onClick={() => removeFromFavorites(user.email, recipe.path)}
                 >
                   Remove from favourites
@@ -141,7 +139,7 @@ export function Recipe() {
                 md={{ order: 3, span: 7 }}
                 lg={{ order: 3, span: 12 }}
                 xl={{ order: 3, span: 12 }}
-                className="mt-md-3"
+                className="mt-3 mt-sm-0 mt-md-3"
               >
                 {!isRated && <RecipeRate recipeUrl={recipe.path} />}
                 {isRated && <RecipeUsersRate recipeUrl={recipe.path} />}
@@ -167,7 +165,7 @@ export function Recipe() {
             </Col>
           </Row>
           <Row>
-            <Col sm={12} md={4}>
+            <Col sm={12} md={4} className="mb-4 mb-md-0">
               {recipe && <h3 className="h5">Ingredients</h3>}
               <ul>
                 {recipe?.ingredients.map(
