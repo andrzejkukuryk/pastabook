@@ -11,6 +11,7 @@ import { Link } from "react-router-dom";
 import { useAuthContext } from "../../data/authProvider";
 import { useRecipeContext } from "../../data/recipeProvider";
 import { Dish } from "../../models/dish";
+import { UserProfileChangePassword } from "../userProfileChangePassword";
 import styles from "./style.module.css";
 
 export function UserProfile() {
@@ -32,9 +33,7 @@ export function UserProfile() {
         action
         href={`/recipes/${recipe.path}`}
       >
-        {/* <Link to={`/recipes/${recipe.path}`}> */}
         {recipe.fullName}
-        {/* </Link> */}
       </ListGroupItem>
     ));
   };
@@ -43,14 +42,43 @@ export function UserProfile() {
     <Container>
       <Row className="my-4">
         <Col>
-          <h2>User's account</h2>
+          <h2>My account</h2>
         </Col>
       </Row>
       <Row>
-        <Col xs={2} lg={1}>
-          <p>login: </p>
+        <Col>
+          <h3 className="h5">General</h3>
         </Col>
-        <Col>{user?.email}</Col>
+      </Row>
+      <Row className="my-3">
+        <Col xs={12} className="my-0">
+          <p className="my-1">login </p>
+        </Col>
+        <Col xs={12} className="my-0">
+          {user?.email}
+        </Col>
+      </Row>
+      <Row>
+        <Col xs={12} className="my-0">
+          <p className="my-1">password </p>
+        </Col>
+        <Col>
+          <Button
+            variant="outline-primary"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#changePasswordPanel"
+            aria-expanded="false"
+            aria-controls="changePasswordPanel"
+          >
+            Change password
+          </Button>
+        </Col>
+        <Col xs={12} className="my-0">
+          <div className="collapse" id="changePasswordPanel">
+            <UserProfileChangePassword />
+          </div>
+        </Col>
       </Row>
       <Row>
         <Col xs={2} lg={1}>
