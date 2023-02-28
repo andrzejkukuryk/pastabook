@@ -55,7 +55,7 @@ export function Search() {
     <Container className="my-4">
       <Row className="mb-3">
         <Col xs={false} lg={2} />
-        <Col xs={8} lg={6}>
+        <Col xs={12} lg={6}>
           <Form>
             <InputGroup>
               <Form.Control
@@ -85,7 +85,7 @@ export function Search() {
             </InputGroup>
           </Form>
         </Col>
-        <Col xs={4} lg={2}>
+        <Col xs={12} lg={2}>
           {!filtersShown && (
             <Button
               variant="outline-primary"

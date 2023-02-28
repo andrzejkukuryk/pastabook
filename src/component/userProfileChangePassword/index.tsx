@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Container, Row, Col, Form, Button } from "react-bootstrap";
 import { useForm } from "react-hook-form";
 import { useAuthContext } from "../../data/authProvider";
@@ -23,19 +23,33 @@ export function UserProfileChangePassword({
     reset,
     formState: { errors },
   } = useForm<ChangePasswordFormValues>();
-  const { user, changePassword, errorMessage } = useAuthContext();
+  const { user, changePassword, errorMessage, setErrorMessage } =
+    useAuthContext();
 
   const onSubmit = (data: ChangePasswordFormValues) => {
     if (user) {
       changePassword(user?.email, data.oldPassword, data.newPassword);
     }
-    console.log(
-      "new pass: ",
-      data.newPassword,
-      "conf new pass: ",
-      data.confirmNewPassword
-    );
   };
+
+  // const addProperties = (value: boolean) => {
+  //   const confirmButton = document.getElementById("btnConfirmPassword");
+  //   if (value) {
+  //     confirmButton?.setAttribute("data-bs-toggle", "collapse");
+  //     confirmButton?.setAttribute("data-bs-target", "#changePasswordPanel");
+  //     confirmButton?.setAttribute("aria-expanded", "true");
+  //     confirmButton?.setAttribute("aria-controls", "#changePasswordPanel");
+  //   } else {
+  //     confirmButton?.removeAttribute("data-bs-toggle");
+  //     confirmButton?.removeAttribute("data-bs-target");
+  //     confirmButton?.removeAttribute("aria-expanded");
+  //     confirmButton?.removeAttribute("aria-controls");
+  //   }
+  // };
+
+  // useEffect(() => {
+  //   addProperties(errorMessage.length === 0);
+  // }, [errorMessage]);
 
   return (
     <Container className="m-0">
@@ -55,6 +69,9 @@ export function UserProfileChangePassword({
                   minLength: {
                     value: 8,
                     message: "Password needs at least 8 charackters",
+                  },
+                  onChange: () => {
+                    setErrorMessage("");
                   },
                 })}
               />
@@ -89,7 +106,7 @@ export function UserProfileChangePassword({
 
             <Form.Group
               controlId="confirmNewPassword"
-              className="mt-3  col-lg-4 col-md-6 col-xs-12"
+              className="mt-3 col-lg-4 col-md-6 col-xs-12"
             >
               <Form.Label>Confirm your password</Form.Label>
               <Form.Control
@@ -113,7 +130,12 @@ export function UserProfileChangePassword({
                 )}
             </Form.Group>
             <label></label>
-            <Button type="submit" variant="primary" className="me-3 mt-4">
+            <Button
+              type="submit"
+              variant="primary"
+              className="me-3 mt-4"
+              id="btnConfirmPassword"
+            >
               Confirm new password
             </Button>
             <Button

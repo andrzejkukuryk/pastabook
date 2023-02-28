@@ -261,9 +261,10 @@ export const AuthProvider: FC<AuthProviderProps> = ({ children }) => {
         name: jsonResponse.displayName,
       };
       setUser(loggedinUser);
-      setToken(jsonResponse.idToken);
-      setRefreshToken(jsonResponse.refreshToken);
-      putDataIntoLocalStorage(jsonResponse.idToken, jsonResponse.refreshToken);
+      saveTokens(jsonResponse.idToken, jsonResponse.refreshToken);
+      // setToken(jsonResponse.idToken);
+      // setRefreshToken(jsonResponse.refreshToken);
+      // putDataIntoLocalStorage(jsonResponse.idToken, jsonResponse.refreshToken);
       const origin = location.state?.from?.pathname || "/";
       navigate(origin);
     } catch (error) {
@@ -272,6 +273,12 @@ export const AuthProvider: FC<AuthProviderProps> = ({ children }) => {
     }
 
     setIsLoading(false);
+  };
+
+  const saveTokens = (idToken: string, refreshToken: string) => {
+    setToken(idToken);
+    setRefreshToken(refreshToken);
+    putDataIntoLocalStorage(idToken, refreshToken);
   };
 
   const logoutUser = () => {
@@ -417,6 +424,7 @@ export const AuthProvider: FC<AuthProviderProps> = ({ children }) => {
     newPassword: string
   ) => {
     let temporaryToken = "";
+    let temporaryRefreshToken = "";
     const endpointLogin = `https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=${process.env.REACT_APP_FIREBASE_API_KEY}`;
     const data = {
       email: email,
@@ -440,7 +448,10 @@ export const AuthProvider: FC<AuthProviderProps> = ({ children }) => {
       }
       if (jsonResponse.idToken) {
         temporaryToken = await jsonResponse.idToken;
-        console.log("temporaryToken", temporaryToken);
+      }
+      if (jsonResponse.refreshToken) {
+        console.log("refresh toekn");
+        temporaryRefreshToken = await jsonResponse.refreshToken;
       }
     } catch (error) {
       setIsErrorAuth(true);
@@ -448,8 +459,9 @@ export const AuthProvider: FC<AuthProviderProps> = ({ children }) => {
     }
     if (temporaryToken) {
       await changePasswordRequest(newPassword, temporaryToken);
-      logoutUser();
-      loginUser(email, newPassword);
+      saveTokens(temporaryToken, temporaryRefreshToken);
+      // logoutUser();
+      // loginUser(email, newPassword);
     }
   };
 
