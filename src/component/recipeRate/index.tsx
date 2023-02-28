@@ -1,12 +1,12 @@
 import React, { useState } from "react";
 import { Col, Container, Row } from "react-bootstrap";
-import "./style.css";
+// import "./style.css";
 import starEmpty from "./graph/star_empty.png";
 import starFull from "./graph/star_full.png";
 import classNames from "classnames";
 import { useAuthContext } from "../../data/authProvider";
 import { useRecipeContext } from "../../data/recipeProvider";
-import { get } from "react-hook-form";
+
 
 interface RecipeRateProps {
   recipeUrl: string;
@@ -71,7 +71,6 @@ export function RecipeRate({ recipeUrl }: RecipeRateProps) {
           <div className={firstStarFullClass}>
             <img
               src={starFull}
-              className={firstStarFullClass}
               alt=""
               onMouseOver={() => setRate(1)}
               onMouseLeave={() => setRate(0)}

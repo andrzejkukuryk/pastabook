@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   Button,
   Col,
@@ -7,7 +7,7 @@ import {
   ListGroupItem,
   Row,
 } from "react-bootstrap";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { useAuthContext } from "../../data/authProvider";
 import { useRecipeContext } from "../../data/recipeProvider";
 import { Dish } from "../../models/dish";
@@ -15,8 +15,11 @@ import { UserProfileChangePassword } from "../userProfileChangePassword";
 import styles from "./style.module.css";
 
 export function UserProfile() {
+  const [passwordPanelExpanded, setPasswordPanelExpanded] =
+    useState<boolean>(false);
   const { user, currentFavorites } = useAuthContext();
   const { recipes } = useRecipeContext();
+  const location = useLocation();
 
   const createFavoritesList = () => {
     const favorites: Dish[] = [];
@@ -62,21 +65,26 @@ export function UserProfile() {
         <Col xs={12} className="my-0">
           <p className="my-1">password </p>
         </Col>
-        <Col>
-          <Button
-            variant="outline-primary"
-            type="button"
-            data-bs-toggle="collapse"
-            data-bs-target="#changePasswordPanel"
-            aria-expanded="false"
-            aria-controls="changePasswordPanel"
-          >
-            Change password
-          </Button>
-        </Col>
+        {!passwordPanelExpanded && (
+          <Col>
+            <Button
+              variant="outline-primary"
+              type="button"
+              data-bs-toggle="collapse"
+              data-bs-target="#changePasswordPanel"
+              aria-expanded="false"
+              aria-controls="changePasswordPanel"
+              onClick={() => setPasswordPanelExpanded(true)}
+            >
+              Change password
+            </Button>
+          </Col>
+        )}
         <Col xs={12} className="my-0">
           <div className="collapse" id="changePasswordPanel">
-            <UserProfileChangePassword />
+            <UserProfileChangePassword
+              setPasswordPanelExpanded={setPasswordPanelExpanded}
+            />
           </div>
         </Col>
       </Row>
@@ -96,7 +104,7 @@ export function UserProfile() {
       </Row>
       <Row className="mt-4">
         <Col>
-          <h3 className="h5">Your favorite recipes: </h3>
+          <h3 className="h5">My favorites </h3>
         </Col>
       </Row>
       <Row className="mt-3">

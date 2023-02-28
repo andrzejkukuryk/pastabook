@@ -1,12 +1,13 @@
 import React from "react";
 import { Container, Nav, Navbar } from "react-bootstrap";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { useAuthContext } from "../../data/authProvider";
 import { Logo } from "../logo";
 import { UserLoginMenu } from "../userLoginMenu";
 
 export function Header() {
   const { token } = useAuthContext();
+  const location = useLocation();
 
   return (
     <Navbar className="navbar rounded-2" bg="secondary" variant="dark">
@@ -18,6 +19,7 @@ export function Header() {
           {!token && (
             <Link
               to="/login"
+              state={{ from: location }}
               className="text-dark me-4"
               style={{ textDecoration: "none", fontWeight: 600 }}
             >

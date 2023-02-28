@@ -27,8 +27,13 @@ export function Recipe() {
     removeFromFavorites,
     currentFavorites,
     currentRated,
-    currentRatings,
   } = useAuthContext();
+
+  const location = useLocation();
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
   const checkFavorites = () => {
     if (recipe && currentFavorites.length > 0) {
@@ -58,9 +63,9 @@ export function Recipe() {
           <Row className="mt-3">
             <Col
               sm={{ span: 12 }}
-              md={{ span: "auto" }}
-              lg={{ span: "auto" }}
-              xl={{ span: "auto" }}
+              md={{ span: 8 }}
+              lg={{ span: 5 }}
+              xl={{ span: 6 }}
               className="mb-sm-3 mb-md-0"
             >
               <h2 style={{ marginBottom: "3px" }}>
@@ -80,19 +85,12 @@ export function Recipe() {
               </h2>
             </Col>
             <Col
-              xs={{ order: 4 }}
-              sm={{ order: 3 }}
-              md={{ order: 1 }}
-              lg={{ order: 4 }}
-              xl={{ order: 4 }}
-            ></Col>
-            <Col
               xs={{ order: 1, span: 12 }}
               sm={{ order: 2, span: 6 }}
               md={{ order: 4, span: 5 }}
               lg={{ order: 1, span: 4 }}
               xl={{ order: 1, span: 3 }}
-              className="d-flex align-items-end mt-2 mt-sm-0 mb-3 mb-md-0"
+              className="d-flex align-items-end align-items-lg-start mt-2 mt-sm-0 mt-lg-2 mb-3 mb-md-0"
             >
               <RecipeOveralRating rates={recipe.rate} />
             </Col>
@@ -101,12 +99,12 @@ export function Recipe() {
               sm={{ order: 4, span: "auto" }}
               md={{ order: 2, span: 4 }}
               lg={{ order: 2, span: 3 }}
-              xl={{ order: 2, span: 5 }}
+              xl={{ order: 2, span: 3 }}
             >
               {token && user && !isFavorite && (
                 <Button
                   variant="outline-primary"
-                  className="float-end"
+                  className="float-start float-sm-end"
                   onClick={() => addToFavorites(user.email, recipe.path)}
                 >
                   <svg
@@ -125,7 +123,7 @@ export function Recipe() {
               {token && user && isFavorite && (
                 <Button
                   variant="outline-primary"
-                  className="float-xs-start float-sm-end"
+                  className="float-start float-sm-end"
                   onClick={() => removeFromFavorites(user.email, recipe.path)}
                 >
                   Remove from favourites
@@ -146,14 +144,6 @@ export function Recipe() {
               </Col>
             )}
           </Row>
-          {/* {token && user && (
-            <Row className="mt-1">
-              <Col xs={12}>
-                {!isRated && <RecipeRate recipeUrl={recipe.path} />}
-                {isRated && <RecipeUsersRate recipeUrl={recipe.path} />}
-              </Col>
-            </Row>
-          )} */}
           <Row className="my-5">
             <Col>
               <Image
@@ -207,6 +197,7 @@ export function Recipe() {
                       Would you like to rate this recipe?{" "}
                       <Link
                         to="/login"
+                        state={{ from: location }}
                         className="sign-up-link ms-2"
                         style={{ textDecoration: "none" }}
                       >

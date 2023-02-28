@@ -1,6 +1,11 @@
 import React from "react";
 import { Container, Row, Col, Form, Button } from "react-bootstrap";
 import { useForm } from "react-hook-form";
+import { useAuthContext } from "../../data/authProvider";
+
+interface UserProfileChangePasswordProps {
+  setPasswordPanelExpanded: React.Dispatch<React.SetStateAction<boolean>>;
+}
 
 interface ChangePasswordFormValues {
   oldPassword: string;
@@ -8,19 +13,35 @@ interface ChangePasswordFormValues {
   confirmNewPassword: string;
 }
 
-export function UserProfileChangePassword() {
+export function UserProfileChangePassword({
+  setPasswordPanelExpanded,
+}: UserProfileChangePasswordProps) {
   const {
     register,
     handleSubmit,
     watch,
+    reset,
     formState: { errors },
   } = useForm<ChangePasswordFormValues>();
+  const { user, changePassword, errorMessage } = useAuthContext();
+
+  const onSubmit = (data: ChangePasswordFormValues) => {
+    if (user) {
+      changePassword(user?.email, data.oldPassword, data.newPassword);
+    }
+    console.log(
+      "new pass: ",
+      data.newPassword,
+      "conf new pass: ",
+      data.confirmNewPassword
+    );
+  };
 
   return (
     <Container className="m-0">
       <Row>
         <Col>
-          <form noValidate>
+          <form noValidate onSubmit={handleSubmit(onSubmit)}>
             <Form.Group
               controlId="oldPassword"
               className="mt-3  col-lg-4 col-md-6 col-xs-12"
@@ -39,6 +60,9 @@ export function UserProfileChangePassword() {
               />
               {errors.oldPassword && (
                 <p className="errorMsg">{errors.oldPassword.message}</p>
+              )}
+              {errorMessage === "INVALID_PASSWORD" && (
+                <p className="errorMsg"> Password incorrect</p>
               )}
             </Form.Group>
 
@@ -70,7 +94,7 @@ export function UserProfileChangePassword() {
               <Form.Label>Confirm your password</Form.Label>
               <Form.Control
                 type="password"
-                placeholder="Type your password again"
+                placeholder="Type your new password again"
                 {...register("confirmNewPassword", {
                   required: true,
                   validate: (cfirmPassword) =>
@@ -80,7 +104,7 @@ export function UserProfileChangePassword() {
               {errors.confirmNewPassword &&
                 errors.confirmNewPassword.type === "required" && (
                   <p className="errorMsg">
-                    Password's confirmation is required.
+                    New password's confirmation is required.
                   </p>
                 )}
               {errors.confirmNewPassword &&
@@ -94,8 +118,16 @@ export function UserProfileChangePassword() {
             </Button>
             <Button
               variant="outline-primary"
+              type="button"
+              data-bs-toggle="collapse"
+              data-bs-target="#changePasswordPanel"
+              aria-expanded="true"
+              aria-controls="changePasswordPanel"
               className="mt-4"
-              onClick={() => {}}
+              onClick={() => {
+                reset();
+                setPasswordPanelExpanded(false);
+              }}
             >
               Discard changes
             </Button>

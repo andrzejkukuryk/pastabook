@@ -6,7 +6,7 @@ import React, {
   FC,
   useEffect,
 } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { redirect, useLocation, useNavigate } from "react-router-dom";
 import { Dish } from "../../models/dish";
 
 const initialAuthContext = {
@@ -18,6 +18,7 @@ const initialAuthContext = {
   loginUser: () => {},
   logoutUser: () => {},
   editUser: () => {},
+  changePassword: () => {},
   submitRegisterPressed: () => {},
   addToFavorites: () => {},
   removeFromFavorites: () => {},
@@ -38,6 +39,11 @@ interface ValueProp {
   loginUser: (email: string, password: string) => Promise<void>;
   logoutUser: () => void;
   editUser: (newUserName: string) => Promise<void>;
+  changePassword: (
+    email: string,
+    oldPassword: string,
+    newPassword: string
+  ) => Promise<void>;
   submitRegisterPressed: ({
     email,
     password,
@@ -374,6 +380,79 @@ export const AuthProvider: FC<AuthProviderProps> = ({ children }) => {
     }
   };
 
+  const changePasswordRequest = async (
+    newPassword: string,
+    temporaryToken: string
+  ) => {
+    console.log("change password request");
+    const endpoint = `https://identitytoolkit.googleapis.com/v1/accounts:update?key=${process.env.REACT_APP_FIREBASE_API_KEY}`;
+    const body = {
+      idToken: temporaryToken,
+      password: newPassword,
+      returnSecureToken: true,
+    };
+    try {
+      setIsLoading(true);
+      setIsErrorAuth(false);
+      const response = await fetch(endpoint, {
+        method: "POST",
+        body: JSON.stringify(body),
+      });
+      const jsonResponse = await response.json();
+      if (jsonResponse.error) {
+        throw new Error();
+      }
+      console.log(jsonResponse);
+    } catch (error) {
+      setIsErrorAuth(true);
+      console.log(error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const changePassword = async (
+    email: string,
+    oldPassword: string,
+    newPassword: string
+  ) => {
+    let temporaryToken = "";
+    const endpointLogin = `https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=${process.env.REACT_APP_FIREBASE_API_KEY}`;
+    const data = {
+      email: email,
+      password: oldPassword,
+      returnSecureToken: true,
+    };
+    try {
+      setIsErrorAuth(false);
+      const response = await fetch(endpointLogin, {
+        method: "POST",
+        body: JSON.stringify(data),
+      });
+      const jsonResponse = await response.json();
+      if (jsonResponse.error) {
+        if (!usedErrorMessages.includes(jsonResponse.error.message)) {
+          throw new Error(jsonResponse.error);
+        }
+        setErrorMessage(jsonResponse.error.message);
+        console.log(errorMessage);
+        return;
+      }
+      if (jsonResponse.idToken) {
+        temporaryToken = await jsonResponse.idToken;
+        console.log("temporaryToken", temporaryToken);
+      }
+    } catch (error) {
+      setIsErrorAuth(true);
+      console.log("error: ", error);
+    }
+    if (temporaryToken) {
+      await changePasswordRequest(newPassword, temporaryToken);
+      logoutUser();
+      loginUser(email, newPassword);
+    }
+  };
+
   //////////////////////////
   ///// favorites section
 
@@ -671,6 +750,7 @@ export const AuthProvider: FC<AuthProviderProps> = ({ children }) => {
     loginUser: loginUser,
     logoutUser: logoutUser,
     editUser: editUser,
+    changePassword: changePassword,
     submitRegisterPressed: submitRegisterPressed,
     addToFavorites: addToFavorites,
     removeFromFavorites: removeFromFavorites,
