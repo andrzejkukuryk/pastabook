@@ -19,6 +19,8 @@ const initialAuthContext = {
   logoutUser: () => {},
   editUser: () => {},
   changePassword: () => {},
+  passwordChanged: false,
+  setPasswordChanged: () => {},
   submitRegisterPressed: () => {},
   addToFavorites: () => {},
   removeFromFavorites: () => {},
@@ -44,6 +46,8 @@ interface ValueProp {
     oldPassword: string,
     newPassword: string
   ) => Promise<void>;
+  passwordChanged: boolean;
+  setPasswordChanged: React.Dispatch<React.SetStateAction<boolean>>;
   submitRegisterPressed: ({
     email,
     password,
@@ -101,6 +105,7 @@ export const AuthProvider: FC<AuthProviderProps> = ({ children }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [isErrorAuth, setIsErrorAuth] = useState<boolean>(false);
   const [errorMessage, setErrorMessage] = useState("");
+  const [passwordChanged, setPasswordChanged] = useState<boolean>(false);
   const [userExists, setUserExists] = useState<boolean>(false);
   const [currentFavorites, setCurrentFavorites] = useState<string[]>([]);
   const [currentRated, setCurrentRated] = useState<string[]>([]);
@@ -391,7 +396,7 @@ export const AuthProvider: FC<AuthProviderProps> = ({ children }) => {
     newPassword: string,
     temporaryToken: string
   ) => {
-    console.log("change password request");
+    // console.log("change password request");
     const endpoint = `https://identitytoolkit.googleapis.com/v1/accounts:update?key=${process.env.REACT_APP_FIREBASE_API_KEY}`;
     const body = {
       idToken: temporaryToken,
@@ -423,6 +428,8 @@ export const AuthProvider: FC<AuthProviderProps> = ({ children }) => {
     oldPassword: string,
     newPassword: string
   ) => {
+    setIsLoading(true);
+    setPasswordChanged(false);
     let temporaryToken = "";
     let temporaryRefreshToken = "";
     const endpointLogin = `https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=${process.env.REACT_APP_FIREBASE_API_KEY}`;
@@ -444,13 +451,14 @@ export const AuthProvider: FC<AuthProviderProps> = ({ children }) => {
         }
         setErrorMessage(jsonResponse.error.message);
         console.log(errorMessage);
+        setIsLoading(false);
         return;
       }
       if (jsonResponse.idToken) {
         temporaryToken = await jsonResponse.idToken;
       }
       if (jsonResponse.refreshToken) {
-        console.log("refresh toekn");
+        console.log("refresh token");
         temporaryRefreshToken = await jsonResponse.refreshToken;
       }
     } catch (error) {
@@ -460,6 +468,8 @@ export const AuthProvider: FC<AuthProviderProps> = ({ children }) => {
     if (temporaryToken) {
       await changePasswordRequest(newPassword, temporaryToken);
       saveTokens(temporaryToken, temporaryRefreshToken);
+      setIsLoading(false);
+      setPasswordChanged(true);
       // logoutUser();
       // loginUser(email, newPassword);
     }
@@ -711,9 +721,6 @@ export const AuthProvider: FC<AuthProviderProps> = ({ children }) => {
       console.log(error);
     }
   };
-  // useEffect(() => {
-  //   addRate(3, "fortests");
-  // }, [user]);
 
   const getUsersInfo = async (userMail: string) => {
     const prepairEmail = userMail.replace(/\W/g, "").toLowerCase();
@@ -763,6 +770,8 @@ export const AuthProvider: FC<AuthProviderProps> = ({ children }) => {
     logoutUser: logoutUser,
     editUser: editUser,
     changePassword: changePassword,
+    passwordChanged: passwordChanged,
+    setPasswordChanged: setPasswordChanged,
     submitRegisterPressed: submitRegisterPressed,
     addToFavorites: addToFavorites,
     removeFromFavorites: removeFromFavorites,

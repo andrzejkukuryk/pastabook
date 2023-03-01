@@ -15,19 +15,17 @@ import { ProtectedRoute } from "./component/protectedRoute";
 import { UserProfile } from "./component/userProfile";
 import { UserProfileEdit } from "./component/userProfileEdit";
 import { RecipeProvider } from "./data/recipeProvider";
-//@ts-ignore
-import Breakpoints from "breakpoints-js";
-Breakpoints();
+
 
 function App() {
   return (
-    <BrowserRouter>
+    <BrowserRouter basename={process.env.PUBLIC_URL}>
       <AuthProvider>
         <RecipeProvider>
           <Routes>
             <Route path="/" element={<SharedLayout />}>
               <Route index element={<RecipeList />} />
-              <Route path="pastabook" element={<RecipeList />} />
+              {/* <Route path="pastabook" element={<RecipeList />} /> */}
               <Route path="recipes" />
               <Route path="recipes/:recipePath" element={<Recipe />} />
               <Route path="register" element={<Register />} />

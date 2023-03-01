@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { Container, Form, Row } from "react-bootstrap";
+import { Container, Form, Row, Col } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import { useRecipeContext } from "../../data/recipeProvider";
 
@@ -35,27 +35,33 @@ export function SearchFiltersType({
   });
 
   const createTypeFilters = () => {
-    return allPastaTypes.map((type) => (
-      <Form.Check
-        type="checkbox"
-        key={`type${type}`}
-        id={type}
-        checked={stateIncludesType(type)}
-        label={type}
-        className="mb-2"
-        onChange={() => addFilter(type)}
-      />
+    return allPastaTypes.map((type, index) => (
+      <Col xs={6} sm={12} key={`type${index}`}>
+        <Form.Check
+          type="checkbox"
+          id={type}
+          checked={stateIncludesType(type)}
+          label={type}
+          className="mb-2"
+          onChange={() => addFilter(type)}
+        />
+      </Col>
     ));
   };
 
   return (
-    <Container className="mt-2">
+    <Container className="mt-2 mb-3 mb-sm-0">
       <Row>
         <Form>
-          <Form.Label className="h6" style={{ fontWeight: 600 }}>
+          <Form.Label
+            className="h6 d-none d-sm-block"
+            style={{ fontWeight: 600 }}
+          >
             Pasta type
           </Form.Label>
-          {createTypeFilters()}
+          <Container className="mx-0">
+            <Row>{createTypeFilters()}</Row>
+          </Container>
         </Form>
       </Row>
     </Container>

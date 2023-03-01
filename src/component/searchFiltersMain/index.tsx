@@ -36,7 +36,7 @@ export function SearchFiltersMain({
 
   const createIngredientsFilters = () => {
     return allMainIngredients.map((type, index) => (
-      <Col sm={6} md={4} key={`main${index}`}>
+      <Col xs={6} md={4} key={`main${index}`}>
         <Form.Check
           type="checkbox"
           id={type}
@@ -53,7 +53,10 @@ export function SearchFiltersMain({
     <Container className="mt-2">
       <Row>
         <Form>
-          <Form.Label className="h6" style={{ fontWeight: 600 }}>
+          <Form.Label
+            className="h6 d-none d-sm-block"
+            style={{ fontWeight: 600 }}
+          >
             Main ingredient
           </Form.Label>
           <Container>

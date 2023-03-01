@@ -44,7 +44,7 @@ export function RecipeListItem({
             style={{ paddingTop: 7, marginBottom: 15, fontWeight: 600 }}
           >
             <div className="d-flex justify-content-between">
-              {dishName}
+              <div className="text-truncate">{dishName}</div>
               {isFavorite && (
                 <div className="text-primary">
                   <svg

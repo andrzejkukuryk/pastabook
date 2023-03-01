@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import {
+  Alert,
   Button,
   Col,
   Container,
@@ -7,7 +8,6 @@ import {
   ListGroupItem,
   Row,
 } from "react-bootstrap";
-import { Link, useLocation } from "react-router-dom";
 import { useAuthContext } from "../../data/authProvider";
 import { useRecipeContext } from "../../data/recipeProvider";
 import { Dish } from "../../models/dish";
@@ -19,9 +19,9 @@ export function UserProfile() {
   const [passwordPanelExpanded, setPasswordPanelExpanded] =
     useState<boolean>(false);
   const [namePanelExpanded, setNamePanelExpanded] = useState<boolean>(false);
-  const { user, currentFavorites } = useAuthContext();
+  const { user, currentFavorites, passwordChanged, setPasswordChanged } =
+    useAuthContext();
   const { recipes } = useRecipeContext();
-  const location = useLocation();
 
   const createFavoritesList = () => {
     const favorites: Dish[] = [];
@@ -42,13 +42,32 @@ export function UserProfile() {
       </ListGroupItem>
     ));
   };
-  createFavoritesList();
+  // createFavoritesList();
+
+  // const testoweZamkniecie = () => {
+  //   const panel = document.getElementById("changePasswordPanel");
+  //   console.log(panel);
+  //   //@ts-ignore
+  //   panel.hide();
+  // };
+
   return (
     <Container>
       <Row className="my-4">
-        <Col>
+        <Col xs={12} md={4}>
           <h2>My account</h2>
         </Col>
+        {passwordChanged && (
+          <Col xs={12} md={8} lg={6}>
+            <Alert
+              variant="success"
+              onClose={() => setPasswordChanged(false)}
+              dismissible
+            >
+              <strong>Success!</strong> You changed your password successfully.
+            </Alert>
+          </Col>
+        )}
       </Row>
       <Row>
         <Col>
@@ -83,6 +102,7 @@ export function UserProfile() {
             </Button>
           </Col>
         )}
+        {/* <Button onClick={() => testoweZamkniecie()}>testowy</Button> */}
         <Col xs={12} className="my-0">
           <div className="collapse" id="changePasswordPanel">
             <UserProfileChangePassword

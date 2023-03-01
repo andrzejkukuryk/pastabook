@@ -1,8 +1,18 @@
 import React, { useState } from "react";
-import { Button, Col, Container, Form, InputGroup, Row } from "react-bootstrap";
+import {
+  Accordion,
+  Button,
+  Card,
+  Col,
+  Container,
+  Form,
+  InputGroup,
+  Row,
+} from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import { BlockLike } from "typescript";
 import { useRecipeContext } from "../../data/recipeProvider";
+import { SearchFiltersAccordionCustomToggle } from "../searchFiltersAccordionCustomToggle";
 import { SearchFiltersMain } from "../searchFiltersMain";
 import { SearchFiltersMainChips } from "../searchFiltersMainChips";
 import { SearchFiltersType } from "../searchFiltersType";
@@ -55,7 +65,7 @@ export function Search() {
     <Container className="my-4">
       <Row className="mb-3">
         <Col xs={false} lg={2} />
-        <Col xs={12} lg={6}>
+        <Col xs={12} md={8} lg={6}>
           <Form>
             <InputGroup>
               <Form.Control
@@ -85,7 +95,7 @@ export function Search() {
             </InputGroup>
           </Form>
         </Col>
-        <Col xs={12} lg={2}>
+        <Col xs={12} md={4} lg={2}>
           {!filtersShown && (
             <Button
               variant="outline-primary"
@@ -135,18 +145,61 @@ export function Search() {
             </Button>
           )}
         </Col>
-        <Col xs={false} lg={2} />
+        <Col lg={2} />
       </Row>
       <div className="collapse" id="collapseFilters">
-        <Row>
-          <Col lg={2}></Col>
-          <Col lg={8}>
-            <SearchFiltersMainChips
-              filters={filtersMain}
-              addFilter={addFilterMain}
-              clearFilters={clearFiltersMain}
-            />
-          </Col>
+        <Row className="d-sm-none">
+          <Accordion defaultActiveKey="0" flush>
+            {/* <Accordion.Item eventKey="0">
+              <Accordion.Header>Pasta types</Accordion.Header>
+              <Accordion.Body>
+                <SearchFiltersType
+                  filters={filtersType}
+                  addFilter={addFilterType}
+                />
+              </Accordion.Body>
+            </Accordion.Item>
+            <Accordion.Item eventKey="1">
+              <Accordion.Header>Main ingredients</Accordion.Header>
+              <Accordion.Body>
+                <SearchFiltersMain
+                  filters={filtersMain}
+                  addFilter={addFilterMain}
+                />
+              </Accordion.Body>
+            </Accordion.Item> */}
+
+            <Card>
+              <Card.Header className="p-0">
+                <SearchFiltersAccordionCustomToggle eventKey="0">
+                  Pasta types
+                </SearchFiltersAccordionCustomToggle>
+              </Card.Header>
+              <Accordion.Collapse eventKey="0">
+                <Card.Body>
+                  <SearchFiltersType
+                    filters={filtersType}
+                    addFilter={addFilterType}
+                  />
+                </Card.Body>
+              </Accordion.Collapse>
+            </Card>
+            <Card>
+              <Card.Header className="p-0">
+                <SearchFiltersAccordionCustomToggle eventKey="1">
+                  Main ingredients
+                </SearchFiltersAccordionCustomToggle>
+              </Card.Header>
+              <Accordion.Collapse eventKey="1">
+                <Card.Body>
+                  <SearchFiltersMain
+                    filters={filtersMain}
+                    addFilter={addFilterMain}
+                  />
+                </Card.Body>
+              </Accordion.Collapse>
+            </Card>
+          </Accordion>
         </Row>
         <Row>
           <Col lg={2}></Col>
@@ -160,13 +213,23 @@ export function Search() {
         </Row>
         <Row>
           <Col lg={2}></Col>
-          <Col xs={12} sm={4} md={3} lg={2}>
+          <Col lg={8}>
+            <SearchFiltersMainChips
+              filters={filtersMain}
+              addFilter={addFilterMain}
+              clearFilters={clearFiltersMain}
+            />
+          </Col>
+        </Row>
+        <Row>
+          <Col lg={2}></Col>
+          <Col xs={12} sm={4} md={3} lg={2} className="d-none d-sm-block">
             <SearchFiltersType
               filters={filtersType}
               addFilter={addFilterType}
             />
           </Col>
-          <Col xs={12} sm={8} md={9} lg={6}>
+          <Col xs={12} sm={8} md={9} lg={6} className="d-none d-sm-block">
             <SearchFiltersMain
               filters={filtersMain}
               addFilter={addFilterMain}

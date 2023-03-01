@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useAuthContext } from "../../data/authProvider";
 import { Col, Container, Dropdown, Row } from "react-bootstrap";
+import { Link } from "react-router-dom";
 
 export function UserLoginMenu() {
   const { user, logoutUser } = useAuthContext();
@@ -36,7 +37,16 @@ export function UserLoginMenu() {
                 </svg>
               </Dropdown.Toggle>
               <Dropdown.Menu align="end" className="shadow">
-                <Dropdown.Item href="/profile">My account</Dropdown.Item>
+                <Dropdown.Item>
+                  <Link
+                    to="/profile"
+                    className="text-dark"
+                    style={{ textDecoration: "none" }}
+                  >
+                    {" "}
+                    My account
+                  </Link>{" "}
+                </Dropdown.Item>
                 <Dropdown.Divider />
                 <Dropdown.Item onClick={logoutUser}>Log out</Dropdown.Item>
               </Dropdown.Menu>

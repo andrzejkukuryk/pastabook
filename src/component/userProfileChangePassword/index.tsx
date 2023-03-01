@@ -32,25 +32,7 @@ export function UserProfileChangePassword({
     }
   };
 
-  // const addProperties = (value: boolean) => {
-  //   const confirmButton = document.getElementById("btnConfirmPassword");
-  //   if (value) {
-  //     confirmButton?.setAttribute("data-bs-toggle", "collapse");
-  //     confirmButton?.setAttribute("data-bs-target", "#changePasswordPanel");
-  //     confirmButton?.setAttribute("aria-expanded", "true");
-  //     confirmButton?.setAttribute("aria-controls", "#changePasswordPanel");
-  //   } else {
-  //     confirmButton?.removeAttribute("data-bs-toggle");
-  //     confirmButton?.removeAttribute("data-bs-target");
-  //     confirmButton?.removeAttribute("aria-expanded");
-  //     confirmButton?.removeAttribute("aria-controls");
-  //   }
-  // };
-
-  // useEffect(() => {
-  //   addProperties(errorMessage.length === 0);
-  // }, [errorMessage]);
-
+ 
   return (
     <Container className="m-0">
       <Row>
@@ -134,7 +116,7 @@ export function UserProfileChangePassword({
               type="submit"
               variant="primary"
               className="me-3 mt-4"
-              id="btnConfirmPassword"
+              // data-bs-toggle={true ? "collapse" : ""}
             >
               Confirm new password
             </Button>
