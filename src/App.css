@@ -1,4 +1,3 @@
-/* @import "./css/main.css"; */
 
 .App {
   text-align: center;
@@ -39,7 +38,7 @@
   display: none;
 }
 
-@media (max-width: 576px){
+@media (max-width: 575px){
   .starsContainer img {
       width: 40px;
       height: 40px;

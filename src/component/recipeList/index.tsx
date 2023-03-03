@@ -31,7 +31,7 @@ export function RecipeList() {
           <h2>Last recipes</h2>
         </Col>
 
-        <Col>
+        <Col className="d-none d-sm-block">
           <Button
             variant="primary"
             className="float-end"
@@ -51,6 +51,28 @@ export function RecipeList() {
               />
             </svg>
             Add a new recipe
+          </Button>
+        </Col>
+        <Col className="d-sm-none">
+          <Button
+            variant="primary"
+            className="float-end"
+            onClick={() => navigate("/add")}
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="16"
+              height="20"
+              fill="currentColor"
+              className="bi bi-plus-lg me-2"
+              viewBox="0 2 16 16"
+            >
+              <path
+                fillRule="evenodd"
+                d="M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2Z"
+              />
+            </svg>
+            Add recipe
           </Button>
         </Col>
       </Row>

@@ -6,11 +6,13 @@ import { useRecipeContext } from "../../data/recipeProvider";
 interface SearchFiltersTypeProps {
   filters: string[];
   addFilter: (type: string) => void;
+  forKey: string;
 }
 
 export function SearchFiltersType({
   filters,
   addFilter,
+  forKey,
 }: SearchFiltersTypeProps) {
   const { allPastaTypes, filterByType } = useRecipeContext();
 
@@ -36,7 +38,7 @@ export function SearchFiltersType({
 
   const createTypeFilters = () => {
     return allPastaTypes.map((type, index) => (
-      <Col xs={6} sm={12} key={`type${index}`}>
+      <Col xs={6} sm={12} key={`type${index}${forKey}`}>
         <Form.Check
           type="checkbox"
           id={type}

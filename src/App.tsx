@@ -19,13 +19,13 @@ import { RecipeProvider } from "./data/recipeProvider";
 
 function App() {
   return (
-    <BrowserRouter basename={process.env.PUBLIC_URL}>
+    <BrowserRouter>
       <AuthProvider>
         <RecipeProvider>
           <Routes>
             <Route path="/" element={<SharedLayout />}>
               <Route index element={<RecipeList />} />
-              {/* <Route path="pastabook" element={<RecipeList />} /> */}
+              <Route path="pastabook" element={<RecipeList />} />
               <Route path="recipes" />
               <Route path="recipes/:recipePath" element={<Recipe />} />
               <Route path="register" element={<Register />} />

@@ -1,24 +1,32 @@
-import React, { useState } from "react";
+import classNames from "classnames";
+import React from "react";
 import { useAccordionButton } from "react-bootstrap";
 
 export function SearchFiltersAccordionCustomToggle({
   children,
   eventKey,
+  collapsed,
+  setCollapsed,
 }: any) {
-  const [collapsed, setCollapsed] = useState<boolean>(true);
+  const buttonNumber = Number(eventKey);
 
-  const decoratedOnClick = useAccordionButton(eventKey, () =>
-    setCollapsed(!collapsed)
-  );
+  const decoratedOnClick = useAccordionButton(eventKey, () => {
+    changeCollapsed();
+  });
+  const buttonClass = classNames({
+    "collapsed rounded-3": collapsed[buttonNumber],
+    "rounded-top-3": !collapsed[buttonNumber],
+    "accordion-button bg-white text-dark  border-0": true,
+  });
+
+  const changeCollapsed = () => {
+    let temporaryCollapsed = [true, true];
+    temporaryCollapsed[buttonNumber] = !collapsed[buttonNumber];
+    setCollapsed(temporaryCollapsed);
+  };
+
   return (
-    <button
-      type="button"
-      //   className="collapsed accordion-button bg-white text-dark"
-      className={`${
-        collapsed ? "collapsed rounded-3" : "rounded-top-3"
-      } accordion-button bg-white text-dark  border-0`}
-      onClick={decoratedOnClick}
-    >
+    <button type="button" className={buttonClass} onClick={decoratedOnClick}>
       {children}
     </button>
   );

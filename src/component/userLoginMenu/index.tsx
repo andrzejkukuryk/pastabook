@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { useAuthContext } from "../../data/authProvider";
 import { Col, Container, Dropdown, Row } from "react-bootstrap";
 import { Link } from "react-router-dom";
@@ -8,18 +8,16 @@ export function UserLoginMenu() {
 
   {
     return (
-      <Container>
+      <Container className="d-flex justify-content-end">
         <Row>
-          <Col className="px-0 d-flex align-items-end">
-            <p className="h6 text-nowrap">
+          <Col md={12} className="px-0 d-flex align-items-end">
+            <p className="h6 d-inline-block me-2 text-truncate">
               {user && `Hello, ${user.name ? user.name : "Pastalover"}!`}
             </p>
-          </Col>
-          <Col>
             <Dropdown>
               <Dropdown.Toggle
                 variant="secondary"
-                className="px-0 text-primary"
+                className="px-0 me-4 text-primary"
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"

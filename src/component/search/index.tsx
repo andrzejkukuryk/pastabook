@@ -10,7 +10,6 @@ import {
   Row,
 } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
-import { BlockLike } from "typescript";
 import { useRecipeContext } from "../../data/recipeProvider";
 import { SearchFiltersAccordionCustomToggle } from "../searchFiltersAccordionCustomToggle";
 import { SearchFiltersMain } from "../searchFiltersMain";
@@ -22,6 +21,7 @@ export function Search() {
   const [searchPhrase, setSearchPhrase] = useState<string>("");
   const [filtersType, setFiltersType] = useState<string[]>([]);
   const [filtersMain, setFiltersMain] = useState<string[]>([]);
+  const [collapsed, setCollapsed] = useState<boolean[]>([false, true]);
   const [filtersShown, setFiltersShown] = useState<boolean>(false);
   const { filterByName } = useRecipeContext();
 
@@ -95,11 +95,11 @@ export function Search() {
             </InputGroup>
           </Form>
         </Col>
-        <Col xs={12} md={4} lg={2}>
+        <Col xs={12} md={4} lg={2} className="d-flex d-md-block mt-2 mt-md-0">
           {!filtersShown && (
             <Button
               variant="outline-primary"
-              className="border-0"
+              className="border-0 mx-auto"
               type="button"
               data-bs-toggle="collapse"
               data-bs-target="#collapseFilters"
@@ -123,7 +123,7 @@ export function Search() {
           {filtersShown && (
             <Button
               variant="outline-primary"
-              className="border-0"
+              className="border-0 mx-auto"
               type="button"
               data-bs-toggle="collapse"
               data-bs-target="#collapseFilters"
@@ -150,28 +150,13 @@ export function Search() {
       <div className="collapse" id="collapseFilters">
         <Row className="d-sm-none">
           <Accordion defaultActiveKey="0" flush>
-            {/* <Accordion.Item eventKey="0">
-              <Accordion.Header>Pasta types</Accordion.Header>
-              <Accordion.Body>
-                <SearchFiltersType
-                  filters={filtersType}
-                  addFilter={addFilterType}
-                />
-              </Accordion.Body>
-            </Accordion.Item>
-            <Accordion.Item eventKey="1">
-              <Accordion.Header>Main ingredients</Accordion.Header>
-              <Accordion.Body>
-                <SearchFiltersMain
-                  filters={filtersMain}
-                  addFilter={addFilterMain}
-                />
-              </Accordion.Body>
-            </Accordion.Item> */}
-
             <Card>
               <Card.Header className="p-0">
-                <SearchFiltersAccordionCustomToggle eventKey="0">
+                <SearchFiltersAccordionCustomToggle
+                  eventKey="0"
+                  collapsed={collapsed}
+                  setCollapsed={setCollapsed}
+                >
                   Pasta types
                 </SearchFiltersAccordionCustomToggle>
               </Card.Header>
@@ -180,13 +165,18 @@ export function Search() {
                   <SearchFiltersType
                     filters={filtersType}
                     addFilter={addFilterType}
+                    forKey="accordion"
                   />
                 </Card.Body>
               </Accordion.Collapse>
             </Card>
             <Card>
               <Card.Header className="p-0">
-                <SearchFiltersAccordionCustomToggle eventKey="1">
+                <SearchFiltersAccordionCustomToggle
+                  eventKey="1"
+                  collapsed={collapsed}
+                  setCollapsed={setCollapsed}
+                >
                   Main ingredients
                 </SearchFiltersAccordionCustomToggle>
               </Card.Header>
@@ -227,6 +217,7 @@ export function Search() {
             <SearchFiltersType
               filters={filtersType}
               addFilter={addFilterType}
+              forKey="extended"
             />
           </Col>
           <Col xs={12} sm={8} md={9} lg={6} className="d-none d-sm-block">
