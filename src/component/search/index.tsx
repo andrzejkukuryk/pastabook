@@ -185,6 +185,7 @@ export function Search() {
                   <SearchFiltersMain
                     filters={filtersMain}
                     addFilter={addFilterMain}
+                    forKey="accordion"
                   />
                 </Card.Body>
               </Accordion.Collapse>
@@ -224,6 +225,7 @@ export function Search() {
             <SearchFiltersMain
               filters={filtersMain}
               addFilter={addFilterMain}
+              forKey="extended"
             />
           </Col>
           <Col></Col>

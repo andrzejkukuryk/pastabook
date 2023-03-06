@@ -6,11 +6,13 @@ import { useRecipeContext } from "../../data/recipeProvider";
 interface SearchFiltersMainProps {
   filters: string[];
   addFilter: (type: string) => void;
+  forKey: string;
 }
 
 export function SearchFiltersMain({
   filters,
   addFilter,
+  forKey,
 }: SearchFiltersMainProps) {
   const { allMainIngredients, filterByMain } = useRecipeContext();
 
@@ -36,10 +38,10 @@ export function SearchFiltersMain({
 
   const createIngredientsFilters = () => {
     return allMainIngredients.map((type, index) => (
-      <Col xs={6} md={4} key={`main${index}`}>
+      <Col xs={6} md={4} key={`main${index}${forKey}`}>
         <Form.Check
           type="checkbox"
-          id={type}
+          id={`${type}${forKey}`}
           checked={stateIncludesType(type)}
           label={type}
           className="mb-2"

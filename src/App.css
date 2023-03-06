@@ -9,6 +9,11 @@
   font-family: "Open Sans";
 }
 
+body {
+  scrollbar-gutter: stable both-edges;
+  overflow: overlay;
+}
+
 .errorMsg {
   color: red;
   font-size: 0.6em;

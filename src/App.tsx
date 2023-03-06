@@ -19,7 +19,7 @@ import { RecipeProvider } from "./data/recipeProvider";
 
 function App() {
   return (
-    <BrowserRouter>
+    <BrowserRouter basename="/pastabook">
       <AuthProvider>
         <RecipeProvider>
           <Routes>

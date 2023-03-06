@@ -8,6 +8,7 @@ import {
   ListGroupItem,
   Row,
 } from "react-bootstrap";
+import { Link } from "react-router-dom";
 import { useAuthContext } from "../../data/authProvider";
 import { useRecipeContext } from "../../data/recipeProvider";
 import { Dish } from "../../models/dish";
@@ -33,23 +34,24 @@ export function UserProfile() {
       });
     });
     return favorites.map((recipe, index) => (
-      <ListGroupItem
-        key={`fav${index}`}
-        action
-        href={`/recipes/${recipe.path}`}
-      >
-        {recipe.fullName}
+      // <ListGroupItem
+      //   key={`fav${index}`}
+      //   action
+      //   href={`/recipes/${recipe.path}`}
+      // >
+      //   {recipe.fullName}
+      // </ListGroupItem>
+      <ListGroupItem key={`fav${index}`} action>
+        <Link
+          to={`/recipes/${recipe.path}`}
+          style={{ textDecoration: "none" }}
+          className="text-dark"
+        >
+          <div>{recipe.fullName}</div>
+        </Link>
       </ListGroupItem>
     ));
   };
-  // createFavoritesList();
-
-  // const testoweZamkniecie = () => {
-  //   const panel = document.getElementById("changePasswordPanel");
-  //   console.log(panel);
-  //   //@ts-ignore
-  //   panel.hide();
-  // };
 
   return (
     <Container>
@@ -102,7 +104,6 @@ export function UserProfile() {
             </Button>
           </Col>
         )}
-        {/* <Button onClick={() => testoweZamkniecie()}>testowy</Button> */}
         <Col xs={12} className="my-0">
           <div className="collapse" id="changePasswordPanel">
             <UserProfileChangePassword

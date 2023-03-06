@@ -1,13 +1,5 @@
 import React, { useState } from "react";
-import {
-  Container,
-  Row,
-  Col,
-  Nav,
-  Navbar,
-  Offcanvas,
-  Button,
-} from "react-bootstrap";
+import { Container, Nav, Navbar, Button } from "react-bootstrap";
 import { Link, useLocation } from "react-router-dom";
 import { useAuthContext } from "../../data/authProvider";
 import { Logo } from "../logo";
