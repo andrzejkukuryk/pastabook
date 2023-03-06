@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Link, Navigate, useLocation, useParams } from "react-router-dom";
+import { Link, useLocation, useParams } from "react-router-dom";
 import { useAuthContext } from "../../data/authProvider";
 import { Dish } from "../../models/dish";
 import { useRecipeContext } from "../../data/recipeProvider";
@@ -7,12 +7,10 @@ import { Button, Col, Container, Image, Row } from "react-bootstrap";
 import { RecipeRate } from "../recipeRate";
 import { RecipeOveralRating } from "../recipeOveralRating";
 import { RecipeUsersRate } from "../recipeUsersRate";
-import { ProtectedRoute } from "../protectedRoute";
 
 export function Recipe() {
   const [isFavorite, setIsFavorite] = useState<boolean>(false);
   const [isRated, setIsRated] = useState<boolean>(false);
-  const [usersRate, setUsersRate] = useState<number>(0);
   const { recipePath } = useParams();
   const { recipes, isErrorRecipe } = useRecipeContext();
 

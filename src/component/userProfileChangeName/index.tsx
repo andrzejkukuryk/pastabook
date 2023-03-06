@@ -39,7 +39,6 @@ export function UserProfileChangeName({
               <Form.Control
                 type="text"
                 placeholder={user?.name ? user.name : "Type name or nickname"}
-                // value={user?.name ? user.name : "Type name or nickname"}
                 {...register("newName", { required: false })}
               />
             </Form.Group>

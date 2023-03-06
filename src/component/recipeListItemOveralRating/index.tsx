@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import starFull from "./graph/star_full.png";
-// import "./style.css";
 import { Container, Row, Col } from "react-bootstrap";
 
 interface RecipeListItemOveralRatingProps {

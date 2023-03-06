@@ -1,6 +1,5 @@
 import React from "react";
 import { useForm } from "react-hook-form";
-// import "./style.css";
 import { useAuthContext } from "../../data/authProvider";
 import { Button, Col, Container, Form, Row } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";

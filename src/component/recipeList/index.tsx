@@ -4,7 +4,6 @@ import { RecipeListItem } from "../recipeListItem";
 import { useRecipeContext } from "../../data/recipeProvider";
 import { Button, Col, Container, Row } from "react-bootstrap";
 import { RecipeListPagination } from "../recipeListPagination";
-import { LoadingSpinner } from "../loadingSpinner";
 
 export function RecipeList() {
   const { recipes, isErrorRecipe } = useRecipeContext();
@@ -99,7 +98,8 @@ export function RecipeList() {
               <Link
                 to={`/recipes/${recipe.path}`}
                 key={recipe.path}
-                style={{ textDecoration: "none", color: "#212529" }}
+                style={{ textDecoration: "none" }}
+                className="text-dark"
               >
                 <RecipeListItem
                   dishName={recipe.fullName}

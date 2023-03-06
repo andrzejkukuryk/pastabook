@@ -1,6 +1,7 @@
 import React from "react";
 import "draft-js/dist/Draft.css";
 import "../RichTextEditor/richText.css";
+import classNames from "classnames";
 
 interface StyleButtonProps {
   active: boolean;
@@ -20,11 +21,14 @@ export const StyleButton = ({
     onToggle(style);
   };
 
-  const className = "RichEditor-styleButton";
+  const buttonClass = classNames({
+    "RichEditor-styleButton": true,
+    "RichEditor-activeButton": active,
+  });
 
   return (
     <button
-      className={className + `${active ? " RichEditor-activeButton" : ""}`}
+      className={buttonClass}
       onClick={_onToggle}
       onMouseDown={(e) => e.preventDefault()}
     >

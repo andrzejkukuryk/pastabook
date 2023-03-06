@@ -13,9 +13,7 @@ import { AddNewRecipe } from "./component/addNewRecipe";
 import { SearchResultList } from "./component/searchResultList";
 import { ProtectedRoute } from "./component/protectedRoute";
 import { UserProfile } from "./component/userProfile";
-import { UserProfileEdit } from "./component/userProfileEdit";
 import { RecipeProvider } from "./data/recipeProvider";
-
 
 function App() {
   return (
@@ -25,7 +23,6 @@ function App() {
           <Routes>
             <Route path="/" element={<SharedLayout />}>
               <Route index element={<RecipeList />} />
-              <Route path="pastabook" element={<RecipeList />} />
               <Route path="recipes" />
               <Route path="recipes/:recipePath" element={<Recipe />} />
               <Route path="register" element={<Register />} />
@@ -35,14 +32,6 @@ function App() {
                 element={
                   <ProtectedRoute>
                     <UserProfile />
-                  </ProtectedRoute>
-                }
-              />
-              <Route
-                path="editprofile"
-                element={
-                  <ProtectedRoute>
-                    <UserProfileEdit />
                   </ProtectedRoute>
                 }
               />

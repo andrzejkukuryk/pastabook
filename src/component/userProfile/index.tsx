@@ -14,7 +14,7 @@ import { useRecipeContext } from "../../data/recipeProvider";
 import { Dish } from "../../models/dish";
 import { UserProfileChangeName } from "../userProfileChangeName";
 import { UserProfileChangePassword } from "../userProfileChangePassword";
-import styles from "./style.module.css";
+
 
 export function UserProfile() {
   const [passwordPanelExpanded, setPasswordPanelExpanded] =
@@ -34,13 +34,6 @@ export function UserProfile() {
       });
     });
     return favorites.map((recipe, index) => (
-      // <ListGroupItem
-      //   key={`fav${index}`}
-      //   action
-      //   href={`/recipes/${recipe.path}`}
-      // >
-      //   {recipe.fullName}
-      // </ListGroupItem>
       <ListGroupItem key={`fav${index}`} action>
         <Link
           to={`/recipes/${recipe.path}`}

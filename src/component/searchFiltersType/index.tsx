@@ -1,6 +1,5 @@
 import React, { useEffect } from "react";
 import { Container, Form, Row, Col } from "react-bootstrap";
-import { useNavigate } from "react-router-dom";
 import { useRecipeContext } from "../../data/recipeProvider";
 
 interface SearchFiltersTypeProps {

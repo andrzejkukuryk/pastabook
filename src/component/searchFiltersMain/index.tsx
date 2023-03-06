@@ -1,6 +1,5 @@
-import React, { useEffect, useState } from "react";
-import { Button, Container, Form, Row, Col } from "react-bootstrap";
-import { useNavigate } from "react-router-dom";
+import React, { useEffect } from "react";
+import { Container, Form, Row, Col } from "react-bootstrap";
 import { useRecipeContext } from "../../data/recipeProvider";
 
 interface SearchFiltersMainProps {

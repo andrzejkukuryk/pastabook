@@ -6,7 +6,7 @@ import React, {
   FC,
   useEffect,
 } from "react";
-import { redirect, useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { Dish } from "../../models/dish";
 
 const initialAuthContext = {
@@ -267,9 +267,6 @@ export const AuthProvider: FC<AuthProviderProps> = ({ children }) => {
       };
       setUser(loggedinUser);
       saveTokens(jsonResponse.idToken, jsonResponse.refreshToken);
-      // setToken(jsonResponse.idToken);
-      // setRefreshToken(jsonResponse.refreshToken);
-      // putDataIntoLocalStorage(jsonResponse.idToken, jsonResponse.refreshToken);
       const origin = location.state?.from?.pathname || "/";
       navigate(origin);
     } catch (error) {
@@ -396,7 +393,6 @@ export const AuthProvider: FC<AuthProviderProps> = ({ children }) => {
     newPassword: string,
     temporaryToken: string
   ) => {
-    // console.log("change password request");
     const endpoint = `https://identitytoolkit.googleapis.com/v1/accounts:update?key=${process.env.REACT_APP_FIREBASE_API_KEY}`;
     const body = {
       idToken: temporaryToken,
@@ -470,8 +466,6 @@ export const AuthProvider: FC<AuthProviderProps> = ({ children }) => {
       saveTokens(temporaryToken, temporaryRefreshToken);
       setIsLoading(false);
       setPasswordChanged(true);
-      // logoutUser();
-      // loginUser(email, newPassword);
     }
   };
 

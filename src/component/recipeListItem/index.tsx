@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { RecipeRatingStars } from "../recipeRatingStars";
 import "./style.css";
 import { Card } from "react-bootstrap";
-import { RecipeOveralRating } from "../recipeOveralRating";
 import { useAuthContext } from "../../data/authProvider";
 import { RecipeListItemOveralRating } from "../recipeListItemOveralRating";
 

@@ -4,8 +4,6 @@ export interface Recipe {
   mainIngredients: string[];
   ingredients: string[];
   method: string;
-  // fullName: string;
   imageSource: string;
   rate: number[];
-  // path: string;
 }

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Button } from "react-bootstrap";
 import { FileUploader } from "react-drag-drop-files";
 import styles from "./style.module.css";
@@ -20,29 +20,10 @@ export function DragDrop({
   deletePhoto,
 }: DragDropProps) {
   const [file, setFile] = useState(null);
-  const [previewSrc, setPreviewSrc] = useState<any>("");
   const handleChange = (file: any) => {
     setFile(file);
     setNewRecipePhoto(file);
   };
-
-  function previewFile() {
-    const reader = new FileReader();
-
-    reader.addEventListener(
-      "load",
-      () => {
-        setPreviewSrc(reader.result);
-      },
-      false
-    );
-
-    if (file) {
-      reader.readAsDataURL(file);
-    }
-  }
-
-  useEffect(() => previewFile(), [file]);
 
   const jpgIcon = (
     <svg

@@ -49,12 +49,7 @@ export function RecipeOveralRating({ rates }: RecipeOveralRatingProps) {
     <Container>
       {recipeHasRates && (
         <Row>
-          <Col
-            xs={12}
-            // className="starContainer d-flex flex-sm-row-reverse flex-md-row-reverse flex-lg-row col-12"
-            // className="starContainer d-flex flex-sm-row-reverse flex-lg-row col-12"
-            className={columnClass}
-          >
+          <Col xs={12} className={columnClass}>
             <p className="h6 my-0">
               Rated: <span className="h5 m-0">{averageRate}</span> / 3
               <img src={starFull} alt="rating star" className="mb-2" /> (

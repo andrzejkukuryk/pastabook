@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Col, Container, Row } from "react-bootstrap";
-// import "./style.css";
+
 import starEmpty from "./graph/star_empty.png";
 import starFull from "./graph/star_full.png";
 import classNames from "classnames";

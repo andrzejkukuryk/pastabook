@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { Container, Row, Col, Form, Button } from "react-bootstrap";
 import { useForm } from "react-hook-form";
 import { useAuthContext } from "../../data/authProvider";
@@ -32,7 +32,6 @@ export function UserProfileChangePassword({
     }
   };
 
- 
   return (
     <Container className="m-0">
       <Row>
@@ -112,12 +111,7 @@ export function UserProfileChangePassword({
                 )}
             </Form.Group>
             <label></label>
-            <Button
-              type="submit"
-              variant="primary"
-              className="me-3 mt-4"
-              // data-bs-toggle={true ? "collapse" : ""}
-            >
+            <Button type="submit" variant="primary" className="me-3 mt-4">
               Confirm new password
             </Button>
             <Button

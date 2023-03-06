@@ -4,8 +4,7 @@ import { RecipeListItem } from "../recipeListItem";
 import { useRecipeContext } from "../../data/recipeProvider";
 import { Button, Col, Container, Row } from "react-bootstrap";
 import { RecipeListPagination } from "../recipeListPagination";
-//@ts-ignore
-import Breakpoints from "breakpoints-js";
+
 
 export function SearchResultList() {
   const { filteredRecipes, isErrorRecipe } = useRecipeContext();
@@ -78,7 +77,8 @@ export function SearchResultList() {
               <Link
                 to={`/recipes/${recipe.path}`}
                 key={recipe.path}
-                style={{ textDecoration: "none", color: "#212529" }}
+                style={{ textDecoration: "none" }}
+                className="text-dark"
               >
                 <RecipeListItem
                   dishName={recipe.fullName}
