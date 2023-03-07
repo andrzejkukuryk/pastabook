@@ -49,6 +49,7 @@ export function Header() {
           <Button
             variant="secondary"
             className="d-md-none"
+            aria-label="open menu"
             onClick={() => setShowMobileMenu(true)}
           >
             <svg
@@ -70,6 +71,7 @@ export function Header() {
           <Button
             variant="secondary"
             className="d-md-none"
+            aria-label="close menu"
             onClick={() => setShowMobileMenu(false)}
           >
             <svg
