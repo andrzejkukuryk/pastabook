@@ -25,7 +25,7 @@ export function UserMobileMenu({
       placement="end"
       responsive="md"
     >
-      <Offcanvas.Header closeButton>
+      <Offcanvas.Header className="mt-5">
         <Offcanvas.Title></Offcanvas.Title>
       </Offcanvas.Header>
       <Offcanvas.Body className="d-md-none">

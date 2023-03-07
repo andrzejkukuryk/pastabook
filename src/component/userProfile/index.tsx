@@ -20,8 +20,13 @@ export function UserProfile() {
   const [passwordPanelExpanded, setPasswordPanelExpanded] =
     useState<boolean>(false);
   const [namePanelExpanded, setNamePanelExpanded] = useState<boolean>(false);
-  const { user, currentFavorites, passwordChanged, setPasswordChanged } =
-    useAuthContext();
+  const {
+    user,
+    currentFavorites,
+    passwordChanged,
+    setPasswordChanged,
+    setErrorMessage,
+  } = useAuthContext();
   const { recipes } = useRecipeContext();
 
   const createFavoritesList = () => {
@@ -91,7 +96,10 @@ export function UserProfile() {
               aria-expanded="false"
               aria-controls="changePasswordPanel"
               className="mt-2"
-              onClick={() => setPasswordPanelExpanded(true)}
+              onClick={() => {
+                setPasswordPanelExpanded(true);
+                setErrorMessage("");
+              }}
             >
               Change password
             </Button>
@@ -139,11 +147,15 @@ export function UserProfile() {
           <h3 className="h5">My favorites </h3>
         </Col>
       </Row>
-      <Row className="mt-3">
+      <Row className="mt-3 mb-3">
+        {currentFavorites.length === 0 && (
+          <Col>
+            <p>You do not have any favorites recipes yet.</p>
+          </Col>
+        )}
         <Col xs={12} lg={4}>
           <ListGroup variant="flush">{createFavoritesList()}</ListGroup>
         </Col>
-        <Col></Col>
       </Row>
     </Container>
   );

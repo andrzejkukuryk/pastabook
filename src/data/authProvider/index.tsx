@@ -12,6 +12,7 @@ import { Dish } from "../../models/dish";
 const initialAuthContext = {
   token: null,
   user: null,
+  isErrorAuth: false,
   isLoading: false,
   errorMessage: "",
   setErrorMessage: () => {},
@@ -35,6 +36,7 @@ export const AuthContext = createContext<ValueProp>(initialAuthContext);
 interface ValueProp {
   token: null | string;
   user: null | User;
+  isErrorAuth: boolean;
   isLoading: boolean;
   errorMessage: string;
   setErrorMessage: React.Dispatch<React.SetStateAction<string>>;
@@ -757,6 +759,7 @@ export const AuthProvider: FC<AuthProviderProps> = ({ children }) => {
   const value: ValueProp = {
     token,
     user,
+    isErrorAuth: isErrorAuth,
     isLoading: isLoading,
     errorMessage: errorMessage,
     setErrorMessage: setErrorMessage,

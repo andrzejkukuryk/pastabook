@@ -23,7 +23,6 @@ export function UserProfileChangeName({
   } = useForm<ChangeNameFormValue>();
 
   const onSubmit = (data: ChangeNameFormValue) => {
-    console.log("newName: ", data.newName);
     editUser(data.newName);
   };
 

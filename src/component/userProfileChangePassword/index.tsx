@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Container, Row, Col, Form, Button } from "react-bootstrap";
 import { useForm } from "react-hook-form";
 import { useAuthContext } from "../../data/authProvider";
@@ -23,14 +23,29 @@ export function UserProfileChangePassword({
     reset,
     formState: { errors },
   } = useForm<ChangePasswordFormValues>();
-  const { user, changePassword, errorMessage, setErrorMessage } =
-    useAuthContext();
+  const {
+    user,
+    changePassword,
+    passwordChanged,
+    errorMessage,
+    setErrorMessage,
+  } = useAuthContext();
 
   const onSubmit = (data: ChangePasswordFormValues) => {
     if (user) {
       changePassword(user?.email, data.oldPassword, data.newPassword);
     }
   };
+
+  const clickDiscardButton = () => {
+    const button = document.getElementById("discardChangesPasswordButton");
+    if (passwordChanged) {
+      button?.click();
+    }
+  };
+  useEffect(() => {
+    clickDiscardButton();
+  }, [passwordChanged]);
 
   return (
     <Container className="m-0">
@@ -122,6 +137,7 @@ export function UserProfileChangePassword({
               aria-expanded="true"
               aria-controls="changePasswordPanel"
               className="mt-4"
+              id="discardChangesPasswordButton"
               onClick={() => {
                 reset();
                 setPasswordPanelExpanded(false);
