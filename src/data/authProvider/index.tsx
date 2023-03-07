@@ -466,6 +466,7 @@ export const AuthProvider: FC<AuthProviderProps> = ({ children }) => {
     if (temporaryToken) {
       await changePasswordRequest(newPassword, temporaryToken);
       saveTokens(temporaryToken, temporaryRefreshToken);
+      tryRefreshLogin();
       setIsLoading(false);
       setPasswordChanged(true);
     }
