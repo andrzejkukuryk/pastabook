@@ -3,21 +3,24 @@ export class Dish {
   pastaType: string;
   mainIngredients: string[];
   otherIngredients: string[];
+  method: string;
   imageSource: string;
-  rate: number;
+  rate: number[];
 
   constructor(
     dishName: string,
     pastaType: string,
     mainIngredients: string[],
     otherIngredients: string[],
+    method: string,
     imageSource: string,
-    rate: number
+    rate: number[]
   ) {
     this.dishName = dishName;
     this.pastaType = pastaType;
     this.mainIngredients = mainIngredients;
     this.otherIngredients = otherIngredients;
+    this.method = method;
     this.imageSource = imageSource;
     this.rate = rate;
   }
@@ -26,7 +29,9 @@ export class Dish {
   }
 
   get fullName() {
-    return `${this.pastaType} ${this.dishName}`;
+    return `${this.pastaType[0].toUpperCase()}${this.pastaType.slice(1)} ${
+      this.dishName
+    }`;
   }
 
   get ingredients() {

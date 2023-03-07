@@ -1,34 +1,57 @@
-import React, { useState } from "react";
-import styles from "./style.module.css";
-import { users } from "../../data/dummyUsersData";
+import React from "react";
+import { useAuthContext } from "../../data/authProvider";
+import { Col, Container, Dropdown, Row } from "react-bootstrap";
 import { Link } from "react-router-dom";
-import iconNotLogged from "./graph/not_logged.png";
 
 export function UserLoginMenu() {
-  const [loggedIn, setLoggedIn] = useState(false);
-  const [user, setUser] = useState(users[0]);
+  const { user, logoutUser } = useAuthContext();
 
-  if (loggedIn) {
+  {
     return (
-      <div className={styles.container}>
-        <div className={styles.loginP}>
-          <p className={styles.greetingP}>Hello, {user.username}!</p>
-          <p className={styles.accountSettingsP}>
-            <a href="#">Account settings</a>
-          </p>
-        </div>
-        <img className={styles.iconNotLogged} src={iconNotLogged} alt=""></img>
-      </div>
+      <Container className="d-flex justify-content-end">
+        <Row>
+          <Col md={12} className="px-0 d-flex align-items-end">
+            <p className="h6 d-inline-block me-2 text-truncate">
+              {user && `Hello, ${user.name ? user.name : "Pastalover"}!`}
+            </p>
+            <Dropdown>
+              <Dropdown.Toggle
+                variant="secondary"
+                className="px-0 me-4 text-primary"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="24"
+                  height="24"
+                  fill="currentColor"
+                  className="bi bi-person-circle"
+                  viewBox="0 0 16 16"
+                >
+                  <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z" />
+                  <path
+                    fillRule="evenodd"
+                    d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1z"
+                  />
+                </svg>
+              </Dropdown.Toggle>
+              <Dropdown.Menu align="end" className="shadow">
+                <Dropdown.Item>
+                  <Link
+                    to="/profile"
+                    className="text-dark"
+                    style={{ textDecoration: "none" }}
+                  >
+                    {" "}
+                    My account
+                  </Link>{" "}
+                </Dropdown.Item>
+                <Dropdown.Divider />
+                <Dropdown.Item onClick={logoutUser}>Log out</Dropdown.Item>
+              </Dropdown.Menu>
+            </Dropdown>
+          </Col>
+        </Row>
+      </Container>
     );
   }
-
-  return (
-    <div className={styles.container}>
-      <p className={styles.loginP}>
-        <Link to="login">Login</Link> &nbsp;|&nbsp;
-        <Link to="register">Sign up</Link>
-      </p>
-      <img className={styles.iconNotLogged} src={iconNotLogged} alt=""></img>
-    </div>
-  );
 }

@@ -3,8 +3,7 @@ export interface Recipe {
   pastaType: string;
   mainIngredients: string[];
   ingredients: string[];
-  fullName: string;
+  method: string;
   imageSource: string;
-  rate: number;
-  path: string;
+  rate: number[];
 }

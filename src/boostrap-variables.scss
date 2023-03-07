@@ -1,0 +1,9 @@
+// Override default variables before the import
+
+$primary: #B54942;
+$secondary: #FFD234;
+$accordion-icon-active-color: #B54942;
+$offcanvas-horizontal-width: "250px";
+
+// Import Bootstrap and its default variables
+@import '~bootstrap/scss/bootstrap.scss';

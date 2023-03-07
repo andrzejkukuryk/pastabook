@@ -1,38 +1,53 @@
+
 .App {
   text-align: center;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+#root {
+  max-width: 1280px;
+  margin: 0 auto;
+  font-family: "Open Sans";
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+body {
+  scrollbar-gutter: stable both-edges;
+  overflow: overlay;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+.errorMsg {
+  color: red;
+  font-size: 0.6em;
+  margin-top: 5px;
+  margin-left: 10px;
 }
 
-.App-link {
-  color: #61dafb;
+.starContainer img {
+  width: 20px;
+  height: 20px;
+  margin-left: 3px;
+  filter: invert(93%) sepia(73%) saturate(3358%) hue-rotate(325deg) brightness(100%) contrast(101%);
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
+.starsContainer img {
+  width: 20px;
+  height: 20px;
+  margin-left: 3px;
+  filter: invert(93%) sepia(73%) saturate(3358%) hue-rotate(325deg) brightness(100%) contrast(101%);
+}
+
+.starEnabled {
+  display: inline-block;    
+}
+
+.starDisabled {
+  display: none;
+}
+
+@media (max-width: 575px){
+  .starsContainer img {
+      width: 40px;
+      height: 40px;
+      margin-left: 10px;
+      filter: invert(93%) sepia(73%) saturate(3358%) hue-rotate(325deg) brightness(100%) contrast(101%);
   }
 }

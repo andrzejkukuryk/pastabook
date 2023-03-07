@@ -1,16 +1,24 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Outlet } from "react-router-dom";
+import { useAuthContext } from "../../data/authProvider";
+import { useRecipeContext } from "../../data/recipeProvider";
 import { Header } from "../header";
-import { SearchMain } from "../searchMain";
-
-import styles from "./style.module.css";
+import { LoadingSpinner } from "../loadingSpinner";
+import { Search } from "../search";
 
 export function SharedLayout() {
+  const { isLoading: isLoadingAuth } = useAuthContext();
+  const { isLoadingRecipe } = useRecipeContext();
+
+  useEffect(() => {});
   return (
-    <div className={styles.container}>
+    <div>
       <Header />
-      <SearchMain />
-      <Outlet />
+      <Search />
+      <div style={{ position: "relative" }}>
+        {(isLoadingRecipe || isLoadingAuth) && <LoadingSpinner />}
+        <Outlet />
+      </div>
     </div>
   );
 }
