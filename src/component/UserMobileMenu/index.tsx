@@ -57,7 +57,7 @@ export function UserMobileMenu({
           </>
         )}
         {token && (
-          <p className="ms-4 mb-5 ">
+          <p className="ms-4 mb-5 text-break">
             {user && `Hi, ${user.name ? user.name : "Pastalover"}!`}
           </p>
         )}

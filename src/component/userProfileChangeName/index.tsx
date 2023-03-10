@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Button, Col, Container, Form, Row } from "react-bootstrap";
 import { useForm } from "react-hook-form";
 import { useAuthContext } from "../../data/authProvider";
@@ -14,16 +14,21 @@ interface ChangeNameFormValue {
 export function UserProfileChangeName({
   setNamePanelExpanded,
 }: UserProfileChangeNameProps) {
-  const { user, editUser } = useAuthContext();
+  const { user, editUser, usernameChanged } = useAuthContext();
   const {
     register,
     handleSubmit,
-
+    formState: { errors },
     reset,
   } = useForm<ChangeNameFormValue>();
 
-  const onSubmit = (data: ChangeNameFormValue) => {
-    editUser(data.newName);
+  const onSubmit = async (data: ChangeNameFormValue) => {
+    await editUser(data.newName);
+    console.log(usernameChanged);
+    if (usernameChanged) {
+      const discardBtn = document.getElementById("discardChangeNameButton");
+      discardBtn?.click();
+    }
   };
 
   return (
@@ -38,21 +43,20 @@ export function UserProfileChangeName({
               <Form.Control
                 type="text"
                 placeholder={user?.name ? user.name : "Type name or nickname"}
-                {...register("newName", { required: false })}
+                {...register("newName", {
+                  required: false,
+                  maxLength: {
+                    value: 50,
+                    message:
+                      "Are you sure your name is longer than 50 characters?",
+                  },
+                })}
               />
+              {errors.newName && (
+                <p className="errorMsg">{errors.newName.message}</p>
+              )}
             </Form.Group>
-            <Button
-              type="submit"
-              variant="primary"
-              className="me-3 mt-4"
-              data-bs-toggle="collapse"
-              data-bs-target="#changeNamePanel"
-              aria-expanded="true"
-              aria-controls="changeNamePanel"
-              onClick={() => {
-                setNamePanelExpanded(false);
-              }}
-            >
+            <Button type="submit" variant="primary" className="me-3 mt-4">
               Save name
             </Button>
             <Button
@@ -63,6 +67,7 @@ export function UserProfileChangeName({
               aria-expanded="true"
               aria-controls="changeNamePanel"
               className="mt-4"
+              id="discardChangeNameButton"
               onClick={() => {
                 reset();
                 setNamePanelExpanded(false);

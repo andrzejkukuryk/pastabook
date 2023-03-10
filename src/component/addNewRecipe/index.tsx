@@ -120,10 +120,12 @@ export function AddNewRecipe() {
           <Form.Control
             required
             type="text"
-            placeholder="Type ingredient name"
+            placeholder="Type ingredient name (max. 20 characters)"
+            maxLength={20}
             value={ingredient.name}
             onChange={(e) => {
               setValidated(false);
+
               handleChangeName(e.target.value, index);
             }}
           />

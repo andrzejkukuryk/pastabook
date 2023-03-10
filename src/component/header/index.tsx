@@ -19,11 +19,11 @@ export function Header() {
       style={{ zIndex: 1050, height: 62 }}
     >
       <Container className="d-flex">
-        <Navbar.Brand className="col-4">
+        <Navbar.Brand className="col-7 col-md-4">
           <Logo showMobileMenu={showMobileMenu} />
         </Navbar.Brand>
 
-        <Nav className="d-none d-md-flex justify-content-end col-8">
+        <Nav className="d-none d-md-flex justify-content-end col-md-8">
           {!token && (
             <Link
               to="/login"

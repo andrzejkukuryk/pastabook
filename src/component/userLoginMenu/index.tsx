@@ -10,11 +10,11 @@ export function UserLoginMenu() {
     return (
       <Container className="d-flex justify-content-end">
         <Row>
-          <Col md={12} className="px-0 d-flex align-items-end">
-            <p className="h6 d-inline-block me-2 text-truncate">
+          <Col md={12} className="px-0 d-flex align-items-center">
+            <p className="h6 d-inline-block mt-2 me-2 text-break">
               {user && `Hello, ${user.name ? user.name : "Pastalover"}!`}
             </p>
-            <Dropdown>
+            <Dropdown style={{ marginTop: 7, marginBottom: 15 }}>
               <Dropdown.Toggle
                 variant="secondary"
                 className="px-0 me-4 text-primary"
@@ -41,7 +41,7 @@ export function UserLoginMenu() {
                     className="text-dark"
                     style={{ textDecoration: "none" }}
                   >
-                    {" "}
+                    {/* {" "} */}
                     My account
                   </Link>{" "}
                 </Dropdown.Item>

@@ -19,6 +19,7 @@ const initialAuthContext = {
   loginUser: () => {},
   logoutUser: () => {},
   editUser: () => {},
+  usernameChanged: false,
   changePassword: () => {},
   passwordChanged: false,
   setPasswordChanged: () => {},
@@ -43,6 +44,7 @@ interface ValueProp {
   loginUser: (email: string, password: string) => Promise<void>;
   logoutUser: () => void;
   editUser: (newUserName: string) => Promise<void>;
+  usernameChanged: boolean;
   changePassword: (
     email: string,
     oldPassword: string,
@@ -108,6 +110,7 @@ export const AuthProvider: FC<AuthProviderProps> = ({ children }) => {
   const [isErrorAuth, setIsErrorAuth] = useState<boolean>(false);
   const [errorMessage, setErrorMessage] = useState("");
   const [passwordChanged, setPasswordChanged] = useState<boolean>(false);
+  const [usernameChanged, setUsernameChanged] = useState<boolean>(false);
   const [userExists, setUserExists] = useState<boolean>(false);
   const [currentFavorites, setCurrentFavorites] = useState<string[]>([]);
   const [currentRated, setCurrentRated] = useState<string[]>([]);
@@ -330,6 +333,7 @@ export const AuthProvider: FC<AuthProviderProps> = ({ children }) => {
       return refreshedIdToken;
     } catch (error) {
       setIsErrorAuth(true);
+      logoutUser();
       console.log(error);
     }
     setIsLoading(false);
@@ -373,12 +377,16 @@ export const AuthProvider: FC<AuthProviderProps> = ({ children }) => {
       returnSecureToken: true,
     };
     try {
+      setUsernameChanged(false);
       setIsErrorAuth(false);
       const response = await fetch(endpoint, {
         method: "POST",
         body: JSON.stringify(data),
       });
       const jsonResponse = await response.json();
+      if (!jsonResponse.error) {
+        setUsernameChanged(true);
+      }
       if (jsonResponse.error) {
         throw new Error(jsonResponse.error);
       }
@@ -465,8 +473,7 @@ export const AuthProvider: FC<AuthProviderProps> = ({ children }) => {
     }
     if (temporaryToken) {
       await changePasswordRequest(newPassword, temporaryToken);
-      saveTokens(temporaryToken, temporaryRefreshToken);
-      tryRefreshLogin();
+      await refreshIdToken(temporaryRefreshToken);
       setIsLoading(false);
       setPasswordChanged(true);
     }
@@ -767,6 +774,7 @@ export const AuthProvider: FC<AuthProviderProps> = ({ children }) => {
     loginUser: loginUser,
     logoutUser: logoutUser,
     editUser: editUser,
+    usernameChanged: usernameChanged,
     changePassword: changePassword,
     passwordChanged: passwordChanged,
     setPasswordChanged: setPasswordChanged,

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Alert,
   Button,
@@ -14,7 +14,6 @@ import { useRecipeContext } from "../../data/recipeProvider";
 import { Dish } from "../../models/dish";
 import { UserProfileChangeName } from "../userProfileChangeName";
 import { UserProfileChangePassword } from "../userProfileChangePassword";
-
 
 export function UserProfile() {
   const [passwordPanelExpanded, setPasswordPanelExpanded] =
@@ -38,6 +37,7 @@ export function UserProfile() {
         }
       });
     });
+
     return favorites.map((recipe, index) => (
       <ListGroupItem key={`fav${index}`} action>
         <Link
@@ -50,6 +50,15 @@ export function UserProfile() {
       </ListGroupItem>
     ));
   };
+
+  const scrollToTop = () => {
+    if (passwordChanged) {
+      window.scrollTo(0, 0);
+    }
+  };
+  useEffect(() => {
+    scrollToTop();
+  }, [passwordChanged]);
 
   return (
     <Container>
@@ -117,7 +126,11 @@ export function UserProfile() {
         <Col xs={12} className="my-0">
           <p className="h6 my-1">Name </p>
         </Col>
-        {!namePanelExpanded && <Col xs={12}>{user?.name}</Col>}
+        {!namePanelExpanded && (
+          <Col xs={12} className="text-break">
+            {user?.name}
+          </Col>
+        )}
         {!namePanelExpanded && (
           <Col>
             <Button

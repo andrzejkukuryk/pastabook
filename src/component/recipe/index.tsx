@@ -158,7 +158,10 @@ export function Recipe() {
               <ul>
                 {recipe?.ingredients.map(
                   (ingredient: string, index: number) => (
-                    <li key={`ingredient${recipe?.fullName}${index}`}>
+                    <li
+                      key={`ingredient${recipe?.fullName}${index}`}
+                      className="text-break"
+                    >
                       {ingredient}
                     </li>
                   )

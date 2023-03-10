@@ -43,7 +43,7 @@ export function SearchFiltersMain({
           id={`${type}${forKey}`}
           checked={stateIncludesType(type)}
           label={type}
-          className="mb-2"
+          className="mb-2 text-break"
           onChange={() => addFilter(type)}
         />
       </Col>

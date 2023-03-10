@@ -78,8 +78,15 @@ export function Register() {
             placeholder="Type your name or nick"
             {...register("username", {
               required: false,
+              maxLength: {
+                value: 50,
+                message: "Are you sure your name is longer than 50 characters?",
+              },
             })}
           />
+          {errors.username && (
+            <p className="errorMsg">{errors.username.message}</p>
+          )}
         </Form.Group>
         <Form.Group
           controlId="password"
