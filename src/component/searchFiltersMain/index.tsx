@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import { Container, Form, Row, Col } from "react-bootstrap";
 import { useRecipeContext } from "../../data/recipeProvider";
+import "./style.css";
 
 interface SearchFiltersMainProps {
   filters: string[];
@@ -54,10 +55,7 @@ export function SearchFiltersMain({
     <Container className="mt-2">
       <Row>
         <Form>
-          <Form.Label
-            className="h6 d-none d-sm-block"
-            style={{ fontWeight: 600 }}
-          >
+          <Form.Label className="h6 d-none d-sm-block formLabelMain">
             Main ingredient
           </Form.Label>
           <Container>

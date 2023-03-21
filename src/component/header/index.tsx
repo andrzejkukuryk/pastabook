@@ -5,6 +5,7 @@ import { useAuthContext } from "../../data/authProvider";
 import { Logo } from "../logo";
 import { UserLoginMenu } from "../userLoginMenu";
 import { UserMobileMenu } from "../UserMobileMenu";
+import "./style.css";
 
 export function Header() {
   const [showMobileMenu, setShowMobileMenu] = useState<boolean>(false);
@@ -13,10 +14,9 @@ export function Header() {
 
   return (
     <Navbar
-      className="navbar rounded-2"
+      className="navbar rounded-2 navbarContainer"
       bg="secondary"
       variant="dark"
-      style={{ zIndex: 1050, height: 62 }}
     >
       <Container className="d-flex">
         <Navbar.Brand className="col-7 col-md-4">
@@ -28,18 +28,13 @@ export function Header() {
             <Link
               to="/login"
               state={{ from: location }}
-              className="text-dark me-4"
-              style={{ textDecoration: "none", fontWeight: 600 }}
+              className="text-dark me-4 linkText"
             >
               Login
             </Link>
           )}
           {!token && (
-            <Link
-              to="/register"
-              className="text-dark me-3 me-lg-4"
-              style={{ textDecoration: "none", fontWeight: 600 }}
-            >
+            <Link to="/register" className="text-dark me-3 me-lg-4 linkText">
               Sign up
             </Link>
           )}

@@ -7,6 +7,7 @@ import { Button, Col, Container, Image, Row } from "react-bootstrap";
 import { RecipeRate } from "../recipeRate";
 import { RecipeOveralRating } from "../recipeOveralRating";
 import { RecipeUsersRate } from "../recipeUsersRate";
+import "./style.css";
 
 export function Recipe() {
   const [isFavorite, setIsFavorite] = useState<boolean>(false);
@@ -66,7 +67,7 @@ export function Recipe() {
               xl={{ span: 6 }}
               className="mb-sm-3 mb-md-0"
             >
-              <h2 style={{ marginBottom: "3px" }}>
+              <h2 className="title" style={{ marginBottom: 3 }}>
                 {recipe?.fullName}{" "}
                 {isFavorite && (
                   <svg
@@ -148,6 +149,7 @@ export function Recipe() {
                 fluid
                 src={recipe?.imageSource}
                 alt={recipe?.fullName}
+                className="recipeImage"
                 style={{ height: 233, width: "100%", objectFit: "cover" }}
               />
             </Col>
@@ -199,8 +201,7 @@ export function Recipe() {
                       <Link
                         to="/login"
                         state={{ from: location }}
-                        className="sign-up-link ms-2"
-                        style={{ textDecoration: "none" }}
+                        className="sign-up-link ms-2 noUnderline"
                       >
                         Log in
                       </Link>
@@ -215,7 +216,7 @@ export function Recipe() {
       {!recipe && !isErrorRecipe && (
         <Container className="mt-5">
           <p>There's no such dish here</p>
-          <Link to="/" style={{ textDecoration: "none" }}>
+          <Link to="/" className="noUnderline">
             Back to home page
           </Link>
         </Container>

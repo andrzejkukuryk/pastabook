@@ -43,6 +43,10 @@ body {
   display: none;
 }
 
+.noUnderline {
+  text-decoration: none;
+}
+
 @media (max-width: 575px){
   .starsContainer img {
       width: 40px;

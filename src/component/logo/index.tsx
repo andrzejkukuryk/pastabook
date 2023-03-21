@@ -2,6 +2,7 @@ import React from "react";
 import bookHeart from "./graph/book-heart.png";
 import { Link } from "react-router-dom";
 import { Col, Container, Image, Row } from "react-bootstrap";
+import "./style.css";
 
 interface LogoProps {
   showMobileMenu: boolean;
@@ -11,15 +12,14 @@ export function Logo({ showMobileMenu }: LogoProps) {
   return (
     <>
       {!showMobileMenu && (
-        <Link to="/" style={{ textDecoration: "none" }}>
+        <Link to="/" className="noUnderline">
           <Container>
             <Row>
               <Col xs={12}>
                 <Image
                   src={bookHeart}
                   alt="pastabook logo"
-                  className="float-start me-1"
-                  style={{ width: 30, height: 30 }}
+                  className="float-start me-1 logoImg"
                 />
                 <h1 className="h4 text-dark fw-bold">Pastabook</h1>
               </Col>
@@ -34,8 +34,7 @@ export function Logo({ showMobileMenu }: LogoProps) {
               <Image
                 src={bookHeart}
                 alt="pastabook logo"
-                className="float-start me-1"
-                style={{ width: 30, height: 30 }}
+                className="float-start me-1 logoImg"
               />
               <h1 className="h4 text-dark fw-bold">Pastabook</h1>
             </Col>

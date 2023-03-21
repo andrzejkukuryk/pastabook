@@ -40,11 +40,7 @@ export function UserProfile() {
 
     return favorites.map((recipe, index) => (
       <ListGroupItem key={`fav${index}`} action>
-        <Link
-          to={`/recipes/${recipe.path}`}
-          style={{ textDecoration: "none" }}
-          className="text-dark"
-        >
+        <Link to={`/recipes/${recipe.path}`} className="text-dark noUnderline">
           <div>{recipe.fullName}</div>
         </Link>
       </ListGroupItem>

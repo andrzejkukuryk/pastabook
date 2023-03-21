@@ -112,9 +112,9 @@ export function AddNewRecipe() {
 
   const createIngredientsList = () => {
     return newIngredients.map((ingredient, index) => (
-      <div key={`addedIngredient${index}`}>
+      <div key={`addedIngredient${index}`} className="mb-2 mb-md-0">
         <Form.Group
-          className="mb-3 col-lg-4 col-md-6 col-xs-12 d-inline-block"
+          className="mb-md-3 col-xl-4 col-lg-5 col-md-6 col-12 d-inline-block"
           controlId={`ingredient${index}`}
         >
           <Form.Control
@@ -145,6 +145,7 @@ export function AddNewRecipe() {
           />
         </Form.Group>
         <Button
+          className="mb-2"
           variant="white"
           onClick={() => {
             setValidated(false);
@@ -418,7 +419,7 @@ export function AddNewRecipe() {
         <Col>
           <Form noValidate validated={validated} onSubmit={handleSubmit}>
             <Form.Label className="h4">General</Form.Label>
-            <Form.Group className="mb-3 col-lg-4 col-md-6 col-xs-12">
+            <Form.Group className="mb-3 col-xl-4 col-lg-5 col-md-6 col-xs-12">
               <Form.Label>Dish name</Form.Label>
               <Form.Control
                 type="text"
@@ -434,7 +435,7 @@ export function AddNewRecipe() {
                 Dish name cannot be empty
               </Form.Control.Feedback>
             </Form.Group>
-            <Form.Group className="mb-3 col-lg-4 col-md-6 col-xs-12">
+            <Form.Group className="mb-3 col-xl-4 col-lg-5 col-md-6 col-xs-12">
               <Form.Label>Pasta type</Form.Label>
               <Form.Select
                 defaultValue={""}
@@ -478,7 +479,7 @@ export function AddNewRecipe() {
             )}
             <Container fluid>
               <Row>
-                <Col className="col-lg-4 col-md-6 col-xs-12 d-flex justify-content-end">
+                <Col className="col-xl-4 col-lg-5 col-md-6 col-12 d-flex justify-content-end">
                   <Button
                     variant="outline-primary"
                     className="d-block border-0"
@@ -500,7 +501,6 @@ export function AddNewRecipe() {
                     add another
                   </Button>
                 </Col>
-                <Col className="col-lg-8 col-md-6 col-xs-none"></Col>
               </Row>
             </Container>
             <Form.Label className="h4">Method</Form.Label>

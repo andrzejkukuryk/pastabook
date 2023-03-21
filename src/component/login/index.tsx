@@ -101,11 +101,7 @@ export function Login() {
         <Col>
           <p className="mt-4 h6">
             Don't have an account?
-            <Link
-              to="/register"
-              className="ms-2"
-              style={{ textDecoration: "none" }}
-            >
+            <Link to="/register" className="ms-2 noUnderline">
               Sign up
             </Link>
           </p>

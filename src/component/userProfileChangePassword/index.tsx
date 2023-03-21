@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useRef } from "react";
 import { Container, Row, Col, Form, Button } from "react-bootstrap";
 import { useForm } from "react-hook-form";
 import { useAuthContext } from "../../data/authProvider";
@@ -37,10 +37,12 @@ export function UserProfileChangePassword({
     }
   };
 
+  const discardChangesPasswordButton = useRef(null);
+
   const clickDiscardButton = () => {
-    const button = document.getElementById("discardChangesPasswordButton");
     if (passwordChanged) {
-      button?.click();
+      //@ts-ignore
+      discardChangesPasswordButton.current.click();
     }
   };
   useEffect(() => {
@@ -54,7 +56,7 @@ export function UserProfileChangePassword({
           <form noValidate onSubmit={handleSubmit(onSubmit)}>
             <Form.Group
               controlId="oldPassword"
-              className="mt-3  col-lg-4 col-md-6 col-xs-12"
+              className="mt-3  col-lg-4 col-md-6 col-12"
             >
               <Form.Label>Old password</Form.Label>
               <Form.Control
@@ -137,7 +139,7 @@ export function UserProfileChangePassword({
               aria-expanded="true"
               aria-controls="changePasswordPanel"
               className="mt-4"
-              id="discardChangesPasswordButton"
+              ref={discardChangesPasswordButton}
               onClick={() => {
                 reset();
                 setPasswordPanelExpanded(false);

@@ -1,0 +1,9 @@
+.navbarContainer {
+    z-index: 1050;
+    height: 62px;
+}
+
+.linkText {
+    text-decoration: none;
+    font-weight: 600;
+}

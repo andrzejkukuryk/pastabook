@@ -278,17 +278,17 @@ export const RecipeProvider: FC<RecipeProviderProps> = ({ children }) => {
   }, [mergedFilteredRecipes, filteredByName]);
 
   const value: ValueProp = {
-    recipes: recipes,
-    filteredRecipes: filteredRecipes,
-    allPastaTypes: allPastaTypes,
-    allMainIngredients: allMainIngredients,
-    isErrorRecipe: isErrorRecipe,
-    isLoadingRecipe: isLoadingRecipe,
-    sendNewRecipe: sendNewRecipe,
-    filterByName: filterByName,
-    filterByType: filterByType,
-    filterByMain: filterByMain,
-    getRecipes: getRecipes,
+    recipes,
+    filteredRecipes,
+    allPastaTypes,
+    allMainIngredients,
+    isErrorRecipe,
+    isLoadingRecipe,
+    sendNewRecipe,
+    filterByName,
+    filterByType,
+    filterByMain,
+    getRecipes,
   };
 
   return (

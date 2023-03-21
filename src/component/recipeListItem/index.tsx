@@ -32,10 +32,13 @@ export function RecipeListItem({
 
   return (
     <>
-      <Card style={{ width: 353, height: 240, flexShrink: 3 }}>
+      <Card
+        className="cardContainer"
+        style={{ width: 353, height: 240, flexShrink: 3 }}
+      >
         <Card.Img variant="top" src={imageSource} alt={dishName} />
         <Card.Body
-          className="d-flex flex-column justify-content-between"
+          className="d-flex flex-column justify-content-between cardBody"
           style={{ height: 100, paddingTop: 8 }}
         >
           <Card.Title

@@ -1,0 +1,9 @@
+.title {
+    margin-bottom: 3px;
+}
+
+.recipeImage {
+    height: 233px;
+    width: 100%;
+    object-fit: cover;
+}

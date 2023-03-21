@@ -1,3 +1,4 @@
+import classNames from "classnames";
 import React, { useEffect, useState } from "react";
 import { RichTextEditor } from "../RichTextEditor";
 import "./style.css";
@@ -26,16 +27,13 @@ export function AddRecipeMethod({
 
   const error = validated && !methodHasText;
 
-  const setRedBorder = () => {
-    if (error) {
-      return " red-border";
-    }
-  };
+  const divClass = classNames({
+    "RichEditorRoot col-xl-4 col-lg-5 col-md-6 col-12": true,
+    "red-border": error,
+  });
 
   return (
-    <div
-      className={"RichEditorRoot col-lg-4 col-md-6 col-xs-12" + setRedBorder()}
-    >
+    <div className={divClass}>
       <RichTextEditor
         setContent={setContent}
         setMethodHasText={setMethodHasText}

@@ -46,10 +46,7 @@ export function Register() {
         </Row>
       )}
       <form noValidate onSubmit={handleSubmit(onSubmit)}>
-        <Form.Group
-          controlId="email"
-          className="mt-3 col-lg-4 col-md-6 col-xs-12"
-        >
+        <Form.Group controlId="email" className="mt-3 col-lg-4 col-md-6 col-12">
           <Form.Label>Email</Form.Label>
           <Form.Control
             type="email"
@@ -70,7 +67,7 @@ export function Register() {
         </Form.Group>
         <Form.Group
           controlId="username"
-          className="mt-3  col-lg-4 col-md-6 col-xs-12"
+          className="mt-3 col-lg-4 col-md-6 col-12"
         >
           <Form.Label>Name or nick</Form.Label>
           <Form.Control
@@ -90,7 +87,7 @@ export function Register() {
         </Form.Group>
         <Form.Group
           controlId="password"
-          className="mt-3  col-lg-4 col-md-6 col-xs-12"
+          className="mt-3 col-lg-4 col-md-6 col-12"
         >
           <Form.Label>Password</Form.Label>
           <Form.Control
@@ -111,7 +108,7 @@ export function Register() {
 
         <Form.Group
           controlId="confirmPassword"
-          className="mt-3  col-lg-4 col-md-6 col-xs-12"
+          className="mt-3 col-lg-4 col-md-6 col-12"
         >
           <Form.Label>Confirm your password</Form.Label>
           <Form.Control
@@ -147,11 +144,7 @@ export function Register() {
         <Col>
           <p className="mt-4 h6">
             Already a member?
-            <Link
-              to="/login"
-              className="sign-up-link ms-2"
-              style={{ textDecoration: "none" }}
-            >
+            <Link to="/login" className="sign-up-link ms-2 noUnderline">
               Log in
             </Link>
           </p>

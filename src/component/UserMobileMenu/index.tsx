@@ -2,6 +2,7 @@ import React from "react";
 import { Offcanvas } from "react-bootstrap";
 import { Link, useLocation } from "react-router-dom";
 import { useAuthContext } from "../../data/authProvider";
+import "./style.css";
 
 interface UserMobileMenuProps {
   showMobileMenu: boolean;
@@ -34,8 +35,7 @@ export function UserMobileMenu({
             <Link
               to="/login"
               state={{ from: location }}
-              className="text-dark"
-              style={{ textDecoration: "none", fontWeight: 600 }}
+              className="text-dark linkText"
               onClick={closeMenu}
             >
               <div className="ms-4">Login</div>
@@ -47,8 +47,7 @@ export function UserMobileMenu({
           <>
             <Link
               to="/register"
-              className="text-dark"
-              style={{ textDecoration: "none", fontWeight: 600 }}
+              className="text-dark linkText"
               onClick={closeMenu}
             >
               <div className="ms-4">Sign up</div>
@@ -65,8 +64,7 @@ export function UserMobileMenu({
           <>
             <Link
               to="/profile"
-              className="text-dark"
-              style={{ textDecoration: "none", fontWeight: 600 }}
+              className="text-dark linkText"
               onClick={closeMenu}
             >
               <div className="ms-4">My account</div>
@@ -77,8 +75,7 @@ export function UserMobileMenu({
         {token && (
           <>
             <div
-              className="ms-4 text-dark"
-              style={{ fontWeight: 600 }}
+              className="ms-4 text-dark linkText"
               onClick={() => {
                 logoutUser();
                 closeMenu();

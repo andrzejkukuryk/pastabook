@@ -1,3 +1,17 @@
 .setLabelWidth label {
     width: 100%;
 }
+
+.photoPreview {
+    width: 140px;
+    margin: 10px 10px 10px 40px;
+    
+}
+
+.photoPreviewDiv {
+    display: flex;
+    flex-direction: row;
+    width: 160px;
+    align-items: center;
+    justify-content: center;
+}

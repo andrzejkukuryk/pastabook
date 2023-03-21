@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { Button } from "react-bootstrap";
 import { FileUploader } from "react-drag-drop-files";
-import styles from "./style.module.css";
 import "./style.css";
 
 const fileTypes = ["JPG", "PNG", "GIF"];
@@ -102,9 +101,9 @@ export function DragDrop({
       </p>
       {!newPhotoUrl && file && <div>uploaded {photoUploadProgress}%</div>}
       {newPhotoUrl && file && (
-        <div className={styles.photoPreviewDiv}>
+        <div className="photoPreviewDiv">
           <img
-            className={styles.photoPreview}
+            className="photoPreview"
             src={newPhotoUrl}
             id="uploadedPhotoPreview"
             alt="Recipe photo preview"

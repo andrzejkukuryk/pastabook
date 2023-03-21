@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import starFull from "./graph/star_full.png";
 import { Container, Row, Col } from "react-bootstrap";
+import "./style.css";
 
 interface RecipeListItemOveralRatingProps {
   rates: number[];
@@ -42,7 +43,7 @@ export function RecipeListItemOveralRating({
       {recipeHasRates && (
         <Row>
           <Col xs={12} className="starContainer d-flex p-0 col-12">
-            <p className="my-0" style={{ fontSize: 13 }}>
+            <p className="my-0 ratedText">
               Rated: <span className="h6 m-0">{averageRate}</span> / 3
               <img src={starFull} alt="rating star" className="mb-2" /> (
               {rates.length - 1} {rates.length === 2 ? "vote" : "votes"})

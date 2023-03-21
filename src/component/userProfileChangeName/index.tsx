@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useRef } from "react";
 import { Button, Col, Container, Form, Row } from "react-bootstrap";
 import { useForm } from "react-hook-form";
 import { useAuthContext } from "../../data/authProvider";
@@ -22,12 +22,13 @@ export function UserProfileChangeName({
     reset,
   } = useForm<ChangeNameFormValue>();
 
+  const discardChangeNameButton = useRef(null);
+
   const onSubmit = async (data: ChangeNameFormValue) => {
     await editUser(data.newName);
-    console.log(usernameChanged);
     if (usernameChanged) {
-      const discardBtn = document.getElementById("discardChangeNameButton");
-      discardBtn?.click();
+      //@ts-ignore
+      discardChangeNameButton.current.click();
     }
   };
 
@@ -38,7 +39,7 @@ export function UserProfileChangeName({
           <form onSubmit={handleSubmit(onSubmit)}>
             <Form.Group
               controlId="newName"
-              className="col-lg-4 col-md-6 col-xs-12"
+              className="col-lg-4 col-md-6 col-12"
             >
               <Form.Control
                 type="text"
@@ -67,7 +68,7 @@ export function UserProfileChangeName({
               aria-expanded="true"
               aria-controls="changeNamePanel"
               className="mt-4"
-              id="discardChangeNameButton"
+              ref={discardChangeNameButton}
               onClick={() => {
                 reset();
                 setNamePanelExpanded(false);

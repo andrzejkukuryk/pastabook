@@ -98,8 +98,7 @@ export function RecipeList() {
               <Link
                 to={`/recipes/${recipe.path}`}
                 key={recipe.path}
-                style={{ textDecoration: "none" }}
-                className="text-dark"
+                className="text-dark noUnderline"
               >
                 <RecipeListItem
                   dishName={recipe.fullName}

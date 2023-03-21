@@ -15,7 +15,7 @@ export function SharedLayout() {
     <div>
       <Header />
       <Search />
-      <div style={{ position: "relative" }}>
+      <div className="outletContainer">
         {(isLoadingRecipe || isLoadingAuth) && <LoadingSpinner />}
         <Outlet />
       </div>

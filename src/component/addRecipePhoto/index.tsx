@@ -15,7 +15,7 @@ export function AddRecipePhoto({
   deletePhoto,
 }: AddRecipePhotoProps) {
   return (
-    <div className="mt-2 col-lg-4 col-md-6 col-xs-12">
+    <div className="mt-2 col-xl-4 col-lg-5 col-md-6 col-xs-12">
       <DragDrop
         setNewRecipePhoto={setNewRecipePhoto}
         photoUploadProgress={photoUploadProgress}
