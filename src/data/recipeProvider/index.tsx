@@ -113,7 +113,7 @@ export const RecipeProvider: FC<RecipeProviderProps> = ({ children }) => {
       setIsLoadingRecipe(false);
     } catch (error) {
       setIsErrorRecipe(true);
-      console.log("getRecipes: ", error, "isErrorRecipe: ", isErrorRecipe);
+      console.error(error);
       setIsLoadingRecipe(false);
     }
   };

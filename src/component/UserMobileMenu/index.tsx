@@ -19,6 +19,11 @@ export function UserMobileMenu({
     setShowMobileMenu(false);
   };
 
+  const handleClickLogout = () => {
+    logoutUser();
+    closeMenu();
+  };
+
   return (
     <Offcanvas
       show={showMobileMenu}
@@ -76,10 +81,7 @@ export function UserMobileMenu({
           <>
             <div
               className="ms-4 text-dark linkText"
-              onClick={() => {
-                logoutUser();
-                closeMenu();
-              }}
+              onClick={handleClickLogout}
             >
               Log out
             </div>

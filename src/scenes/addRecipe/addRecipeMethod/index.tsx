@@ -1,6 +1,6 @@
 import classNames from "classnames";
 import React, { useEffect, useState } from "react";
-import { RichTextEditor } from "../RichTextEditor";
+import { RichTextEditor } from "../richTextEditor";
 import "./style.css";
 
 interface AddRecipeMethodProps {

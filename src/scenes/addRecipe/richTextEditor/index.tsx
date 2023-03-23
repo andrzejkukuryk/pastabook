@@ -13,8 +13,8 @@ import {
 import "draft-js/dist/Draft.css";
 import "./richText.css";
 
-import { BlockStyleControls } from "../BlockStyleControls";
-import { InlineStyleControls } from "../InlineStyleControls";
+import { BlockStyleControls } from "../blockStyleControls";
+import { InlineStyleControls } from "../../../component/InlineStyleControls";
 
 interface RichTextEditorProps {
   setContent: (state: RawDraftContentState) => void;

@@ -9,7 +9,7 @@ import { PageNotFound } from "./component/pageNotFound";
 import { SharedLayout } from "./component/sharedLayout";
 import { Login } from "./component/login";
 import { Register } from "./component/register";
-import { AddNewRecipe } from "./component/addNewRecipe";
+import { AddNewRecipe } from "./scenes/addRecipe/addNewRecipe";
 import { SearchResultList } from "./component/searchResultList";
 import { ProtectedRoute } from "./component/protectedRoute";
 import { UserProfile } from "./component/userProfile";

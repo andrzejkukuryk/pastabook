@@ -16,6 +16,9 @@ import { SearchFiltersMain } from "../searchFiltersMain";
 import { SearchFiltersMainChips } from "../searchFiltersMainChips";
 import { SearchFiltersType } from "../searchFiltersType";
 import { SearchFiltersTypeChips } from "../searchFiltersTypeChips";
+import { ReactComponent as BiSearch } from "../../assets/bi-search.svg";
+import { ReactComponent as BiFunnel } from "../../assets/bi-funnel.svg";
+import { ReactComponent as BiFunnelFill } from "../../assets/bi-funnel-fill.svg";
 
 export function Search() {
   const [searchPhrase, setSearchPhrase] = useState<string>("");
@@ -80,16 +83,7 @@ export function Search() {
                 className="border"
                 onClick={handleSubmit}
               >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="20"
-                  height="20"
-                  fill="currentColor"
-                  className="bi bi-search me-1"
-                  viewBox="0 2 20 16"
-                >
-                  <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z" />
-                </svg>
+                <BiSearch />
                 Search
               </Button>
             </InputGroup>
@@ -107,16 +101,7 @@ export function Search() {
               aria-controls="collapseFilters"
               onClick={() => setFiltersShown(true)}
             >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="20"
-                height="20"
-                fill="currentColor"
-                className="bi bi-funnel me-1"
-                viewBox="0 2 20 16"
-              >
-                <path d="M1.5 1.5A.5.5 0 0 1 2 1h12a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-.128.334L10 8.692V13.5a.5.5 0 0 1-.342.474l-3 1A.5.5 0 0 1 6 14.5V8.692L1.628 3.834A.5.5 0 0 1 1.5 3.5v-2zm1 .5v1.308l4.372 4.858A.5.5 0 0 1 7 8.5v5.306l2-.666V8.5a.5.5 0 0 1 .128-.334L13.5 3.308V2h-11z" />
-              </svg>
+              <BiFunnel />
               Show filters
             </Button>
           )}
@@ -131,16 +116,7 @@ export function Search() {
               aria-controls="collapseFilters"
               onClick={() => setFiltersShown(false)}
             >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="20"
-                height="20"
-                fill="currentColor"
-                className="bi bi-funnel-fill me-1"
-                viewBox="0 2 20 16"
-              >
-                <path d="M1.5 1.5A.5.5 0 0 1 2 1h12a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-.128.334L10 8.692V13.5a.5.5 0 0 1-.342.474l-3 1A.5.5 0 0 1 6 14.5V8.692L1.628 3.834A.5.5 0 0 1 1.5 3.5v-2z" />
-              </svg>
+              <BiFunnelFill />
               Hide filters
             </Button>
           )}

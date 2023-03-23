@@ -1,6 +1,5 @@
 import React from "react";
 import "draft-js/dist/Draft.css";
-import "../RichTextEditor/richText.css";
 import classNames from "classnames";
 
 interface StyleButtonProps {

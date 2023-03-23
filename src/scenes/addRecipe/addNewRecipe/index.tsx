@@ -1,18 +1,23 @@
 import React, { useEffect, useState } from "react";
 import { Alert, Button, Col, Container, Form, Row } from "react-bootstrap";
-import { Recipe } from "../../models/recipe";
+import { Recipe } from "../../../models/recipe";
 import draftToHtml from "draftjs-to-html";
 import { AddRecipeMethod } from "../addRecipeMethod";
 import { AddRecipePhoto } from "../addRecipePhoto";
-import { useRecipeContext } from "../../data/recipeProvider";
+import { useRecipeContext } from "../../../data/recipeProvider";
 import { Link, useNavigate } from "react-router-dom";
-import { storage } from "../../firebase";
+import { storage } from "../../../firebase";
 import {
   ref,
   getDownloadURL,
   uploadBytesResumable,
   deleteObject,
 } from "firebase/storage";
+import { ReactComponent as BiTrash3Sm } from "../../../assets/bi-trash3-sm.svg";
+import { ReactComponent as BiPlus } from "../../../assets/bi-plus.svg";
+import { ReactComponent as BiExclamationCircle } from "../../../assets/bi-exclamation-circle.svg";
+import { ReactComponent as BiCheckLg } from "../../../assets/bi-check-lg.svg";
+import { ReactComponent as BiInfoCircle } from "../../../assets/bi-info-circle.svg";
 import "./style.css";
 
 export function AddNewRecipe() {
@@ -152,16 +157,7 @@ export function AddNewRecipe() {
             handleClickRemove(index);
           }}
         >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="16"
-            height="16"
-            fill="currentColor"
-            className="bi bi-trash3"
-            viewBox="0 0 16 16"
-          >
-            <path d="M6.5 1h3a.5.5 0 0 1 .5.5v1H6v-1a.5.5 0 0 1 .5-.5ZM11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3A1.5 1.5 0 0 0 5 1.5v1H2.506a.58.58 0 0 0-.01 0H1.5a.5.5 0 0 0 0 1h.538l.853 10.66A2 2 0 0 0 4.885 16h6.23a2 2 0 0 0 1.994-1.84l.853-10.66h.538a.5.5 0 0 0 0-1h-.995a.59.59 0 0 0-.01 0H11Zm1.958 1-.846 10.58a1 1 0 0 1-.997.92h-6.23a1 1 0 0 1-.997-.92L3.042 3.5h9.916Zm-7.487 1a.5.5 0 0 1 .528.47l.5 8.5a.5.5 0 0 1-.998.06L5 5.03a.5.5 0 0 1 .47-.53Zm5.058 0a.5.5 0 0 1 .47.53l-.5 8.5a.5.5 0 1 1-.998-.06l.5-8.5a.5.5 0 0 1 .528-.47ZM8 4.5a.5.5 0 0 1 .5.5v8.5a.5.5 0 0 1-1 0V5a.5.5 0 0 1 .5-.5Z" />
-          </svg>
+          <BiTrash3Sm />
         </Button>
       </div>
     ));
@@ -347,17 +343,7 @@ export function AddNewRecipe() {
         <Row>
           <Col>
             <Alert variant="danger">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="20"
-                height="20"
-                fill="currentColor"
-                className="bi bi-exclamation-circle me-1"
-                viewBox="0 2 20 16"
-              >
-                <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z" />
-                <path d="M7.002 11a1 1 0 1 1 2 0 1 1 0 0 1-2 0zM7.1 4.995a.905.905 0 1 1 1.8 0l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 4.995z" />
-              </svg>
+              <BiExclamationCircle />
               <b>There are some errors({countErrors()}). </b> Please correct
               them.
             </Alert>
@@ -368,16 +354,7 @@ export function AddNewRecipe() {
         <Row>
           <Col>
             <Alert variant="success">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="20"
-                height="20"
-                fill="currentColor"
-                className="bi bi-check-lg me-1"
-                viewBox="0 2 20 16"
-              >
-                <path d="M12.736 3.97a.733.733 0 0 1 1.047 0c.286.289.29.756.01 1.05L7.88 12.01a.733.733 0 0 1-1.065.02L3.217 8.384a.757.757 0 0 1 0-1.06.733.733 0 0 1 1.047 0l3.052 3.093 5.4-6.425a.247.247 0 0 1 .02-.022Z" />
-              </svg>
+              <BiCheckLg />
               New recipe added correctly. Click{" "}
               <Link to={recipeHrefAfterUpload()} className="alert-link">
                 here
@@ -395,17 +372,7 @@ export function AddNewRecipe() {
         <Row>
           <Col>
             <Alert variant="warning">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="20"
-                height="20"
-                fill="currentColor"
-                className="bi bi-info-circle me-1"
-                viewBox="0 2 20 16"
-              >
-                <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z" />
-                <path d="m8.93 6.588-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533L8.93 6.588zM9 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0z" />
-              </svg>
+              <BiInfoCircle />
               You have already added this recipe. Click{" "}
               <Link className="alert-link" to="/add">
                 here
@@ -485,19 +452,7 @@ export function AddNewRecipe() {
                     className="d-block border-0"
                     onClick={addIngredient}
                   >
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="16"
-                      height="16"
-                      fill="currentColor"
-                      className="bi bi-plus-lg me-1"
-                      viewBox="0 2 18 16"
-                    >
-                      <path
-                        fillRule="evenodd"
-                        d="M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2Z"
-                      />
-                    </svg>
+                    <BiPlus />
                     add another
                   </Button>
                 </Col>
