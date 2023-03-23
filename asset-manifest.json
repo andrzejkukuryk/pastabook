@@ -1,16 +1,44 @@
 {
   "files": {
     "main.css": "/pastabook/static/css/main.7ca86248.css",
-    "main.js": "/pastabook/static/js/main.cf2909c1.js",
+    "main.js": "/pastabook/static/js/main.c8286042.js",
     "static/js/787.0bc60ee2.chunk.js": "/pastabook/static/js/787.0bc60ee2.chunk.js",
     "static/media/book-heart.png": "/pastabook/static/media/book-heart.e360042c2f802fed8985.png",
+    "static/media/bi-filetype-jpg.svg": "/pastabook/static/media/bi-filetype-jpg.e30401fdec670014d6354ac254319789.svg",
     "index.html": "/pastabook/index.html",
+    "static/media/bi-filetype-png.svg": "/pastabook/static/media/bi-filetype-png.fc8228eab972497c6952379d49dab4e6.svg",
+    "static/media/bi-filetype-gif.svg": "/pastabook/static/media/bi-filetype-gif.6678e886664f026364bde17c5fe10267.svg",
+    "static/media/bi-list-ol.svg": "/pastabook/static/media/bi-list-ol.a6a938de977652c0cb74e7db43cd8f9b.svg",
+    "static/media/bi-suit-heart.svg": "/pastabook/static/media/bi-suit-heart.ba89b81660a106936edcbacda843f74a.svg",
+    "static/media/bi-suit-heart-sm.svg": "/pastabook/static/media/bi-suit-heart-sm.78a15f48f97c64df3e9cfb2439278e64.svg",
+    "static/media/bi-trash3.svg": "/pastabook/static/media/bi-trash3.8f83eaa4e52f46c473f6603490ec4fd1.svg",
+    "static/media/bi-trash3-lg.svg": "/pastabook/static/media/bi-trash3-lg.87a939ada4e3373de944c492ea582dce.svg",
+    "static/media/bi-trash3-sm.svg": "/pastabook/static/media/bi-trash3-sm.a3d97a57393fe227594e306d98bff579.svg",
+    "static/media/bi-quote.svg": "/pastabook/static/media/bi-quote.be38569fb014aeb61b7da2c206fb7755.svg",
+    "static/media/bi-info-circle.svg": "/pastabook/static/media/bi-info-circle.7ed2a49cd9a575d3d1099cf438ccdbf7.svg",
+    "static/media/bi-type-bold.svg": "/pastabook/static/media/bi-type-bold.8168f7308a263be7c1455bf56542b96a.svg",
+    "static/media/bi-list-ul.svg": "/pastabook/static/media/bi-list-ul.334d08c5a1caff2eef4e55b592b59187.svg",
+    "static/media/bi-funnel.svg": "/pastabook/static/media/bi-funnel.387354971996fb6ebfc71646903f8511.svg",
+    "static/media/bi-list.svg": "/pastabook/static/media/bi-list.68eb82561ffdf6575d9f9e6ab1d7ecf9.svg",
+    "static/media/bi-person-circle.svg": "/pastabook/static/media/bi-person-circle.3cc89e4d143b88341686ce20e430d45a.svg",
+    "static/media/bi-exclamation-circle.svg": "/pastabook/static/media/bi-exclamation-circle.017f2ac1f8ad869cdf4a53833a961c8a.svg",
+    "static/media/bi-type-italic.svg": "/pastabook/static/media/bi-type-italic.3c1b946df301a87d1b7a7ff18806c52d.svg",
+    "static/media/bi-check-lg.svg": "/pastabook/static/media/bi-check-lg.cee432cc7c10a8324885efc5d7de7859.svg",
+    "static/media/bi-x.svg": "/pastabook/static/media/bi-x.6118bc0c73496429b298adda33889eed.svg",
+    "static/media/bi-search.svg": "/pastabook/static/media/bi-search.dd6c46a29147751c811177d9820c3064.svg",
+    "static/media/bi-type-underline.svg": "/pastabook/static/media/bi-type-underline.37f8276eed20fa7d2bb4e0ba7e583c61.svg",
+    "static/media/bi-x-lg.svg": "/pastabook/static/media/bi-x-lg.dda77ec0071841af8cc25929dd1c9fe9.svg",
+    "static/media/bi-suit-heart-fill.svg": "/pastabook/static/media/bi-suit-heart-fill.7c269e9a96e44177b35a89ea7bce08fa.svg",
+    "static/media/bi-funnel-fill.svg": "/pastabook/static/media/bi-funnel-fill.0db6e9a5dab954ea884a3def40d57c96.svg",
+    "static/media/bi-plus-lg.svg": "/pastabook/static/media/bi-plus-lg.ba71051ba5c010ba633a06d84ba8dff7.svg",
+    "static/media/bi-plus.svg": "/pastabook/static/media/bi-plus.713acd75dd431f1ba493f992c48f2d38.svg",
+    "static/media/bi-type-h1.svg": "/pastabook/static/media/bi-type-h1.41cd69c7e6c351564ea8618bae95f6c5.svg",
     "main.7ca86248.css.map": "/pastabook/static/css/main.7ca86248.css.map",
-    "main.cf2909c1.js.map": "/pastabook/static/js/main.cf2909c1.js.map",
+    "main.c8286042.js.map": "/pastabook/static/js/main.c8286042.js.map",
     "787.0bc60ee2.chunk.js.map": "/pastabook/static/js/787.0bc60ee2.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.7ca86248.css",
-    "static/js/main.cf2909c1.js"
+    "static/js/main.c8286042.js"
   ]
 }
