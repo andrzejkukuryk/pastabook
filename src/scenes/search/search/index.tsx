@@ -10,15 +10,15 @@ import {
   Row,
 } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
-import { useRecipeContext } from "../../data/recipeProvider";
-import { SearchFiltersAccordionCustomToggle } from "../searchFiltersAccordionCustomToggle";
+import { useRecipeContext } from "../../../data/recipeProvider";
+import { SearchFiltersAccordionCustomToggle } from "../../../component/searchFiltersAccordionCustomToggle";
 import { SearchFiltersMain } from "../searchFiltersMain";
-import { SearchFiltersMainChips } from "../searchFiltersMainChips";
+import { SearchFiltersMainChips } from "../../../component/searchFiltersMainChips";
 import { SearchFiltersType } from "../searchFiltersType";
-import { SearchFiltersTypeChips } from "../searchFiltersTypeChips";
-import { ReactComponent as BiSearch } from "../../assets/bi-search.svg";
-import { ReactComponent as BiFunnel } from "../../assets/bi-funnel.svg";
-import { ReactComponent as BiFunnelFill } from "../../assets/bi-funnel-fill.svg";
+import { SearchFiltersTypeChips } from "../../../component/searchFiltersTypeChips";
+import { ReactComponent as BiSearch } from "../../../assets/bi-search.svg";
+import { ReactComponent as BiFunnel } from "../../../assets/bi-funnel.svg";
+import { ReactComponent as BiFunnelFill } from "../../../assets/bi-funnel-fill.svg";
 
 export function Search() {
   const [searchPhrase, setSearchPhrase] = useState<string>("");

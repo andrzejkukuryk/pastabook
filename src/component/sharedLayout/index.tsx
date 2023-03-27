@@ -4,7 +4,7 @@ import { useAuthContext } from "../../data/authProvider";
 import { useRecipeContext } from "../../data/recipeProvider";
 import { Header } from "../header";
 import { LoadingSpinner } from "../loadingSpinner";
-import { Search } from "../search";
+import { Search } from "../../scenes/search/search";
 
 export function SharedLayout() {
   const { isLoading: isLoadingAuth } = useAuthContext();

@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
 import "./style.css";
 import { Card } from "react-bootstrap";
-import { useAuthContext } from "../../data/authProvider";
+import { useAuthContext } from "../../../data/authProvider";
 import { RecipeListItemOveralRating } from "../recipeListItemOveralRating";
-import { ReactComponent as BiSuitHeartSm } from "../../assets/bi-suit-heart-sm.svg";
+import { ReactComponent as BiSuitHeartSm } from "../../../assets/bi-suit-heart-sm.svg";
 
 interface RecipeListItemProps {
   imageSource: string;

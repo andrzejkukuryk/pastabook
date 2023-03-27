@@ -3,7 +3,7 @@ import starFull from "./graph/star_full.png";
 import "./style.css";
 import { Container, Row, Col } from "react-bootstrap";
 import classNames from "classnames";
-import { useAuthContext } from "../../data/authProvider";
+import { useAuthContext } from "../../../data/authProvider";
 
 interface RecipeOveralRatingProps {
   rates: number[];

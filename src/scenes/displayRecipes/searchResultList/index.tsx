@@ -1,17 +1,16 @@
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { RecipeListItem } from "../recipeListItem";
-import { useRecipeContext } from "../../data/recipeProvider";
+import { useRecipeContext } from "../../../data/recipeProvider";
 import { Button, Col, Container, Row } from "react-bootstrap";
 import { RecipeListPagination } from "../recipeListPagination";
-import { ReactComponent as BiPlusLg } from "../../assets/bi-plus-lg.svg";
+import { ReactComponent as BiPlusLg } from "../../../assets/bi-plus-lg.svg";
 
-export function RecipeList() {
-  const { recipes, isErrorRecipe } = useRecipeContext();
+export function SearchResultList() {
+  const { filteredRecipes, isErrorRecipe } = useRecipeContext();
   const navigate = useNavigate();
 
   const [currentPage, setCurrentPage] = useState<number>(1);
-  // const [itemsPerPage, setItemsPerPage] = useState<number>(6);
   const [numberOfPages, setNumberOfPages] = useState<number>(1);
 
   const itemsPerPage: number = 6;
@@ -19,17 +18,17 @@ export function RecipeList() {
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
 
   const countNumberOfPages = () => {
-    const pages = Math.ceil(recipes.length / itemsPerPage);
+    const pages = Math.ceil(filteredRecipes.length / itemsPerPage);
     setNumberOfPages(pages);
   };
 
-  useEffect(() => countNumberOfPages(), [recipes, itemsPerPage]);
-
+  useEffect(() => countNumberOfPages(), [filteredRecipes, itemsPerPage]);
+  useEffect(() => setCurrentPage(1), [filteredRecipes]);
   return (
     <Container>
       <Row>
         <Col>
-          <h2>Last recipes</h2>
+          <h2>Found recipes</h2>
         </Col>
 
         <Col className="d-none d-sm-block">
@@ -63,15 +62,15 @@ export function RecipeList() {
         </Row>
       )}
       <Row className="g-4 mt-1 d-flex justify-content-between">
-        {recipes
+        {filteredRecipes
           .slice(indexOfFirstItem, indexOfLastItem)
           .map((recipe, index) => (
             <Col
+              key={`result${index}`}
               sm={12}
               md={6}
               xl={4}
               className="d-flex justify-content-center"
-              key={`recipe${index}`}
             >
               <Link
                 to={`/recipes/${recipe.path}`}
@@ -96,6 +95,13 @@ export function RecipeList() {
               currentPage={currentPage}
               setCurrentPage={setCurrentPage}
             />
+          </Col>
+        </Row>
+      )}
+      {filteredRecipes.length === 0 && (
+        <Row>
+          <Col>
+            <p className="h5 mt-5">Nothing found</p>
           </Col>
         </Row>
       )}

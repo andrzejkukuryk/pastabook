@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { Link, useLocation, useParams } from "react-router-dom";
-import { useAuthContext } from "../../data/authProvider";
-import { Dish } from "../../models/dish";
-import { useRecipeContext } from "../../data/recipeProvider";
+import { useAuthContext } from "../../../data/authProvider";
+import { Dish } from "../../../models/dish";
+import { useRecipeContext } from "../../../data/recipeProvider";
 import { Button, Col, Container, Image, Row } from "react-bootstrap";
 import { RecipeRate } from "../recipeRate";
 import { RecipeOveralRating } from "../recipeOveralRating";
 import { RecipeUsersRate } from "../recipeUsersRate";
-import { ReactComponent as BiSuitHeartFill } from "../../assets/bi-suit-heart-fill.svg";
-import { ReactComponent as BiSuitHeart } from "../../assets/bi-suit-heart.svg";
+import { ReactComponent as BiSuitHeartFill } from "../../../assets/bi-suit-heart-fill.svg";
+import { ReactComponent as BiSuitHeart } from "../../../assets/bi-suit-heart.svg";
 import "./style.css";
 
 export function Recipe() {

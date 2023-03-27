@@ -1,7 +1,7 @@
 import classNames from "classnames";
 import React, { useState, useEffect } from "react";
 import { Col, Container, Row } from "react-bootstrap";
-import { useAuthContext } from "../../data/authProvider";
+import { useAuthContext } from "../../../data/authProvider";
 import starEmpty from "./graph/star_empty.png";
 import starFull from "./graph/star_full.png";
 

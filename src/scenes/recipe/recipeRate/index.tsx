@@ -4,9 +4,8 @@ import { Col, Container, Row } from "react-bootstrap";
 import starEmpty from "./graph/star_empty.png";
 import starFull from "./graph/star_full.png";
 import classNames from "classnames";
-import { useAuthContext } from "../../data/authProvider";
-import { useRecipeContext } from "../../data/recipeProvider";
-
+import { useAuthContext } from "../../../data/authProvider";
+import { useRecipeContext } from "../../../data/recipeProvider";
 
 interface RecipeRateProps {
   recipeUrl: string;
