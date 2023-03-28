@@ -1,12 +1,12 @@
 import React, { useState } from "react";
 import { Container, Nav, Navbar, Button } from "react-bootstrap";
 import { Link, useLocation } from "react-router-dom";
-import { useAuthContext } from "../../data/authProvider";
+import { useAuthContext } from "../../../data/authProvider";
 import { Logo } from "../logo";
 import { UserLoginMenu } from "../userLoginMenu";
-import { UserMobileMenu } from "../UserMobileMenu";
-import { ReactComponent as BiList } from "../../assets/bi-list.svg";
-import { ReactComponent as BiXLg } from "../../assets/bi-x-lg.svg";
+import { UserMobileMenu } from "../userMobileMenu";
+import { ReactComponent as BiList } from "../../../assets/bi-list.svg";
+import { ReactComponent as BiXLg } from "../../../assets/bi-x-lg.svg";
 import "./style.css";
 
 export function Header() {

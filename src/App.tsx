@@ -12,7 +12,7 @@ import { Register } from "./component/register";
 import { AddNewRecipe } from "./scenes/addRecipe/addNewRecipe";
 import { SearchResultList } from "./scenes/displayRecipes/searchResultList";
 import { ProtectedRoute } from "./component/protectedRoute";
-import { UserProfile } from "./component/userProfile";
+import { UserProfile } from "./scenes/userProfile/userProfile";
 import { RecipeProvider } from "./data/recipeProvider";
 
 function App() {

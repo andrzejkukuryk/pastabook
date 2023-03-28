@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from "react";
 import { Container, Row, Col, Form, Button } from "react-bootstrap";
 import { useForm } from "react-hook-form";
-import { useAuthContext } from "../../data/authProvider";
+import { useAuthContext } from "../../../data/authProvider";
 
 interface UserProfileChangePasswordProps {
   setPasswordPanelExpanded: React.Dispatch<React.SetStateAction<boolean>>;

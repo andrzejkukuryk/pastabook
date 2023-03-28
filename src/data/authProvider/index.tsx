@@ -334,7 +334,7 @@ export const AuthProvider: FC<AuthProviderProps> = ({ children }) => {
     } catch (error) {
       setIsErrorAuth(true);
       logoutUser();
-      console.log(error);
+      console.error(error);
     }
     setIsLoading(false);
   };

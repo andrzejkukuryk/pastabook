@@ -1,10 +1,9 @@
 import React from "react";
 import { EditorState } from "draft-js";
-import { StyleButton } from "../../scenes/addRecipe/styleButton";
-import { ReactComponent as BiTypeItalic } from "../../assets/bi-type-italic.svg";
-import { ReactComponent as BiTypeBold } from "../../assets/bi-type-bold.svg";
-import { ReactComponent as BiTypeUnderline } from "../../assets/bi-type-underline.svg";
-import "../../scenes/addRecipe/richTextEditor/richText.css";
+import { StyleButton } from "../styleButton";
+import { ReactComponent as BiTypeItalic } from "../../../assets/bi-type-italic.svg";
+import { ReactComponent as BiTypeBold } from "../../../assets/bi-type-bold.svg";
+import { ReactComponent as BiTypeUnderline } from "../../../assets/bi-type-underline.svg";
 
 const boldIcon = <BiTypeBold />;
 

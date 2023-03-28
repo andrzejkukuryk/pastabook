@@ -11,11 +11,11 @@ import {
 } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import { useRecipeContext } from "../../../data/recipeProvider";
-import { SearchFiltersAccordionCustomToggle } from "../../../component/searchFiltersAccordionCustomToggle";
+import { SearchFiltersAccordionCustomToggle } from "../searchFiltersAccordionCustomToggle";
 import { SearchFiltersMain } from "../searchFiltersMain";
-import { SearchFiltersMainChips } from "../../../component/searchFiltersMainChips";
+import { SearchFiltersMainChips } from "../searchFiltersMainChips";
 import { SearchFiltersType } from "../searchFiltersType";
-import { SearchFiltersTypeChips } from "../../../component/searchFiltersTypeChips";
+import { SearchFiltersTypeChips } from "../searchFiltersTypeChips";
 import { ReactComponent as BiSearch } from "../../../assets/bi-search.svg";
 import { ReactComponent as BiFunnel } from "../../../assets/bi-funnel.svg";
 import { ReactComponent as BiFunnelFill } from "../../../assets/bi-funnel-fill.svg";

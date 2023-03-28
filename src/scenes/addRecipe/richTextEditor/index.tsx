@@ -14,7 +14,7 @@ import "draft-js/dist/Draft.css";
 import "./richText.css";
 
 import { BlockStyleControls } from "../blockStyleControls";
-import { InlineStyleControls } from "../../../component/InlineStyleControls";
+import { InlineStyleControls } from "../InlineStyleControls";
 
 interface RichTextEditorProps {
   setContent: (state: RawDraftContentState) => void;

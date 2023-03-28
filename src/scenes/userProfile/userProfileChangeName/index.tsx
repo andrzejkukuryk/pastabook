@@ -1,7 +1,7 @@
 import React, { useRef } from "react";
 import { Button, Col, Container, Form, Row } from "react-bootstrap";
 import { useForm } from "react-hook-form";
-import { useAuthContext } from "../../data/authProvider";
+import { useAuthContext } from "../../../data/authProvider";
 
 interface UserProfileChangeNameProps {
   setNamePanelExpanded: React.Dispatch<React.SetStateAction<boolean>>;

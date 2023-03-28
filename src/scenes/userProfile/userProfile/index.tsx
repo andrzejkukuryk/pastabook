@@ -9,9 +9,9 @@ import {
   Row,
 } from "react-bootstrap";
 import { Link } from "react-router-dom";
-import { useAuthContext } from "../../data/authProvider";
-import { useRecipeContext } from "../../data/recipeProvider";
-import { Dish } from "../../models/dish";
+import { useAuthContext } from "../../../data/authProvider";
+import { useRecipeContext } from "../../../data/recipeProvider";
+import { Dish } from "../../../models/dish";
 import { UserProfileChangeName } from "../userProfileChangeName";
 import { UserProfileChangePassword } from "../userProfileChangePassword";
 

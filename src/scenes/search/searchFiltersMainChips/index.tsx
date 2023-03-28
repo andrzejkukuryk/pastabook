@@ -1,7 +1,7 @@
 import React from "react";
 import { Button, Container, Row } from "react-bootstrap";
-import { ReactComponent as BiX } from "../../assets/bi-x.svg";
-import { ReactComponent as BiTrash3 } from "../../assets/bi-trash3.svg";
+import { ReactComponent as BiX } from "../../../assets/bi-x.svg";
+import { ReactComponent as BiTrash3 } from "../../../assets/bi-trash3.svg";
 
 interface SearchFiltersMainChipsProps {
   filters: string[];
