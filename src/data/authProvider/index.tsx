@@ -183,7 +183,7 @@ export const AuthProvider: FC<AuthProviderProps> = ({ children }) => {
       return { idToken, userMail };
     } catch (error) {
       setIsErrorAuth(true);
-      console.log(error);
+      console.error(error);
     }
   };
 
@@ -215,7 +215,7 @@ export const AuthProvider: FC<AuthProviderProps> = ({ children }) => {
       setUser(registeredUser);
     } catch (error) {
       setIsErrorAuth(true);
-      console.log(error);
+      console.error(error);
     }
   };
 
@@ -237,7 +237,7 @@ export const AuthProvider: FC<AuthProviderProps> = ({ children }) => {
       }
     } catch (error) {
       setIsErrorAuth(true);
-      console.log(error);
+      console.error(error);
     } finally {
       setIsLoading(false);
     }
@@ -276,7 +276,7 @@ export const AuthProvider: FC<AuthProviderProps> = ({ children }) => {
       navigate(origin);
     } catch (error) {
       setIsErrorAuth(true);
-      console.log("error: ", error);
+      console.error(error);
     }
 
     setIsLoading(false);
@@ -363,7 +363,7 @@ export const AuthProvider: FC<AuthProviderProps> = ({ children }) => {
       setUser(refreshedUser);
     } catch (error) {
       setIsErrorAuth(true);
-      console.log(error);
+      console.error(error);
     }
     setIsLoading(false);
   };
@@ -395,7 +395,7 @@ export const AuthProvider: FC<AuthProviderProps> = ({ children }) => {
       }
     } catch (error) {
       setIsErrorAuth(true);
-      console.log(error);
+      console.error(error);
     }
   };
 
@@ -420,10 +420,9 @@ export const AuthProvider: FC<AuthProviderProps> = ({ children }) => {
       if (jsonResponse.error) {
         throw new Error();
       }
-      console.log(jsonResponse);
     } catch (error) {
       setIsErrorAuth(true);
-      console.log(error);
+      console.error(error);
     } finally {
       setIsLoading(false);
     }
@@ -456,7 +455,6 @@ export const AuthProvider: FC<AuthProviderProps> = ({ children }) => {
           throw new Error(jsonResponse.error);
         }
         setErrorMessage(jsonResponse.error.message);
-        console.log(errorMessage);
         setIsLoading(false);
         return;
       }
@@ -464,12 +462,11 @@ export const AuthProvider: FC<AuthProviderProps> = ({ children }) => {
         temporaryToken = await jsonResponse.idToken;
       }
       if (jsonResponse.refreshToken) {
-        console.log("refresh token");
         temporaryRefreshToken = await jsonResponse.refreshToken;
       }
     } catch (error) {
       setIsErrorAuth(true);
-      console.log("error: ", error);
+      console.error(error);
     }
     if (temporaryToken) {
       await changePasswordRequest(newPassword, temporaryToken);
@@ -511,7 +508,7 @@ export const AuthProvider: FC<AuthProviderProps> = ({ children }) => {
       }
     } catch (error) {
       setIsErrorAuth(true);
-      console.log(error);
+      console.error(error);
     }
   };
 
@@ -534,7 +531,7 @@ export const AuthProvider: FC<AuthProviderProps> = ({ children }) => {
       setCurrentFavorites(jsonResponse.favorites);
     } catch (error) {
       setIsErrorAuth(true);
-      console.log(error);
+      console.error(error);
     }
   };
 
@@ -561,7 +558,7 @@ export const AuthProvider: FC<AuthProviderProps> = ({ children }) => {
       setUserExists(true);
     } catch (error) {
       setIsErrorAuth(true);
-      console.log(error);
+      console.error(error);
     }
   };
 
@@ -590,7 +587,7 @@ export const AuthProvider: FC<AuthProviderProps> = ({ children }) => {
       getUsersInfo(userMail);
     } catch (error) {
       setIsErrorAuth(true);
-      console.log(error);
+      console.error(error);
     }
   };
 
@@ -622,7 +619,7 @@ export const AuthProvider: FC<AuthProviderProps> = ({ children }) => {
       setRecipesKeysPaths(temporaryKeysPaths);
     } catch (error) {
       setIsErrorAuth(true);
-      console.log(error);
+      console.error(error);
     }
   };
 
@@ -690,7 +687,7 @@ export const AuthProvider: FC<AuthProviderProps> = ({ children }) => {
       setUserExists(true);
     } catch (error) {
       setIsErrorAuth(true);
-      console.log(error);
+      console.error(error);
     }
   };
 
@@ -722,7 +719,7 @@ export const AuthProvider: FC<AuthProviderProps> = ({ children }) => {
       setCurrentRatings(jsonResponse.ratings);
     } catch (error) {
       setIsErrorAuth(true);
-      console.log(error);
+      console.error(error);
     }
   };
 
@@ -760,7 +757,7 @@ export const AuthProvider: FC<AuthProviderProps> = ({ children }) => {
       }
     } catch (error) {
       setIsErrorAuth(true);
-      console.log(error);
+      console.error(error);
     }
   };
 

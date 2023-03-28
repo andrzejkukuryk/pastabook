@@ -219,10 +219,9 @@ export function AddNewRecipe() {
             (snapshot.bytesTransferred / snapshot.totalBytes) * 100
           );
           setPhotoUploadProgress(progress);
-          console.log("upload progress:", photoUploadProgress);
         },
         (error) => {
-          console.log("upload error: ", error);
+          console.error("upload error: ", error);
         },
         () => {
           getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {

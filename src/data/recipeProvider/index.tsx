@@ -135,7 +135,7 @@ export const RecipeProvider: FC<RecipeProviderProps> = ({ children }) => {
       setIsLoadingRecipe(false);
     } catch (error) {
       setIsErrorRecipe(true);
-      console.log(error);
+      console.error(error);
       setIsLoadingRecipe(false);
     } finally {
       getRecipes();
@@ -165,7 +165,7 @@ export const RecipeProvider: FC<RecipeProviderProps> = ({ children }) => {
       setAllPastaTypes(temporaryAllPastaTypes);
     } catch (error) {
       setIsErrorRecipe(true);
-      console.log(error);
+      console.error(error);
     }
   };
 
@@ -194,7 +194,7 @@ export const RecipeProvider: FC<RecipeProviderProps> = ({ children }) => {
       setAllMainIngredients(temporaryAllMainIngredients);
     } catch (error) {
       setIsErrorRecipe(true);
-      console.log(error);
+      console.error(error);
     }
   };
 
