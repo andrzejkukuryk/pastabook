@@ -68,7 +68,7 @@ export function DragDrop({
             className="photoPreview"
             src={newPhotoUrl}
             id="uploadedPhotoPreview"
-            alt="Recipe photo preview"
+            alt="Recipe preview"
           />
 
           <Button

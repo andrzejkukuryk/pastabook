@@ -53,7 +53,7 @@ export function RecipeListItemOveralRating({
       )}
       {!recipeHasRates && (
         <Row>
-          <Col>
+          <Col className="p-0 mb-2">
             <p className="h6 my-0">Not rated yet </p>
           </Col>
         </Row>

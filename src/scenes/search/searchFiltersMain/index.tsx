@@ -41,7 +41,7 @@ export function SearchFiltersMain({
       <Col xs={6} md={4} key={`main${index}${forKey}`}>
         <Form.Check
           type="checkbox"
-          id={`${type}${forKey}`}
+          id={`${type}ingredient${forKey}`}
           checked={stateIncludesType(type)}
           label={type}
           className="mb-2 text-break"

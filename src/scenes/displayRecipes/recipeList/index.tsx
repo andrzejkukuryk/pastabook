@@ -24,6 +24,8 @@ export function RecipeList() {
 
   useEffect(() => countNumberOfPages(), [recipes, itemsPerPage]);
 
+  const handleClickAddRecipe = () => navigate("/add");
+
   return (
     <Container>
       <Row>
@@ -35,7 +37,7 @@ export function RecipeList() {
           <Button
             variant="primary"
             className="float-end"
-            onClick={() => navigate("/add")}
+            onClick={handleClickAddRecipe}
           >
             <BiPlusLg />
             Add a new recipe
@@ -45,7 +47,7 @@ export function RecipeList() {
           <Button
             variant="primary"
             className="float-end"
-            onClick={() => navigate("/add")}
+            onClick={handleClickAddRecipe}
           >
             <BiPlusLg />
             Add recipe

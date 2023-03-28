@@ -32,6 +32,11 @@ export function UserProfileChangeName({
     }
   };
 
+  const handleClickDiscardChanges = () => {
+    reset();
+    setNamePanelExpanded(false);
+  };
+
   return (
     <Container className="p-0 m-0">
       <Row>
@@ -69,10 +74,7 @@ export function UserProfileChangeName({
               aria-controls="changeNamePanel"
               className="mt-4"
               ref={discardChangeNameButton}
-              onClick={() => {
-                reset();
-                setNamePanelExpanded(false);
-              }}
+              onClick={handleClickDiscardChanges}
             >
               Discard changes
             </Button>

@@ -18,7 +18,7 @@ export function SearchFiltersMainChips({
     return filters.map((filter) => (
       <div
         key={`chip${filter}`}
-        className="border border-color rounded rounded-sm ps-2 py-1 mt-2 me-2 text-primary d-inline-block"
+        className="border border-color rounded rounded-sm ps-2 py-1  mb-3 me-2 text-primary d-inline-block"
       >
         {filter}
         <a href="#" className="text-primary" onClick={() => addFilter(filter)}>
@@ -41,10 +41,11 @@ export function SearchFiltersMainChips({
               variant="outline-primary"
               size="sm"
               className="ms-2"
+              style={{ height: 33, marginTop: -2 }}
               onClick={clearFilters}
             >
               <BiTrash3 />
-              Clear filters
+              <span className="h6">Clear filters</span>
             </Button>
           </Container>
         </Row>

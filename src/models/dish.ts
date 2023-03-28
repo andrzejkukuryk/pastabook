@@ -25,7 +25,9 @@ export class Dish {
     this.rate = rate;
   }
   get path() {
-    return this.dishName.toLowerCase().replace(/\s+/g, "");
+    return `${this.pastaType.length}${this.ingredients.length}${
+      this.method.length
+    }_${this.fullName.toLowerCase().replace(/\s+/g, "")}`;
   }
 
   get fullName() {

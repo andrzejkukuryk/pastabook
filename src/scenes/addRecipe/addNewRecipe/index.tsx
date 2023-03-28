@@ -310,17 +310,25 @@ export function AddNewRecipe() {
       setShowWarning(true);
     } else if (noErrors && !submited) {
       sendNewRecipe(createRecipeForUpload());
-      getRecipes();
+      await getRecipes();
       setSubmited(true);
     }
     await handleScrollOnTop();
   };
 
-  const clearAndBackHome = () => {
+  const clearForm = () => {
     setNewRecipeName("");
     setNewPastaType("");
     setNewIngredients(initialNewIngredients);
     setNewMethod({});
+  };
+
+  const clearAndBackHome = () => {
+    // setNewRecipeName("");
+    // setNewPastaType("");
+    // setNewIngredients(initialNewIngredients);
+    // setNewMethod({});
+    clearForm();
     navigate("/");
   };
 
