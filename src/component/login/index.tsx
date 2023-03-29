@@ -26,7 +26,7 @@ export function Login() {
 const handleClickBack = () => navigate("/");
 
 return (
-  <Container>
+  <Container className="mt-4">
     <Row>
       <Col>
         <h2 className="h2 mb-4">Log in</h2>

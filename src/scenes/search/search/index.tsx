@@ -78,6 +78,7 @@ return (
               type="text"
               placeholder="Type in pasta name"
               value={searchPhrase}
+              maxLength={100}
               onChange={(e) => setSearchPhrase(e.target.value)}
             ></Form.Control>
             <Button
