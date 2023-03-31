@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/pastabook/static/css/main.7ca86248.css",
-    "main.js": "/pastabook/static/js/main.c64c4b37.js",
+    "main.js": "/pastabook/static/js/main.24dcd7c1.js",
     "static/js/787.0bc60ee2.chunk.js": "/pastabook/static/js/787.0bc60ee2.chunk.js",
     "static/media/book-heart.png": "/pastabook/static/media/book-heart.e360042c2f802fed8985.png",
     "static/media/bi-filetype-jpg.svg": "/pastabook/static/media/bi-filetype-jpg.e30401fdec670014d6354ac254319789.svg",
@@ -34,11 +34,11 @@
     "static/media/bi-plus.svg": "/pastabook/static/media/bi-plus.713acd75dd431f1ba493f992c48f2d38.svg",
     "static/media/bi-type-h1.svg": "/pastabook/static/media/bi-type-h1.41cd69c7e6c351564ea8618bae95f6c5.svg",
     "main.7ca86248.css.map": "/pastabook/static/css/main.7ca86248.css.map",
-    "main.c64c4b37.js.map": "/pastabook/static/js/main.c64c4b37.js.map",
+    "main.24dcd7c1.js.map": "/pastabook/static/js/main.24dcd7c1.js.map",
     "787.0bc60ee2.chunk.js.map": "/pastabook/static/js/787.0bc60ee2.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.7ca86248.css",
-    "static/js/main.c64c4b37.js"
+    "static/js/main.24dcd7c1.js"
   ]
 }
