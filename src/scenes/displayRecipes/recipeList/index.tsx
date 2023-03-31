@@ -1,14 +1,17 @@
 import React, { useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { RecipeListItem } from "../recipeListItem";
 import { useRecipeContext } from "../../../data/recipeProvider";
 import { Button, Col, Container, Row } from "react-bootstrap";
 import { RecipeListPagination } from "../recipeListPagination";
 import { ReactComponent as BiPlusLg } from "../../../assets/bi-plus-lg.svg";
+import { useNavContext } from "../../../data/navProvider";
 
 export function RecipeList() {
   const { recipes, isErrorRecipe } = useRecipeContext();
+  const { updateStatesForNavContext, listPage } = useNavContext();
   const navigate = useNavigate();
+  const location = useLocation();
 
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [numberOfPages, setNumberOfPages] = useState<number>(1);
@@ -23,6 +26,16 @@ export function RecipeList() {
   };
 
   useEffect(() => countNumberOfPages(), [recipes, itemsPerPage]);
+
+  const currentPath = location.pathname;
+
+  useEffect(() => {
+    updateStatesForNavContext(currentPath, currentPage);
+  }, [location, currentPage]);
+
+  useEffect(() => {
+    setCurrentPage(listPage);
+  }, []);
 
   const handleClickAddRecipe = () => navigate("/add");
 

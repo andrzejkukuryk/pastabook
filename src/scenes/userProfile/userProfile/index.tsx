@@ -8,8 +8,9 @@ import {
   ListGroupItem,
   Row,
 } from "react-bootstrap";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { useAuthContext } from "../../../data/authProvider";
+import { useNavContext } from "../../../data/navProvider";
 import { useRecipeContext } from "../../../data/recipeProvider";
 import { Dish } from "../../../models/dish";
 import { UserProfileChangeName } from "../userProfileChangeName";
@@ -27,6 +28,15 @@ export function UserProfile() {
     setErrorMessage,
   } = useAuthContext();
   const { recipes } = useRecipeContext();
+  const { updateStatesForNavContext } = useNavContext();
+
+  const location = useLocation();
+
+  const currentPath = location.pathname;
+
+  useEffect(() => {
+    updateStatesForNavContext(currentPath, 0);
+  }, [location]);
 
   const createFavoritesList = () => {
     const favorites: Dish[] = [];
@@ -56,114 +66,116 @@ export function UserProfile() {
     scrollToTop();
   }, [passwordChanged]);
 
-const handleCloseAlert = () => setPasswordChanged(false);
-const handleClickChangePassword = () => {
-  setPasswordPanelExpanded(true);
-  setErrorMessage("");
-};
-const handleClickChangeName = () => setNamePanelExpanded(true);
+  const handleCloseAlert = () => setPasswordChanged(false);
+  const handleClickChangePassword = () => {
+    setPasswordPanelExpanded(true);
+    setErrorMessage("");
+  };
+  const handleClickChangeName = () => setNamePanelExpanded(true);
 
-return (
-  <Container>
-    <Row className="my-4">
-      <Col xs={12} md={4}>
-        <h2>My account</h2>
-      </Col>
-      {passwordChanged && (
-        <Col xs={12} md={8} lg={6}>
-          <Alert variant="success" onClose={handleCloseAlert} dismissible>
-            <strong>Success!</strong> You changed your password successfully.
-          </Alert>
+  return (
+    <Container>
+      <Row className="my-4">
+        <Col xs={12} md={4}>
+          <h2>My account</h2>
         </Col>
-      )}
-    </Row>
-    <Row>
-      <Col>
-        <h3 className="h5">General</h3>
-      </Col>
-    </Row>
-    <Row className="my-3">
-      <Col xs={12} className="my-0">
-        <p className="h6 my-1">Email </p>
-      </Col>
-      <Col xs={12} className="my-0">
-        {user?.email}
-      </Col>
-    </Row>
-    <Row className="my-3">
-      <Col xs={12} className="my-0">
-        <p className="h6 my-1">Password </p>
-      </Col>
-      {!passwordPanelExpanded && (
+        {passwordChanged && (
+          <Col xs={12} md={8} lg={6}>
+            <Alert variant="success" onClose={handleCloseAlert} dismissible>
+              <strong>Success!</strong> You changed your password successfully.
+            </Alert>
+          </Col>
+        )}
+      </Row>
+      <Row>
         <Col>
-          <Button
-            variant="outline-primary"
-            type="button"
-            data-bs-toggle="collapse"
-            data-bs-target="#changePasswordPanel"
-            aria-expanded="false"
-            aria-controls="changePasswordPanel"
-            className="mt-2"
-            onClick={handleClickChangePassword}
-          >
-            Change password
-          </Button>
+          <h3 className="h5">General</h3>
         </Col>
-      )}
-      <Col xs={12} className="my-0">
-        <div className="collapse" id="changePasswordPanel">
-          <UserProfileChangePassword
-            setPasswordPanelExpanded={setPasswordPanelExpanded}
-          />
-        </div>
-      </Col>
-    </Row>
-    <Row className="my-3">
-      <Col xs={12} className="my-0">
-        <p className="h6 my-1">Name </p>
-      </Col>
-      {!namePanelExpanded && (
-        <Col xs={12} className="text-break">
-          {user?.name}
+      </Row>
+      <Row className="my-3">
+        <Col xs={12} className="my-0">
+          <p className="h6 my-1">Email </p>
         </Col>
-      )}
-      {!namePanelExpanded && (
+        <Col xs={12} className="my-0">
+          {user?.email}
+        </Col>
+      </Row>
+      <Row className="my-3">
+        <Col xs={12} className="my-0">
+          <p className="h6 my-1">Password </p>
+        </Col>
+        {!passwordPanelExpanded && (
+          <Col>
+            <Button
+              variant="outline-primary"
+              type="button"
+              data-bs-toggle="collapse"
+              data-bs-target="#changePasswordPanel"
+              aria-expanded="false"
+              aria-controls="changePasswordPanel"
+              className="mt-2"
+              onClick={handleClickChangePassword}
+            >
+              Change password
+            </Button>
+          </Col>
+        )}
+        <Col xs={12} className="my-0">
+          <div className="collapse" id="changePasswordPanel">
+            <UserProfileChangePassword
+              setPasswordPanelExpanded={setPasswordPanelExpanded}
+            />
+          </div>
+        </Col>
+      </Row>
+      <Row className="my-3">
+        <Col xs={12} className="my-0">
+          <p className="h6 my-1">Name </p>
+        </Col>
+        {!namePanelExpanded && (
+          <Col xs={12} className="text-break">
+            {user?.name}
+          </Col>
+        )}
+        {!namePanelExpanded && (
+          <Col>
+            <Button
+              variant="outline-primary"
+              type="button"
+              data-bs-toggle="collapse"
+              data-bs-target="#changeNamePanel"
+              aria-expanded="false"
+              aria-controls="changeNamePanel"
+              className="mt-2"
+              onClick={handleClickChangeName}
+            >
+              Change name
+            </Button>
+          </Col>
+        )}
+        <Col xs={12} className="my-0">
+          <div className="collapse" id="changeNamePanel">
+            <UserProfileChangeName
+              setNamePanelExpanded={setNamePanelExpanded}
+            />
+          </div>
+        </Col>
+      </Row>
+      <Row className="mt-4">
         <Col>
-          <Button
-            variant="outline-primary"
-            type="button"
-            data-bs-toggle="collapse"
-            data-bs-target="#changeNamePanel"
-            aria-expanded="false"
-            aria-controls="changeNamePanel"
-            className="mt-2"
-            onClick={handleClickChangeName}
-          >
-            Change name
-          </Button>
+          <h3 className="h5">My favorites </h3>
         </Col>
-      )}
-      <Col xs={12} className="my-0">
-        <div className="collapse" id="changeNamePanel">
-          <UserProfileChangeName setNamePanelExpanded={setNamePanelExpanded} />
-        </div>
-      </Col>
-    </Row>
-    <Row className="mt-4">
-      <Col>
-        <h3 className="h5">My favorites </h3>
-      </Col>
-    </Row>
-    <Row className="mt-3 mb-3">
-      {currentFavorites.length === 0 && (
-        <Col>
-          <p>You do not have any favorites recipes yet.</p>
+      </Row>
+      <Row className="mt-3 mb-3">
+        {currentFavorites.length === 0 && (
+          <Col>
+            <p>You do not have any favorites recipes yet.</p>
+          </Col>
+        )}
+        <Col xs={12} lg={4}>
+          <ListGroup variant="flush">{createFavoritesList()}</ListGroup>
         </Col>
-      )}
-      <Col xs={12} lg={4}>
-        <ListGroup variant="flush">{createFavoritesList()}</ListGroup>
-      </Col>
-    </Row>
-  </Container>
-);
+      </Row>
+    </Container>
+  );
 }

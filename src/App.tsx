@@ -14,39 +14,42 @@ import { SearchResultList } from "./scenes/displayRecipes/searchResultList";
 import { ProtectedRoute } from "./component/protectedRoute";
 import { UserProfile } from "./scenes/userProfile/userProfile";
 import { RecipeProvider } from "./data/recipeProvider";
+import { NavProvider } from "./data/navProvider";
 
 function App() {
   return (
     <BrowserRouter basename="/pastabook">
       <AuthProvider>
         <RecipeProvider>
-          <Routes>
-            <Route path="/" element={<SharedLayout />}>
-              <Route index element={<RecipeList />} />
-              <Route path="recipes" />
-              <Route path="recipes/:recipePath" element={<Recipe />} />
-              <Route path="register" element={<Register />} />
-              <Route path="login" element={<Login />} />
-              <Route
-                path="profile"
-                element={
-                  <ProtectedRoute>
-                    <UserProfile />
-                  </ProtectedRoute>
-                }
-              />
-              <Route
-                path="add"
-                element={
-                  <ProtectedRoute>
-                    <AddNewRecipe />
-                  </ProtectedRoute>
-                }
-              />
-              <Route path="search" element={<SearchResultList />} />
-            </Route>
-            <Route path="*" element={<PageNotFound />} />
-          </Routes>
+          <NavProvider>
+            <Routes>
+              <Route path="/" element={<SharedLayout />}>
+                <Route index element={<RecipeList />} />
+                <Route path="recipes" />
+                <Route path="recipes/:recipePath" element={<Recipe />} />
+                <Route path="register" element={<Register />} />
+                <Route path="login" element={<Login />} />
+                <Route
+                  path="profile"
+                  element={
+                    <ProtectedRoute>
+                      <UserProfile />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="add"
+                  element={
+                    <ProtectedRoute>
+                      <AddNewRecipe />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route path="search" element={<SearchResultList />} />
+              </Route>
+              <Route path="*" element={<PageNotFound />} />
+            </Routes>
+          </NavProvider>
         </RecipeProvider>
       </AuthProvider>
     </BrowserRouter>
