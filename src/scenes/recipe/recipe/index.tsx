@@ -9,6 +9,7 @@ import { RecipeOveralRating } from "../recipeOveralRating";
 import { RecipeUsersRate } from "../recipeUsersRate";
 import { ReactComponent as BiSuitHeartFill } from "../../../assets/bi-suit-heart-fill.svg";
 import { ReactComponent as BiSuitHeart } from "../../../assets/bi-suit-heart.svg";
+import { ReactComponent as BiArrowLeft } from "../../../assets/bi-arrow-left-short.svg";
 import "./style.css";
 import { useNavContext } from "../../../data/navProvider";
 
@@ -80,6 +81,18 @@ export function Recipe() {
     <>
       {recipe && (
         <Container className="mb-5">
+          <Row className="mt-5">
+            <Col className="p-0">
+              <Button
+                variant="outline-primary"
+                onClick={handleClickBack}
+                className="border-0"
+              >
+                <BiArrowLeft className="me-1 mb-1" />
+                <span className="pe-2">Back</span>
+              </Button>
+            </Col>
+          </Row>
           <Row className="mt-3">
             <Col
               sm={{ span: 12 }}
@@ -210,15 +223,6 @@ export function Recipe() {
                 )}
               </>
             </Col>
-          </Row>
-          <Row className="mt-5">
-            <Button
-              variant="outline-secondary"
-              className="text-dark"
-              onClick={handleClickBack}
-            >
-              Back
-            </Button>
           </Row>
         </Container>
       )}

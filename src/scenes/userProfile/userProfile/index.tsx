@@ -35,7 +35,7 @@ export function UserProfile() {
   const currentPath = location.pathname;
 
   useEffect(() => {
-    updateStatesForNavContext(currentPath, 0);
+    updateStatesForNavContext(currentPath, 1);
   }, [location]);
 
   const createFavoritesList = () => {
