@@ -6,11 +6,14 @@ import { ReactComponent as BiFiletypeGif } from "../../../assets/bi-filetype-gif
 import { ReactComponent as BiFiletypePng } from "../../../assets/bi-filetype-png.svg";
 import { ReactComponent as BiTrash3Lg } from "../../../assets/bi-trash3-lg.svg";
 import "./style.css";
+import { type } from "os";
 
 const fileTypes = ["JPG", "PNG", "GIF"];
 
+export type NullOrFile = null | File;
+
 interface DragDropProps {
-  setNewRecipePhoto: React.Dispatch<React.SetStateAction<null>>;
+  setNewRecipePhoto: React.Dispatch<React.SetStateAction<NullOrFile>>;
   photoUploadProgress: number;
   newPhotoUrl: string;
   deletePhoto: () => void;
@@ -22,8 +25,8 @@ export function DragDrop({
   newPhotoUrl,
   deletePhoto,
 }: DragDropProps) {
-  const [file, setFile] = useState(null);
-  const handleChange = (file: any) => {
+  const [file, setFile] = useState<NullOrFile>(null);
+  const handleChange = (file: File) => {
     setFile(file);
     setNewRecipePhoto(file);
   };
@@ -55,12 +58,7 @@ export function DragDrop({
         multiple={false}
         children={customDragNDropArea}
       />
-      <p>
-        {file
-          ? //@ts-ignore
-            `File name: ${file.name}`
-          : "no file uploaded yet"}
-      </p>
+      <p>{file ? `File name: ${file.name}` : "no file uploaded yet"}</p>
       {!newPhotoUrl && file && <div>uploaded {photoUploadProgress}%</div>}
       {newPhotoUrl && file && (
         <div className="photoPreviewDiv">

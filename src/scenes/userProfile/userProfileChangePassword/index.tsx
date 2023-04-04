@@ -37,12 +37,11 @@ export function UserProfileChangePassword({
     }
   };
 
-  const discardChangesPasswordButton = useRef(null);
+  const discardChangesPasswordButton = useRef<HTMLButtonElement | null>(null);
 
   const clickDiscardButton = () => {
     if (passwordChanged) {
-      //@ts-ignore
-      discardChangesPasswordButton.current.click();
+      discardChangesPasswordButton.current?.click();
     }
   };
   useEffect(() => {

@@ -4,6 +4,7 @@ import { Recipe } from "../../../models/recipe";
 import draftToHtml from "draftjs-to-html";
 import { AddRecipeMethod } from "../addRecipeMethod";
 import { AddRecipePhoto } from "../addRecipePhoto";
+import { NullOrFile } from "../dragDrop";
 import { useRecipeContext } from "../../../data/recipeProvider";
 import { Link, useNavigate } from "react-router-dom";
 import { storage } from "../../../firebase";
@@ -34,7 +35,7 @@ export function AddNewRecipe() {
     useState<boolean>(false);
   const [newMethod, setNewMethod] = useState<any>({});
   const [methodHasText, setMethodHasText] = useState<boolean>(false);
-  const [newRecipePhoto, setNewRecipePhoto] = useState(null);
+  const [newRecipePhoto, setNewRecipePhoto] = useState<NullOrFile>(null);
   const [photoUploadProgress, setPhotoUploadProgress] = useState<number>(0);
   const [photoUploadedName, setPhotoUploadedName] = useState<string>("");
   const [newPhotoUrl, setNewPhotoUrl] = useState<string>("");
@@ -206,10 +207,8 @@ export function AddNewRecipe() {
     if (!file) {
       return;
     } else {
-      //@ts-ignore
       const storageRef = ref(storage, `images/${file.name}`);
       const uploadTask = uploadBytesResumable(storageRef, file);
-      //@ts-ignore
       const fileName = file.name;
 
       uploadTask.on(
@@ -234,7 +233,6 @@ export function AddNewRecipe() {
   };
 
   const deletePhoto = () => {
-    //@ts-ignore
     const photoRef = ref(storage, `images/${photoUploadedName}`);
     deleteObject(photoRef);
     setNewPhotoUrl("");

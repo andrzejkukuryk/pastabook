@@ -1,8 +1,9 @@
 import React from "react";
 import { DragDrop } from "../dragDrop";
+import { NullOrFile } from "../dragDrop";
 
 interface AddRecipePhotoProps {
-  setNewRecipePhoto: React.Dispatch<React.SetStateAction<null>>;
+  setNewRecipePhoto: React.Dispatch<React.SetStateAction<NullOrFile>>;
   photoUploadProgress: number;
   newPhotoUrl: string;
   deletePhoto: () => void;

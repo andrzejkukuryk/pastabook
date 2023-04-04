@@ -22,13 +22,12 @@ export function UserProfileChangeName({
     reset,
   } = useForm<ChangeNameFormValue>();
 
-  const discardChangeNameButton = useRef(null);
+  const discardChangeNameButton = useRef<HTMLButtonElement | null>(null);
 
   const onSubmit = async (data: ChangeNameFormValue) => {
     await editUser(data.newName);
     if (usernameChanged) {
-      //@ts-ignore
-      discardChangeNameButton.current.click();
+      discardChangeNameButton.current?.click();
     }
   };
 
