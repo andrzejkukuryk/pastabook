@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { Container, Form, Row, Col } from "react-bootstrap";
-import { useRecipeContext } from "../../../data/recipeProvider";
+import { useRecipeContext } from "../../../../data/recipeProvider";
 import "./style.css";
 
 interface SearchFiltersTypeProps {

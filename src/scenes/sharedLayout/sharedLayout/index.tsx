@@ -1,10 +1,10 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { Outlet, useLocation } from "react-router-dom";
-import { useAuthContext } from "../../data/authProvider";
-import { useRecipeContext } from "../../data/recipeProvider";
-import { Header } from "../../scenes/header/header";
-import { LoadingSpinner } from "../loadingSpinner";
-import { Search } from "../../scenes/search/search";
+import { useAuthContext } from "../../../data/authProvider";
+import { useRecipeContext } from "../../../data/recipeProvider";
+import { Header } from "../header/header";
+import { LoadingSpinner } from "../../../component/loadingSpinner";
+import { Search } from "../search/search";
 
 export function SharedLayout() {
   const { isLoading: isLoadingAuth } = useAuthContext();

@@ -1,7 +1,7 @@
 import React from "react";
 import { Offcanvas } from "react-bootstrap";
 import { Link, useLocation } from "react-router-dom";
-import { useAuthContext } from "../../../data/authProvider";
+import { useAuthContext } from "../../../../data/authProvider";
 import "./style.css";
 
 interface UserMobileMenuProps {

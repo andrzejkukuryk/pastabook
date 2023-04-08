@@ -1,8 +1,8 @@
 import React from "react";
-import { useAuthContext } from "../../../data/authProvider";
+import { useAuthContext } from "../../../../data/authProvider";
 import { Col, Container, Dropdown, Row } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
-import { ReactComponent as BiPersonCircle } from "../../../assets/bi-person-circle.svg";
+import { ReactComponent as BiPersonCircle } from "../../../../assets/bi-person-circle.svg";
 
 export function UserLoginMenu() {
   const { user, logoutUser } = useAuthContext();

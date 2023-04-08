@@ -6,7 +6,7 @@ import { Routes, Route } from "react-router";
 import { AuthProvider } from "./data/authProvider";
 import { Recipe } from "./scenes/recipe/recipe";
 import { PageNotFound } from "./component/pageNotFound";
-import { SharedLayout } from "./component/sharedLayout";
+import { SharedLayout } from "./scenes/sharedLayout/sharedLayout";
 import { Login } from "./component/login";
 import { Register } from "./component/register";
 import { AddNewRecipe } from "./scenes/addRecipe/addNewRecipe";

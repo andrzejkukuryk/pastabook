@@ -76,7 +76,7 @@ export function RecipeList() {
           </Col>
         </Row>
       )}
-      <Row className="g-4 mt-1 d-flex justify-content-between">
+      <Row className="g-4 mt-1 d-flex">
         {recipes
           .slice(indexOfFirstItem, indexOfLastItem)
           .map((recipe, index) => (
