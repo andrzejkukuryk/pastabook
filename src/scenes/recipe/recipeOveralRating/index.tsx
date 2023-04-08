@@ -10,7 +10,7 @@ interface RecipeOveralRatingProps {
 }
 
 export function RecipeOveralRating({ rates }: RecipeOveralRatingProps) {
-  const [recipeHasRates, setRecipeHasRates] = useState<boolean>(false);
+  const [recipeHasRates, setRecipeHasRates] = useState(false);
 
   const { user } = useAuthContext();
 

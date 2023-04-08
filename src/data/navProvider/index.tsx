@@ -31,8 +31,8 @@ export const useNavContext = () => {
 };
 
 export const NavProvider: FC<NavProviderProps> = ({ children }) => {
-  const [prevPath, setPrevPath] = useState<string>("");
-  const [listPage, setListPage] = useState<number>(1);
+  const [prevPath, setPrevPath] = useState("");
+  const [listPage, setListPage] = useState(1);
 
   const updateStatesForNavContext = (path: string, page: number) => {
     setPrevPath(path);

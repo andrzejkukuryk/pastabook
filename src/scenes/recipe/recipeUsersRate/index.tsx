@@ -10,7 +10,7 @@ interface RecipeUsersRateProps {
 }
 
 export function RecipeUsersRate({ recipeUrl }: RecipeUsersRateProps) {
-  const [rate, setRate] = useState<number>(0);
+  const [rate, setRate] = useState(0);
   const { currentRatings } = useAuthContext();
 
   const checkUsersRate = () => {

@@ -10,7 +10,7 @@ import { ReactComponent as BiXLg } from "../../../../assets/bi-x-lg.svg";
 import "./style.css";
 
 export function Header() {
-  const [showMobileMenu, setShowMobileMenu] = useState<boolean>(false);
+  const [showMobileMenu, setShowMobileMenu] = useState(false);
   const { token } = useAuthContext();
   const location = useLocation();
 

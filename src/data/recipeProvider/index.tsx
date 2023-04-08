@@ -63,8 +63,8 @@ export const RecipeProvider: FC<RecipeProviderProps> = ({ children }) => {
   );
   const [allPastaTypes, setAllPastaTypes] = useState<string[]>([]);
   const [allMainIngredients, setAllMainIngredients] = useState<string[]>([]);
-  const [isErrorRecipe, setIsErrorRecipe] = useState<boolean>(false);
-  const [isLoadingRecipe, setIsLoadingRecipe] = useState<boolean>(false);
+  const [isErrorRecipe, setIsErrorRecipe] = useState(false);
+  const [isLoadingRecipe, setIsLoadingRecipe] = useState(false);
 
   const { token } = useAuthContext();
 

@@ -12,7 +12,7 @@ interface RecipeRateProps {
 }
 
 export function RecipeRate({ recipeUrl }: RecipeRateProps) {
-  const [rate, setRate] = useState<number>(0);
+  const [rate, setRate] = useState(0);
   const { user, rateRecipe } = useAuthContext();
   const { getRecipes } = useRecipeContext();
 

@@ -10,7 +10,7 @@ interface RecipeListItemOveralRatingProps {
 export function RecipeListItemOveralRating({
   rates,
 }: RecipeListItemOveralRatingProps) {
-  const [recipeHasRates, setRecipeHasRates] = useState<boolean>(false);
+  const [recipeHasRates, setRecipeHasRates] = useState(false);
 
   const checkRecipeHasRates = () => {
     if (rates.length > 1) {

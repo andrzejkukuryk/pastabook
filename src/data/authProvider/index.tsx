@@ -107,11 +107,11 @@ export const AuthProvider: FC<AuthProviderProps> = ({ children }) => {
   );
   const [user, setUser] = useState<User | null>(null);
   const [isLoading, setIsLoading] = useState(false);
-  const [isErrorAuth, setIsErrorAuth] = useState<boolean>(false);
+  const [isErrorAuth, setIsErrorAuth] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
-  const [passwordChanged, setPasswordChanged] = useState<boolean>(false);
-  const [usernameChanged, setUsernameChanged] = useState<boolean>(false);
-  const [userExists, setUserExists] = useState<boolean>(false);
+  const [passwordChanged, setPasswordChanged] = useState(false);
+  const [usernameChanged, setUsernameChanged] = useState(false);
+  const [userExists, setUserExists] = useState(false);
   const [currentFavorites, setCurrentFavorites] = useState<string[]>([]);
   const [currentRated, setCurrentRated] = useState<string[]>([]);
   const [currentRatings, setCurrentRatings] = useState<RatingItem[]>([]);

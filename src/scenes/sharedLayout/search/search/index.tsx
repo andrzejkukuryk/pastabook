@@ -21,11 +21,11 @@ import { ReactComponent as BiFunnel } from "../../../../assets/bi-funnel.svg";
 import { ReactComponent as BiFunnelFill } from "../../../../assets/bi-funnel-fill.svg";
 
 export function Search() {
-  const [searchPhrase, setSearchPhrase] = useState<string>("");
+  const [searchPhrase, setSearchPhrase] = useState("");
   const [filtersType, setFiltersType] = useState<string[]>([]);
   const [filtersMain, setFiltersMain] = useState<string[]>([]);
   const [collapsed, setCollapsed] = useState<boolean[]>([false, true]);
-  const [filtersShown, setFiltersShown] = useState<boolean>(false);
+  const [filtersShown, setFiltersShown] = useState(false);
   const { filterByName } = useRecipeContext();
 
   const navigate = useNavigate();

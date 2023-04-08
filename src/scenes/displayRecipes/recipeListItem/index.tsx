@@ -18,7 +18,7 @@ export function RecipeListItem({
   rate,
   path,
 }: RecipeListItemProps) {
-  const [isFavorite, setIsFavorite] = useState<boolean>(false);
+  const [isFavorite, setIsFavorite] = useState(false);
 
   const { currentFavorites } = useAuthContext();
 

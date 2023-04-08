@@ -14,8 +14,8 @@ export function SearchResultList() {
   const navigate = useNavigate();
   const location = useLocation();
 
-  const [currentPage, setCurrentPage] = useState<number>(1);
-  const [numberOfPages, setNumberOfPages] = useState<number>(1);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [numberOfPages, setNumberOfPages] = useState(1);
 
   const itemsPerPage: number = 6;
   const indexOfLastItem = currentPage * itemsPerPage;

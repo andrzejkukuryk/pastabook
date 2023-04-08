@@ -14,8 +14,8 @@ import "./style.css";
 import { useNavContext } from "../../../data/navProvider";
 
 export function Recipe() {
-  const [isFavorite, setIsFavorite] = useState<boolean>(false);
-  const [isRated, setIsRated] = useState<boolean>(false);
+  const [isFavorite, setIsFavorite] = useState(false);
+  const [isRated, setIsRated] = useState(false);
   const { recipePath } = useParams();
   const { recipes, isErrorRecipe } = useRecipeContext();
   const { prevPath } = useNavContext();

@@ -24,24 +24,23 @@ import "./style.css";
 export function AddNewRecipe() {
   const initialNewIngredients = [{ main: false, name: "", ingredientId: 0 }];
 
-  const [newRecipeName, setNewRecipeName] = useState<string>("");
-  const [newPastaType, setNewPastaType] = useState<string>("");
+  const [newRecipeName, setNewRecipeName] = useState("");
+  const [newPastaType, setNewPastaType] = useState("");
   const [newIngredients, setNewIngredients] = useState<NewIngredient[]>(
     initialNewIngredients
   );
-  const [noIngredients, setNoIngredients] = useState<boolean>(true);
-  const [noMainIngredients, setNoMainIngredients] = useState<boolean>(false);
-  const [tooManyMainIngredients, setTooManyMainIngredients] =
-    useState<boolean>(false);
+  const [noIngredients, setNoIngredients] = useState(true);
+  const [noMainIngredients, setNoMainIngredients] = useState(false);
+  const [tooManyMainIngredients, setTooManyMainIngredients] = useState(false);
   const [newMethod, setNewMethod] = useState<any>({});
-  const [methodHasText, setMethodHasText] = useState<boolean>(false);
+  const [methodHasText, setMethodHasText] = useState(false);
   const [newRecipePhoto, setNewRecipePhoto] = useState<NullOrFile>(null);
-  const [photoUploadProgress, setPhotoUploadProgress] = useState<number>(0);
-  const [photoUploadedName, setPhotoUploadedName] = useState<string>("");
-  const [newPhotoUrl, setNewPhotoUrl] = useState<string>("");
-  const [validated, setValidated] = useState<boolean>(false);
-  const [submited, setSubmited] = useState<boolean>(false);
-  const [showWarning, setShowWarning] = useState<boolean>(false);
+  const [photoUploadProgress, setPhotoUploadProgress] = useState(0);
+  const [photoUploadedName, setPhotoUploadedName] = useState("");
+  const [newPhotoUrl, setNewPhotoUrl] = useState("");
+  const [validated, setValidated] = useState(false);
+  const [submited, setSubmited] = useState(false);
+  const [showWarning, setShowWarning] = useState(false);
 
   const navigate = useNavigate();
 

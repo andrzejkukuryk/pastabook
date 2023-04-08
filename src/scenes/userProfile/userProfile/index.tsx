@@ -17,9 +17,8 @@ import { UserProfileChangeName } from "../userProfileChangeName";
 import { UserProfileChangePassword } from "../userProfileChangePassword";
 
 export function UserProfile() {
-  const [passwordPanelExpanded, setPasswordPanelExpanded] =
-    useState<boolean>(false);
-  const [namePanelExpanded, setNamePanelExpanded] = useState<boolean>(false);
+  const [passwordPanelExpanded, setPasswordPanelExpanded] = useState(false);
+  const [namePanelExpanded, setNamePanelExpanded] = useState(false);
   const {
     user,
     currentFavorites,
