@@ -1,4 +1,4 @@
-Pastabook - project written to get familiar with TypeScript and Bootstrap 5. Works correctly with all modern browsers.
+Pastabook - project written to get familiar with TypeScript, React useContext and Bootstrap 5. Works correctly with all modern browsers.
 
 App lets you to search for italian pasta recipes, read them and after sign up also rate, add to favorite list and add your own recipes.
 
