@@ -298,9 +298,16 @@ export function AddNewRecipe() {
 
   const recipeHrefAfterUpload = () => {
     const dishname = newRecipeName.toLowerCase().replace(/\s+/g, "");
-    const href = `/recipes/${dishname}`;
+    const pastaTypeLength = newPastaType.length;
+    const ingredientsLength =
+      newIngredients.filter((ingr) => ingr.name.length > 0).length + 1;
+    const methodLength = newMethodHtml.length;
+    const pastaName = newPastaType;
+    const href = `/recipes/${pastaTypeLength}${ingredientsLength}${methodLength}_${pastaName}${dishname}`;
     return href;
   };
+
+
 
   const handleClickSave = async () => {
     if (submited) {

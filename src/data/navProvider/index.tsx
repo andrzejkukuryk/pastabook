@@ -4,7 +4,6 @@ import React, {
   useState,
   ReactNode,
   FC,
-  useEffect,
 } from "react";
 
 const initialNavContext = {
