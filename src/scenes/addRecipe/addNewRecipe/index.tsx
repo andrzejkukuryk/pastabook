@@ -307,8 +307,6 @@ export function AddNewRecipe() {
     return href;
   };
 
-
-
   const handleClickSave = async () => {
     if (submited) {
       setShowWarning(true);

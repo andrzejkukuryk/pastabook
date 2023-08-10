@@ -99,7 +99,7 @@ return (
             required: "Password is required",
             minLength: {
               value: 8,
-              message: "Password needs at least 8 charackters",
+              message: "Password needs at least 8 characters",
             },
           })}
         />

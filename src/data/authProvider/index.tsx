@@ -119,6 +119,7 @@ export const AuthProvider: FC<AuthProviderProps> = ({ children }) => {
     []
   );
 
+
   const location = useLocation();
   const navigate = useNavigate();
 
@@ -609,9 +610,19 @@ export const AuthProvider: FC<AuthProviderProps> = ({ children }) => {
       const downloadedKeys: [string, Dish][] = Object.entries(jsonResponse);
       const temporaryKeysPaths: KeysPathsRates[] = [];
       downloadedKeys.forEach((item) => {
+        const mainIngredientsLength = item[1].mainIngredients.length;
+        const otherIngredientsLength = item[1].ingredients
+          ? item[1].ingredients.length
+          : 0;
+        const ingredientsLength =
+          mainIngredientsLength + otherIngredientsLength + 1;
         const data = {
           key: item[0],
-          path: item[1].dishName.toLowerCase().replace(/\s+/g, ""),
+          path: `${item[1].pastaType.length}${ingredientsLength}${
+            item[1].method.length
+          }_${item[1].pastaType}${item[1].dishName
+            .toLowerCase()
+            .replace(/\s+/g, "")}`,
           rate: item[1].rate,
         };
         temporaryKeysPaths.push(data);

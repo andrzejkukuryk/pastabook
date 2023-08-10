@@ -17,6 +17,7 @@ export function SharedLayout() {
       case "/profile":
       case "/login":
       case "/register":
+      case "/add":
         return false;
       default:
         return true;
